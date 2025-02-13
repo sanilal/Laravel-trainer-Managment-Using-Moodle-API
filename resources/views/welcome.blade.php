@@ -30,6 +30,8 @@
                         </div>
                         @if (Route::has('login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
+                               
+
                                 @auth
                                     <a
                                         href="{{ url('/dashboard') }}"
@@ -54,12 +56,16 @@
                                         </a>
                                     @endif
                                 @endauth
+                                <a href="{{ route('changeLang', 'en') }}">English</a> | 
+<a href="{{ route('changeLang', 'ar') }}">العربية</a>
+
                             </nav>
                         @endif
                     </header>
 
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+                            <h1>{{ __('messages.welcome') }}</h1>
                             <a
                                 href="https://laravel.com/docs"
                                 id="docs-card"
