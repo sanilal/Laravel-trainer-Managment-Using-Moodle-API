@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Define a one-to-one relationship with TrainerProfile.
+     */
+    public function trainerProfile()
+    {
+        return $this->hasOne(TrainerProfile::class, 'moodle_user_id', 'id');
+    }
 }

@@ -39,6 +39,7 @@ class TrainerController extends Controller
         $request->validate([
             'moodle_user_id' => 'required|integer|unique:trainers,moodle_user_id',
             'email' => 'required|email|unique:trainers,email',
+            'username' => 'nullable|string',
             'specialization' => 'nullable|string',
             'dob' => 'nullable|date',
             'photo' => 'nullable|string',

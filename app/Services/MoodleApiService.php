@@ -49,4 +49,13 @@ class MoodleApiService
             'userid' => $userId,
         ]);
     }
+
+    public function getUsers()
+    {
+        return $this->request('core_user_get_users', [
+            'criteria[0][key]' => 'email',
+            'criteria[0][value]' => '%'
+        ]);
+    }
+
 }

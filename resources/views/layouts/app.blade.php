@@ -21,8 +21,8 @@
                 <div class="col-md-8 text-end nav-top">
                     <a href="https://externalsite.com" class="text-light me-3">External Link</a>
                     @guest
-                        <a href="{{ route('login') }}" class="text-light me-3">Login</a>
-                        <a href="{{ route('register') }}" class="text-light">Register</a>
+                        {{-- <a href="{{ route('login') }}" class="text-light me-3">Login</a>
+                        <a href="{{ route('register') }}" class="text-light">Register</a> --}}
                     @else
                         <a href="{{ route('dashboard') }}" class="text-light me-3">Dashboard</a>
                         <a href="{{ route('logout') }}" class="text-light">Logout</a>
