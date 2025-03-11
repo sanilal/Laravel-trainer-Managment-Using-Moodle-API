@@ -5,15 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
 use App\Models\User;
+use App\Services\MoodleApiService;
 
 class TrainerProfileController extends Controller
 {
-    public function create($moodleUserId)
+    protected $moodleApi; // Correctly define the property at the class level
+
+    // Inject MoodleApiService
+    public function __construct(MoodleApiService $moodleApi)
     {
-        $moodleUser = $this->getMoodleUser($moodleUserId); // Fetch user from Moodle API
-        return view('trainers.create', compact('moodleUser'));
+        $this->moodleApi = $moodleApi;
     }
 
+    public function create($id, MoodleApiService $moodleApi)
+    {
+        $moodleUser = null;
+    
+        $userData = $moodleApi->getUserById($id);
+    
+        \Log::info('Moodle User Data:', ['data' => $userData]);
+    
+        if (!empty($userData) && isset($userData[0])) {
+            $moodleUser = $userData[0];
+        }
+    
+        return view('trainers.create', compact('moodleUser'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -37,22 +55,8 @@ class TrainerProfileController extends Controller
             'about_you' => 'nullable|string',
         ]);
 
-        $profile = TrainerProfile::create($request->all());
+        TrainerProfile::create($request->all());
 
         return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
-    }
-
-    private function getMoodleUser($moodleUserId)
-    {
-        // Fetch user from Moodle API
-        return [
-            "username" => "adminarkan",
-            "firstname" => "John",
-            "lastname" => "Doe",
-            "email" => "design@iconceptme.com",
-            "description" => "Experienced trainer",
-            "country" => "AE",
-            "profileimageurl" => "http://www.gravatar.com/avatar/12345",
-        ];
     }
 }

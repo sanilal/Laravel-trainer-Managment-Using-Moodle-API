@@ -40,6 +40,26 @@ class MoodleApiService
         ]);
     }
 
+    public function getUserById($id)
+    {
+        $endpoint = "/webservice/rest/server.php"; 
+        $params = [
+            'wstoken' => $this->apiToken,
+            'wsfunction' => 'core_user_get_users_by_field',
+            'moodlewsrestformat' => 'json',
+            'field' => 'id',
+            'values[0]' => $id
+        ];
+    
+        $response = Http::get($this->apiUrl . $endpoint, $params);
+    
+        // Debugging - Log the full response
+        \Log::info('Moodle API Response:', ['response' => $response->body()]);
+    
+        return $response->json();
+    }
+
+
     /**
      * Get trainer's enrolled courses.
      */

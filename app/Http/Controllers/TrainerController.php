@@ -15,10 +15,59 @@ class TrainerController extends Controller
     }
 
     // Show the trainer registration form
-    public function create()
+    public function create(Request $request)
     {
-        return view('trainers.create');
+        $moodleUser = null;
+        
+        if ($request->has('email')) {
+            $email = $request->input('email');
+            $userData = $this->moodleApi->getUserByEmail($email);
+            
+            if (!empty($userData['users'])) {
+                $moodleUser = $userData['users'][0];
+            }
+        }
+    
+        return view('trainers.create', compact('moodleUser'));
     }
+    
+
+    public function fetchUsers()
+{
+    $users = $this->moodleApi->getUsers(); // Fetch all users
+
+    if (empty($users['users'])) {
+        return view('moodle.users', ['users' => []]);
+    }
+
+    // Get emails of users already added to Laravel
+    $existingUsers = Trainer::pluck('email')->toArray();
+
+    // Filter out users that are already in Laravel and match conditions
+    $filteredUsers = array_filter($users['users'], function ($user) use ($existingUsers) {
+        return !in_array($user['email'], $existingUsers) &&
+               $user['username'] !== 'guest' &&
+               !$user['suspended'] &&
+               $user['confirmed'];
+    });
+
+    // Process each user and extract DOB
+    foreach ($filteredUsers as &$user) {
+        $user['dob'] = null; // Default value
+
+        if (!empty($user['customfields'])) {
+            foreach ($user['customfields'] as $field) {
+                if ($field['shortname'] === 'dob') {
+                    $user['dob'] = date('Y-m-d', $field['value']); // Convert UNIX timestamp to date
+                    break;
+                }
+            }
+        }
+    }
+
+    return view('moodle.users', ['users' => $filteredUsers]);
+}
+
 
     // Fetch trainer details from Moodle using email
     public function fetchTrainerFromMoodle(Request $request)
