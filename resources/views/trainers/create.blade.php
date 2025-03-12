@@ -41,6 +41,7 @@
         foreach ($moodleUser['customfields'] as $field) {
             if ($field['shortname'] === 'dob') {
                 $dob = date('Y-m-d', $field['value']);
+               // $dob = $field['value'];
                 break;
             }
         }
