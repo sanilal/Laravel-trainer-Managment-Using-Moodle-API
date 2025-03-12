@@ -25,11 +25,23 @@ class TrainerController extends Controller
             
             if (!empty($userData['users'])) {
                 $moodleUser = $userData['users'][0];
+    
+                // Extract customfields
+                $moodleUser['dob'] = null;
+                if (!empty($moodleUser['customfields'])) {
+                    foreach ($moodleUser['customfields'] as $field) {
+                        if ($field['shortname'] === 'dob') {
+                            $moodleUser['dob'] = date('Y-m-d', $field['value']); // Convert UNIX timestamp to date
+                            break;
+                        }
+                    }
+                }
             }
         }
     
         return view('trainers.create', compact('moodleUser'));
     }
+    
     
 
     public function fetchUsers()

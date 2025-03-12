@@ -23,6 +23,9 @@
             <option value="Lieutenant(Ret)">Lieutenant(Ret)</option>
 
         </select>
+        {{-- {{ dd($moodleUser['customfields'][4]['value']) }} --}}
+
+
         <label>First Name</label>
         <input type="text" name="first_name" value="{{ $moodleUser['firstname'] ?? '' }}" required>
         <label>Middle Name</label>
@@ -32,10 +35,21 @@
 
         <label>Family Name</label>
         <input type="text" name="family_name" value="{{ $moodleUser['lastname'] ?? '' }}" required>
-
+        @php
+    $dob = null;
+    if (!empty($moodleUser['customfields'])) {
+        foreach ($moodleUser['customfields'] as $field) {
+            if ($field['shortname'] === 'dob') {
+                $dob = date('Y-m-d', $field['value']);
+                break;
+            }
+        }
+    }
+@endphp
         <label>Date of Birth</label>
-        <input type="date" name="dob" value="{{ $moodleUser['dob'] ?? '' }}" required
-        min="1900-01-01" max="2020-12-31">
+<input type="date" name="dob" value="{{ $dob ?? '' }}" required min="1900-01-01" max="2020-12-31">
+
+     
 
         <label>Email</label>
         <input type="email" name="email" value="{{ $moodleUser['email'] ?? '' }}" required>
