@@ -16,32 +16,43 @@ class TrainerController extends Controller
 
     // Show the trainer registration form
     public function create(Request $request)
-    {
-        $moodleUser = null;
-        
-        if ($request->has('email')) {
-            $email = $request->input('email');
-            $userData = $this->moodleApi->getUserByEmail($email);
-            
-            if (!empty($userData['users'])) {
-                $moodleUser = $userData['users'][0];
-    
-                // Extract customfields
-                $moodleUser['dob'] = null;
-                if (!empty($moodleUser['customfields'])) {
-                    foreach ($moodleUser['customfields'] as $field) {
-                        if ($field['shortname'] === 'dob') {
-                            $moodleUser['dob'] = date('Y-m-d', $field['value']); // Convert UNIX timestamp to date
-                            break;
+{
+    $moodleUser = null;
+    $dob = null; // Initialize DOB as null
+
+    if ($request->has('email')) {
+        $email = $request->input('email');
+        $userData = $this->moodleApi->getUserByEmail($email);
+
+        if (!empty($userData['users'])) {
+            $moodleUser = $userData['users'][0];
+
+            // Debug log Moodle response
+            \Log::info('Moodle User Data: ' . json_encode($moodleUser));
+
+            if (!empty($moodleUser['customfields'])) {
+                foreach ($moodleUser['customfields'] as $field) {
+                    if ($field['shortname'] === 'dob') {
+                        \Log::info('Raw DOB value from Moodle: ' . json_encode($field));
+
+                        // Ensure it's numeric before conversion
+                        if (isset($field['value']) && is_numeric($field['value'])) {
+                            $dob = date('Y-m-d', (int) $field['value']); // Convert to YYYY-MM-DD format
+                        } else {
+                            \Log::error('DOB field is not a valid timestamp: ' . json_encode($field['value']));
                         }
+                        break;
                     }
                 }
             }
         }
-    
-        return view('trainers.create', compact('moodleUser'));
     }
-    
+
+    // Debug log extracted DOB
+    \Log::info('Extracted DOB: ' . json_encode($dob));
+
+    return view('trainers.create', compact('moodleUser', 'dob'));
+}
     
 
     public function fetchUsers()
