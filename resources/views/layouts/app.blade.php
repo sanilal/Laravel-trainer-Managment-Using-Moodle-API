@@ -68,7 +68,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; {{ date('Y') }} Trainer Management System. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} Arkan Trainer Management System. All rights reserved.</p>
         </div>
     </footer>
 

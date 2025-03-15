@@ -26,6 +26,7 @@ Route::get('/trainer/register', [TrainerController::class, 'create'])->name('tra
 Route::post('/trainer/fetch', [TrainerController::class, 'fetchTrainerFromMoodle'])->name('trainer.fetch');
 Route::post('/trainer/store', [TrainerController::class, 'store'])->name('trainer.store');
 Route::get('/moodle/users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users');
+Route::get('/trainers', [TrainerProfileController::class, 'index'])->name('trainers.index');
 Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name('moodle.users.add');
 Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 'create'])->name('trainer.create');
 Route::post('/trainers/store', [TrainerProfileController::class, 'store'])->name('trainer.store');

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TrainerProfile;
 use App\Models\Trainer;
 use App\Services\MoodleApiService;
 
@@ -110,15 +111,31 @@ class TrainerController extends Controller
     {
         $request->validate([
             'moodle_user_id' => 'required|integer|unique:trainers,moodle_user_id',
-            'email' => 'required|email|unique:trainers,email',
-            'username' => 'nullable|string',
-            'specialization' => 'nullable|string',
+            'user_name' => 'required|string|unique:trainers,user_name',
+            'prefix' => 'nullable|string',
+            'prefix2' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'first_name' => 'nullable|string',
+            'middle_name' => 'nullable|string',
+            'family_name' => 'nullable|string',
             'dob' => 'nullable|date',
-            'photo' => 'nullable|string',
-            'summary' => 'nullable|string',
+            'country' => 'nullable|string',
+            'residency_status' => 'nullable|string',
+            'residing_city' => 'nullable|string',
+            'email' => 'required|email|unique:trainers,email',
+            'phone' => 'nullable|string',
+            'profileimage' => 'nullable|string',
+            'website' => 'nullable|string',
+            'linkedin' => 'nullable|string',
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'youtube' => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'other_socialmedia' => 'nullable|string',
+            'about_you' => 'nullable|string',
         ]);
 
-        Trainer::create($request->all());
+        TrainerProfile::create($request->all());
 
         return redirect()->route('trainer.register')->with('success', 'Trainer registered successfully.');
     }

@@ -11,12 +11,23 @@ class TrainerProfileController extends Controller
 {
     protected $moodleApi; // Correctly define the property at the class level
 
+
+
     // Inject MoodleApiService
     public function __construct(MoodleApiService $moodleApi)
     {
         $this->moodleApi = $moodleApi;
     }
 
+
+    public function index()
+{
+    // Fetch trainers from database
+    $trainers = TrainerProfile::all(); // Adjust based on your model
+    
+    // Return view with trainers
+    return view('trainers.index', compact('trainers'));
+}
     public function create($id, MoodleApiService $moodleApi)
     {
         $moodleUser = null;
@@ -33,30 +44,40 @@ class TrainerProfileController extends Controller
     }
     
     public function store(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'prefix' => 'nullable|string',
-            'prefix2' => 'nullable|string',
-            'gender' => 'nullable|string|in:male,female,other',
-            'first_name' => 'nullable|string',
-            'middle_name' => 'nullable|string',
-            'family_name' => 'required|string',
-            'date_of_birth' => 'nullable|date',
-            'country' => 'nullable|string',
-            'residency_status' => 'nullable|string',
-            'residing_city' => 'nullable|string',
-            'email' => 'required|email|unique:trainer_profiles,email',
-            'mobile_number' => 'nullable|string',
-            'photo' => 'nullable|file|max:2048',
-            'website' => 'nullable|url',
-            'linkedin' => 'nullable|url',
-            'others' => 'nullable|string',
-            'about_you' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'moodle_user_id' => 'required|integer|unique:trainer_profiles,user_id',
+        'user_name' => 'required|string|unique:trainer_profiles,user_name',
+        'prefix' => 'nullable|string',
+        'prefix2' => 'nullable|string',
+        'gender' => 'nullable|string',
+        'first_name' => 'nullable|string',
+        'middle_name' => 'nullable|string',
+        'family_name' => 'nullable|string',
+        'dob' => 'nullable|date',
+        'country' => 'nullable|string',
+        'residency_status' => 'nullable|string',
+        'residing_city' => 'nullable|string',
+        'email' => 'required|email|unique:trainer_profiles,email',
+        'phone' => 'nullable|string',
+        'profileimage' => 'nullable|string',
+        'website' => 'nullable|string',
+        'linkedin' => 'nullable|string',
+        'facebook' => 'nullable|string',
+        'instagram' => 'nullable|string',
+        'youtube' => 'nullable|string',
+        'twitter' => 'nullable|string',
+        'other_socialmedia' => 'nullable|string',
+        'about_you' => 'nullable|string',
+    ]);
 
-        TrainerProfile::create($request->all());
+    // Map moodle_user_id to user_id
+    $data = $request->all();
+    $data['user_id'] = $request->moodle_user_id;
 
-        return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
-    }
+    TrainerProfile::create($data);
+
+    return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
+}
+
 }

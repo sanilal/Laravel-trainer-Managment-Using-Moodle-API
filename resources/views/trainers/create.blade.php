@@ -2,6 +2,29 @@
 
 @section('content')
 <div class="container">
+    <div class="form-tabs">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Personal Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Professional Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Qualifications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Experience</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Documents</a>
+            </li>
+        </ul>
+    </div> 
+
     <div class="section-title">
         <h2>Personal Information</h2>
     </div>
@@ -11,16 +34,17 @@
         @csrf
         
         <input type="hidden" name="moodle_user_id" value="{{ $moodleUser['id'] }}">
+        <input type="hidden" name="user_name" value="{{ $moodleUser['username'] }}">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="prefix">Prefix</label>
+                    <label for="prefix">Prefix:</label>
                     <x-select-field name="prefix" :options="['Mr', 'Mrs', 'Ms', 'Dr']" />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="prefix2">Prefix2</label>
+                    <label for="prefix2">Prefix2:</label>
                     <x-select-field name="prefix2" :options="[
                         'Brigadier(Ret)', 'Colonel(Ret)', 'Lieutenant Colonel(Ret)', 
                         'Major(Ret)', 'Captain(Ret)', 'Lieutenant(Ret)'
@@ -31,22 +55,29 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <input type="radio" name="gender" value="male" >
-                    <input type="radio" name="gender" value="female" >
+                    <label for="gender">Gender:</label>
+                    
+                    <div class="d-flex justify-content-start">
+                        <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label>
+                    
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label>
+                    </div>
                 </div>
+                
             </div>
         </div>
       <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="first_name">First Name</label>
+                    <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" value="{{ old('first_name', $moodleUser['firstname'] ?? '') }}" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="middle_name">Middle Name</label>
+                    <label for="middle_name">Middle Name:</label>
                     <input type="text" name="middle_name" value="{{ old('middle_name', $moodleUser['middlename'] ?? '') }}" required>
                 </div>
             </div>
@@ -54,7 +85,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="family_name">Family Name</label>
+                    <label for="family_name">Family Name:</label>
                     <input type="text" name="family_name" value="{{ old('family_name', $moodleUser['lastname'] ?? '') }}" required>
                 </div>
             </div>
@@ -62,25 +93,27 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {{-- <p>Date of Birth: {{ $dob ?? 'Not available' }}</p> --}}
-
-        {{-- Debugging --}}
-        {{-- <pre>
-            @php
-               // print_r($moodleUser);
-                echo "\nExtracted DOB: " . ($dob ?? 'NULL');
-            @endphp
-        </pre> --}}
+                    @php
+                    $dob = null;
+                    if (!empty($moodleUser['customfields'] ?? [])) {
+                        foreach ($moodleUser['customfields'] as $field) {
+                            if ($field['shortname'] === 'dob') {
+                                $dob = date('Y-m-d', $field['value']);
+                                break;
+                            }
+                        }
+                    }
+                @endphp
 
        
-        <label>Date of Birth</label>
+        <label for="dob">Date of Birth:</label>
         <input type="date" name="dob" value="{{ old('dob', $dob ?? '') }}" required min="1900-01-01" max="2020-12-31">
                 </div>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="phone">Country:</label>
+                    <label for="country">Country:</label>
                    <x-select-field name="country" :options="config('countries.list')" :selected="$moodleUser['country'] ?? ''" />
                 </div>
             </div>
@@ -88,21 +121,21 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="phone">Residency Status:</label>
+                    <label for="residency_status">Residency Status:</label>
                     <x-select-field name="residency_status" :options="['UAE National', 'Golden Visa', 'Green Visa', 'Employment Visa', 'Family Visa', 'Student Visa', 'Visitor Visa']" />
                 </div> 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="phone">Residing City:</label>
-                    <x-select-field name="residency_status" :options="['Abu Dhabi', 'Dubai', 'Green Visa', 'Employment Visa', 'Family Visa', 'Student Visa', 'Visitor Visa']" />
+                    <label for="residing_city">Residing City:</label>
+                    <x-select-field name="residing_city" :options="['Abu Dhabi', 'Dubai', 'Sharjah', 'Fujairah', 'Umm Al Quwain', 'Ajman', 'Ras Al Khaima', 'Al Ain']" />
                 </div> 
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Email</label>
+                    <label for="email">Email:</label>
                     <input type="email" name="email" value="{{ old('email', $moodleUser['email'] ?? '') }}" required>
                 </div>
             </div>
@@ -110,14 +143,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Mobile Number: </label>
+                    <label for="phone">Mobile Number: </label>
                     <input type="text" name="phone" value="{{ old('phone', $moodleUser['phone2'] ?? '') }}" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group w-full d-flex flex-column ">
                     <div class="d-flex w-full justify-between align-items-center">
-                        <label>Upload Your Photo:</label>
+                        <label for="profileimage">Upload Your Photo:</label>
                 
                     @if(!empty($moodleUser['profileimageurl'])) 
                         <div class="profile-image">
@@ -135,7 +168,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Website URL: </label>
+                    <label for="website">Website URL: </label>
                     <input type="text" name="website" value="{{ old('website', $moodleUser['website'] ?? '') }}">
                 </div>
             </div>
@@ -143,13 +176,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>LinkedIn </label>
+                    <label for="linkedin">LinkedIn: </label>
                     <input type="text" name="linkedin" value="{{ old('linkedin', $moodleUser['linkedin'] ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Facebook </label>
+                    <label for="facebook">Facebook: </label>
                     <input type="text" name="facebook" value="{{ old('facebook', $moodleUser['facebook'] ?? '') }}">
                 </div>
             </div>
@@ -157,13 +190,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Insagram </label>
-                    <input type="text" name="insagram" value="{{ old('insagram', $moodleUser['insagram'] ?? '') }}">
+                    <label for="instagram">Insagram: </label>
+                    <input type="text" name="instagram" value="{{ old('instagram', $moodleUser['instagram'] ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Youtube </label>
+                    <label for="youtube">Youtube: </label>
                     <input type="text" name="youtube" value="{{ old('youtube', $moodleUser['youtube'] ?? '') }}">
                 </div>
             </div>
@@ -171,25 +204,27 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>X </label>
-                    <input type="text" name="x" value="{{ old('x', $moodleUser['x'] ?? '') }}">
+                    <label for="twitter">X: </label>
+                    <input type="text" name="twitter" value="{{ old('twitter', $moodleUser['twitter'] ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Others </label>
-                    <input type="text" name="others" value="{{ old('others', $moodleUser['others'] ?? '') }}">
+                    <label for="other_socialmedia">Others: </label>
+                    <input type="text" name="other_socialmedia" value="{{ old('other_socialmedia' ?? '') }}">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group flex-column align-items-start">
-                    <label class="w-100">About You</label>
-                    <textarea class="w-100" name="about_you">{{ old('about_you', str_replace('<br />', "\n", strip_tags($moodleUser['description'] ?? ''))) }}</textarea>
+                    <label class="w-100">Describe About You:</label>
+                    <textarea class="w-100" name="about_you" placeholder="Describe about you. Minimum 100 words maximum 300 words ">{{ old('about_you', str_replace('<br />', "\n", strip_tags($moodleUser['description'] ?? ''))) }}</textarea>
 
                 </div>
-                <button type="submit">SAVE AND PROCEED </button>
+                <div class="form-btn">
+                    <button type="submit" class="btn btn-primary ">SAVE AND PROCEED </button>
+                </div>
         </div>
            
            

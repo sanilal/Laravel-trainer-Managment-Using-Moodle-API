@@ -21,6 +21,9 @@ body {
 .justify-content-center {
     justify-content: center;
 }
+.justify-content-start {
+    justify-content: start;
+}
 .align-items-center {
     align-items: center;
 }
@@ -144,6 +147,17 @@ a.logo img {
     margin-top: -50px;
     background-color: #fff !important;
 }
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+}
+.btn-primary:hover {
+    background: var(--secondary);
+}
 .nav-top {
     font-size: 14px;
 }
@@ -203,10 +217,19 @@ a.logo img {
     border-radius: 5px;
     border: 1px solid #f0eee0;
 }
+.form-group input[type="radio"] {
+    width: auto;
+    margin-right: 10px;
+}
 
 .profile-form textarea {
     height: 200px !important;
     padding: 6px 10px;
     border-radius: 5px;
     border: 1px solid #f0eee0;
+}
+.form-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
 }
