@@ -8,19 +8,19 @@
                 <a class="nav-link active" href="#">Personal Information</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Professional Information</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Qualifications</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Experience</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Courses</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="#">Documents</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Specialization</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Academics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Work Experience</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Training Programs</a>
             </li>
         </ul>
     </div> 
