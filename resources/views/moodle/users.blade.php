@@ -21,9 +21,9 @@
                     <td>{{ $user['fullname'] }}</td>
                     <td>{{ $user['email'] }}</td>
                     <td>
-                        <button class="btn btn-success add-user-btn" data-username="{{ $user['username'] }}" data-fullname="{{ $user['fullname'] }}" data-email="{{ $user['email'] }}">
+                        <a href="../trainers/create/{{ $user['id'] }}" class="btn btn-success add-user-btn" data-username="{{ $user['username'] }}" data-fullname="{{ $user['fullname'] }}" data-email="{{ $user['email'] }}">
                             Add User
-                        </button>
+                        </a>
                     </td>
                 </tr>
             @endforeach
