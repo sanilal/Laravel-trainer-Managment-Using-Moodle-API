@@ -45,6 +45,7 @@ class TrainerProfileController extends Controller
     
     public function store(Request $request)
 {
+  
     try {
         // Validate input
         $request->validate([
