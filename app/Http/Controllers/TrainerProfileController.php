@@ -45,39 +45,67 @@ class TrainerProfileController extends Controller
     
     public function store(Request $request)
 {
-    $request->validate([
-        'moodle_user_id' => 'required|integer|unique:trainer_profiles,user_id',
-        'user_name' => 'required|string|unique:trainer_profiles,user_name',
-        'prefix' => 'nullable|string',
-        'prefix2' => 'nullable|string',
-        'gender' => 'nullable|string',
-        'first_name' => 'nullable|string',
-        'middle_name' => 'nullable|string',
-        'family_name' => 'nullable|string',
-        'dob' => 'nullable|date',
-        'country' => 'nullable|string',
-        'residency_status' => 'nullable|string',
-        'residing_city' => 'nullable|string',
-        'email' => 'required|email|unique:trainer_profiles,email',
-        'phone' => 'nullable|string',
-        'profileimage' => 'nullable|string',
-        'website' => 'nullable|string',
-        'linkedin' => 'nullable|string',
-        'facebook' => 'nullable|string',
-        'instagram' => 'nullable|string',
-        'youtube' => 'nullable|string',
-        'twitter' => 'nullable|string',
-        'other_socialmedia' => 'nullable|string',
-        'about_you' => 'nullable|string',
-    ]);
+    try {
+        // Validate input
+        $request->validate([
+            'moodle_user_id' => 'required|integer|exists:users,id|unique:trainer_profiles,user_id',
+            'user_name' => 'required|string|unique:trainer_profiles,user_name',
+            'prefix' => 'nullable|string',
+            'prefix2' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'first_name' => 'nullable|string',
+            'middle_name' => 'nullable|string',
+            'family_name' => 'nullable|string',
+            'dob' => 'nullable|date',
+            'country' => 'nullable|string',
+            'residency_status' => 'nullable|string',
+            'residing_city' => 'nullable|string',
+            'email' => 'required|email|unique:trainer_profiles,email',
+            'phone' => 'nullable|string',
+            'profileimage' => 'nullable|string',
+            'website' => 'nullable|string',
+            'linkedin' => 'nullable|string',
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'youtube' => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'other_socialmedia' => 'nullable|string',
+            'about_you' => 'nullable|string',
+        ]);
 
-    // Map moodle_user_id to user_id
-    $data = $request->all();
-    $data['user_id'] = $request->moodle_user_id;
+        // Insert into trainer_profiles table
+        TrainerProfile::create([
+            'user_id' => $request->moodle_user_id,
+            'user_name' => $request->user_name,
+            'prefix' => $request->prefix,
+            'prefix2' => $request->prefix2,
+            'gender' => $request->gender,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'family_name' => $request->family_name,
+            'date_of_birth' => $request->dob,
+            'country' => $request->country,
+            'residency_status' => $request->residency_status,
+            'residing_city' => $request->residing_city,
+            'email' => $request->email,
+            'mobile_number' => $request->phone,
+            'photo' => $request->profileimage,
+            'website' => $request->website,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'youtube' => $request->youtube,
+            'twitter' => $request->twitter,
+            'other_socialmedia' => $request->other_socialmedia,
+            'about_you' => $request->about_you,
+        ]);
 
-    TrainerProfile::create($data);
-
-    return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
+        return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors('Error: ' . $e->getMessage());
+    }
 }
+
+    
 
 }

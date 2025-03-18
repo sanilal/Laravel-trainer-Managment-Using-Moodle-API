@@ -15,6 +15,9 @@ class TrainerProfile extends Model
         'residing_city', 'email', 'mobile_number', 'photo', 'website', 
         'linkedin', 'others', 'about_you'
     ];
+
+
+    
     
 
     public function user()

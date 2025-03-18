@@ -50,12 +50,13 @@ class MoodleUserController extends Controller
             'email' => 'required|email|unique:users,email'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->fullname,
             'email' => $request->email,
             'password' => Hash::make('defaultpassword') // Set a default password
         ]);
 
-        return response()->json(['success' => true, 'message' => 'User added successfully.']);
+        return response()->json(['success' => true, 'message' => 'User added successfully.', 'user_id' => $user->id]);
+
     }
 }
