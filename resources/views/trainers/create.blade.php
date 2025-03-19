@@ -1,6 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+
+{{-- Check if $moodleUser exists --}}
+@if($moodleUser)
+  <div>
+    <h3>Moodle User Details</h3>
+    <p>Username: {{ $moodleUser['id'] ?? 'N/A' }}</p>
+    <p>Email: {{ $moodleUser['email'] ?? 'N/A' }}</p>
+    <p>First Name: {{ $moodleUser['firstname'] ?? 'N/A' }}</p>
+    <p>Last Name: {{ $moodleUser['lastname'] ?? 'N/A' }}</p>
+  </div>
+@else
+  <p>No Moodle user data found.</p>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="container">
     <div class="form-tabs">
         <ul class="nav nav-tabs">
@@ -30,7 +54,7 @@
     </div>
 
     <div class="form-container profile-form">
-        <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <input type="hidden" name="moodle_user_id" value="{{ $moodleUser['id'] }}">
