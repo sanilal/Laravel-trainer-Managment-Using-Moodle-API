@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
-use App\Models\User;
 use App\Services\MoodleApiService;
 use Illuminate\Support\Facades\Log;
 
@@ -49,7 +48,7 @@ class TrainerProfileController extends Controller
 {
 
     $request->validate([
-        'user_id' => 'required|exists:users,id', 
+        'user_id' => 'required|numeric', 
         'user_name' => 'required|string',
         'prefix' => 'nullable|string',
         'prefix2' => 'nullable|string',
