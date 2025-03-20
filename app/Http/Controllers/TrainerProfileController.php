@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
 use App\Models\User;
 use App\Services\MoodleApiService;
+use Illuminate\Support\Facades\Log;
+
 
 class TrainerProfileController extends Controller
 {
@@ -45,39 +47,58 @@ class TrainerProfileController extends Controller
     
     public function store(Request $request)
 {
+
     $request->validate([
-        'moodle_user_id' => 'required|integer|unique:trainer_profiles,user_id',
-        'user_name' => 'required|string|unique:trainer_profiles,user_name',
+        'user_id' => 'required|exists:users,id', 
+        'user_name' => 'required|string',
         'prefix' => 'nullable|string',
         'prefix2' => 'nullable|string',
         'gender' => 'nullable|string',
         'first_name' => 'nullable|string',
         'middle_name' => 'nullable|string',
         'family_name' => 'nullable|string',
-        'dob' => 'nullable|date',
+        'date_of_birth' => 'nullable|date',
         'country' => 'nullable|string',
         'residency_status' => 'nullable|string',
         'residing_city' => 'nullable|string',
         'email' => 'required|email|unique:trainer_profiles,email',
-        'phone' => 'nullable|string',
-        'profileimage' => 'nullable|string',
+        'mobile_number' => 'nullable|string',
+        'profile_image' => 'nullable|string',
         'website' => 'nullable|string',
-        'linkedin' => 'nullable|string',
         'facebook' => 'nullable|string',
         'instagram' => 'nullable|string',
         'youtube' => 'nullable|string',
         'twitter' => 'nullable|string',
+        'linkedin' => 'nullable|string',
         'other_socialmedia' => 'nullable|string',
         'about_you' => 'nullable|string',
     ]);
 
-    // Map moodle_user_id to user_id
-    $data = $request->all();
-    $data['user_id'] = $request->moodle_user_id;
+  // Now, create the trainer profile
+  $trainerProfile = new TrainerProfile();
+  $trainerProfile->user_id = $request->input('user_id');  // Ensure user_id is passed
+  $trainerProfile->user_name = $request->input('user_name');
+  $trainerProfile->prefix = $request->input('prefix');
+  $trainerProfile->prefix2 = $request->input('prefix2');
+  $trainerProfile->first_name = $request->input('first_name');
+  $trainerProfile->middle_name = $request->input('middle_name');
+  $trainerProfile->family_name = $request->input('family_name');
+  $trainerProfile->country = $request->input('country');
+  $trainerProfile->residency_status = $request->input('residency_status');
+  $trainerProfile->residing_city = $request->input('residing_city');
+  $trainerProfile->email = $request->input('email');
+  $trainerProfile->website = $request->input('website');
+  $trainerProfile->linkedin = $request->input('linkedin');
+  $trainerProfile->facebook = $request->input('facebook');
+  $trainerProfile->instagram = $request->input('instagram');
+  $trainerProfile->youtube = $request->input('youtube');
+  $trainerProfile->twitter = $request->input('twitter');
+  $trainerProfile->other_socialmedia = $request->input('other_socialmedia');
+  $trainerProfile->about_you = $request->input('about_you');
+  $trainerProfile->save();
 
-    TrainerProfile::create($data);
-
-    return redirect()->route('trainers.index')->with('success', 'Trainer Profile Created!');
+  return redirect()->route('trainer.profile.show', $trainerProfile->id);  // Redirect to the profile page or other action
+   
 }
 
 }

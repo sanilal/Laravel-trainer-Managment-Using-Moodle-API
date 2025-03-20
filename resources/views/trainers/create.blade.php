@@ -6,13 +6,19 @@
 @if($moodleUser)
   <div>
     <h3>Moodle User Details</h3>
-    <p>Username: {{ $moodleUser['id'] ?? 'N/A' }}</p>
+    <p>User Id: {{ $moodleUser['id'] ?? 'N/A' }}</p>
     <p>Email: {{ $moodleUser['email'] ?? 'N/A' }}</p>
     <p>First Name: {{ $moodleUser['firstname'] ?? 'N/A' }}</p>
     <p>Last Name: {{ $moodleUser['lastname'] ?? 'N/A' }}</p>
   </div>
 @else
   <p>No Moodle user data found.</p>
+@endif
+
+@if(!$moodleUser)
+    <div class="alert alert-danger">
+        Moodle user data is missing or invalid.
+    </div>
 @endif
 
 @if ($errors->any())
@@ -57,7 +63,7 @@
         <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
-        <input type="hidden" name="moodle_user_id" value="{{ $moodleUser['id'] }}">
+        <input type="hidden" name="user_id" value="{{ $moodleUser['id'] }}">
         <input type="hidden" name="user_name" value="{{ $moodleUser['username'] }}">
         <div class="row">
             <div class="col-md-6">
