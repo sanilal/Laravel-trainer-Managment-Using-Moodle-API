@@ -21,7 +21,7 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('changeLang');
 
 Route::get('/moodle/test', [MoodleController::class, 'test']);
-Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 'create'])->name('trainer.create');
+
 Route::get('/trainer/register', [TrainerController::class, 'create'])->name('trainer.register');
 Route::post('/trainer/fetch', [TrainerController::class, 'fetchTrainerFromMoodle'])->name('trainer.fetch');
 Route::post('/trainer/store', [TrainerController::class, 'store'])->name('trainer.store');

@@ -54,7 +54,7 @@
     </div>
 
     <div class="form-container profile-form">
-        <form action="{{ route('') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <input type="hidden" name="moodle_user_id" value="{{ $moodleUser['id'] }}">

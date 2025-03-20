@@ -71,19 +71,6 @@ class TrainerProfileController extends Controller
         'about_you' => 'nullable|string',
     ]);
 
-       // Fetch the user from the Moodle API
-    $moodleUser = $this->moodleApi->getUserById($request->moodle_user_id);
-
-    if (empty($moodleUser)) {
-        return back()->withErrors(['moodle_user_id' => 'Moodle user not found.']);
-    }
-
-    // Check if the user already has a profile (Optional: You can skip this step based on your logic)
-    $existingProfile = TrainerProfile::where('user_id', $request->moodle_user_id)->first();
-    if ($existingProfile) {
-        return back()->withErrors(['moodle_user_id' => 'This user already has a profile.']);
-    }
-
     // Map moodle_user_id to user_id
     $data = $request->all();
     $data['user_id'] = $request->moodle_user_id;
