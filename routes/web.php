@@ -6,6 +6,7 @@ use App\Http\Controllers\MoodleController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\MoodleUserController;
 use App\Http\Controllers\TrainerProfileController;
+use App\Http\Controllers\PersonalDocumentController;
 
 
 
@@ -31,6 +32,11 @@ Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name
 Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 'create'])->name('trainer.create');
 // Route::post('/trainers/store', [TrainerProfileController::class, 'store'])->name('trainer.store');
 Route::post('/trainer/store', [TrainerProfileController::class, 'store'])->name('trainer.store');
+
+Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 'create'])->name('trainers.documents.create');
+Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
+
+
 
 
 

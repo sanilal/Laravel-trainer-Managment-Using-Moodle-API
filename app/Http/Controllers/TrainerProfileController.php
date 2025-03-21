@@ -96,7 +96,10 @@ class TrainerProfileController extends Controller
   $trainerProfile->about_you = $request->input('about_you');
   $trainerProfile->save();
 
-  return redirect()->route('trainer.profile.show', $trainerProfile->id);  // Redirect to the profile page or other action
+  // return redirect()->route('trainer.profile.show', $trainerProfile->id);  // Redirect to the profile page or other action
+  return redirect()->route('trainers.documents.create', $trainerProfile->id);
+
+
    
 }
 
