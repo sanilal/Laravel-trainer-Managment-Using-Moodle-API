@@ -2,16 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\PersonalDocument;
 use App\Models\TrainerProfile;
 
 class PersonalDocumentController extends Controller
 {
-    public function create($profileId)
-    {
-        return view('trainers.documents.create', compact('profileId'));
-    }
+public function create($profile)
+{
+    $trainerProfile = TrainerProfile::findOrFail($profile);
+
+    return view('trainers.documents.create', [
+        'profileId' => $trainerProfile->id, // Ensure this is being set
+        'userId' => $trainerProfile->user_id,
+        'moodleUser' => $this->fetchMoodleUser($trainerProfile->user_id) ?? []
+    ]);
+}
+
+
+
+    
 
     public function store(Request $request)
     {
@@ -44,6 +55,38 @@ class PersonalDocumentController extends Controller
 
         $document->save();
 
-        return redirect()->route('trainers.dashboard')->with('success', 'Documents uploaded successfully.');
+       // return redirect()->route('trainers.dashboard')->with('success', 'Documents uploaded successfully.');
+       return redirect()->route('trainers.documents.create', ['profile' => $request->input('profile_id')]);
+
+       
+
+
+
     }
+
+
+    private function fetchMoodleUser($userId)
+{
+    $moodleApiUrl = env('MOODLE_API_URL') . '/webservice/rest/server.php';
+    $moodleApiToken = env('MOODLE_API_TOKEN');
+
+    $params = [
+        'wstoken' => $moodleApiToken,
+        'wsfunction' => 'core_user_get_users',
+        'moodlewsrestformat' => 'json',
+        'criteria[0][key]' => 'id',
+        'criteria[0][value]' => $userId
+    ];
+
+    $response = Http::get($moodleApiUrl, $params);
+
+    if ($response->failed()) {
+        return null; // Return null if API call fails
+    }
+
+    $data = $response->json();
+    return $data['users'][0] ?? null;
+}
+
+
 }

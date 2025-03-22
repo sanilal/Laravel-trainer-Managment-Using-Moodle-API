@@ -34,6 +34,7 @@ Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 
 Route::post('/trainer/store', [TrainerProfileController::class, 'store'])->name('trainer.store');
 
 Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 'create'])->name('trainers.documents.create');
+
 Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
 
 

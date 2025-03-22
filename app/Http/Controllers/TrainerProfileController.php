@@ -42,6 +42,7 @@ class TrainerProfileController extends Controller
         }
     
         return view('trainers.create', compact('moodleUser'));
+        
     }
     
     public function store(Request $request)
@@ -97,7 +98,9 @@ class TrainerProfileController extends Controller
   $trainerProfile->save();
 
   // return redirect()->route('trainer.profile.show', $trainerProfile->id);  // Redirect to the profile page or other action
-  return redirect()->route('trainers.documents.create', $trainerProfile->id);
+  // return redirect()->route('trainers.documents.create', $trainerProfile->id);
+  return redirect()->route('trainers.documents.create', ['profile_id' => $trainerProfile->id, 'user_id' => $trainerProfile->user_id]);
+
 
 
    

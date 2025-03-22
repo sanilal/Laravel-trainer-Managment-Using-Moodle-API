@@ -15,10 +15,15 @@
 @endif
 <div class="container">
     <h2>Upload Your Documents</h2>
+    <p>Profile ID: {{ $profileId }}</p>
+<p>User ID: {{ $userId }}</p>
     <form action="{{ route('trainers.documents.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="profile_id" value="{{ $profileId }}">
-        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+        <input type="hidden" name="user_id" value="{{ $userId }}">
+        
+        <!-- Debugging to check if Moodle data is received -->
+        <p>Moodle User Data: {{ json_encode($moodleUser) }}</p>
 
         <div class="mb-3">
             <label for="your_id" class="form-label">Your ID</label>
