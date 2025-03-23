@@ -53,6 +53,7 @@ class PersonalDocumentController extends Controller
 
         $document->save();
 
+        //redirecting to next form --> change here
         return redirect()->route('trainers.documents.create', ['profile' => $request->input('profile_id')]);
     }
 }
