@@ -3,16 +3,19 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MoodleApiService
 {
     protected $apiUrl;
     protected $apiToken;
+    protected $apiFormat;
 
     public function __construct()
     {
         $this->apiUrl = config('services.moodle.api_url');
         $this->apiToken = config('services.moodle.api_token');
+        $this->apiFormat = config('services.moodle.api_format');
     }
 
     /**
@@ -21,12 +24,25 @@ class MoodleApiService
     private function request($function, $params = [])
     {
         $params['wstoken'] = $this->apiToken;
-        $params['moodlewsrestformat'] = config('services.moodle.api_format');
+        $params['moodlewsrestformat'] = $this->apiFormat;
         $params['wsfunction'] = $function;
 
         $response = Http::get($this->apiUrl, $params);
 
-        return $response->json();
+        if ($response->failed()) {
+            Log::error("Moodle API Request Failed: $function", [
+                'params' => $params,
+                'response' => $response->body(),
+            ]);
+            return null;
+        }
+
+        $data = $response->json();
+
+        // Log successful response
+        Log::info("Moodle API Response: $function", ['response' => $data]);
+
+        return $data;
     }
 
     /**
@@ -34,31 +50,26 @@ class MoodleApiService
      */
     public function getUserByEmail($email)
     {
-        return $this->request('core_user_get_users', [
+        $data = $this->request('core_user_get_users', [
             'criteria[0][key]' => 'email',
             'criteria[0][value]' => $email,
         ]);
+
+        return $data['users'][0] ?? null;
     }
 
+    /**
+     * Get user details by ID.
+     */
     public function getUserById($id)
     {
-        $endpoint = "/webservice/rest/server.php"; 
-        $params = [
-            'wstoken' => $this->apiToken,
-            'wsfunction' => 'core_user_get_users_by_field',
-            'moodlewsrestformat' => 'json',
+        $data = $this->request('core_user_get_users_by_field', [
             'field' => 'id',
-            'values[0]' => $id
-        ];
-    
-        $response = Http::get($this->apiUrl . $endpoint, $params);
-    
-        // Debugging - Log the full response
-        \Log::info('Moodle API Response:', ['response' => $response->body()]);
-    
-        return $response->json();
-    }
+            'values[0]' => $id,
+        ]);
 
+        return $data[0] ?? null;
+    }
 
     /**
      * Get trainer's enrolled courses.
@@ -70,6 +81,9 @@ class MoodleApiService
         ]);
     }
 
+    /**
+     * Get all users (for debugging or admin purposes).
+     */
     public function getUsers()
     {
         return $this->request('core_user_get_users', [
@@ -77,5 +91,4 @@ class MoodleApiService
             'criteria[0][value]' => '%'
         ]);
     }
-
 }

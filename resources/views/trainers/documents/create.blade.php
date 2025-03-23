@@ -23,7 +23,7 @@
         <input type="hidden" name="user_id" value="{{ $userId }}">
         
         <!-- Debugging to check if Moodle data is received -->
-        <p>Moodle User Data: {{ json_encode($moodleUser) }}</p>
+      
 
         <div class="mb-3">
             <label for="your_id" class="form-label">Your ID</label>

@@ -15,12 +15,6 @@
   <p>No Moodle user data found.</p>
 @endif
 
-@if(!$moodleUser)
-    <div class="alert alert-danger">
-        Moodle user data is missing or invalid.
-    </div>
-@endif
-
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -63,8 +57,10 @@
         <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
-        <input type="hidden" name="user_id" value="{{ $moodleUser['id'] }}">
-        <input type="hidden" name="user_name" value="{{ $moodleUser['username'] }}">
+        <input type="hidden" name="user_id" value="{{ $moodleUser['id'] ?? '' }}">
+
+
+        <input type="hidden" name="user_name" value="{{ $moodleUser['username'] ?? ''}}">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
