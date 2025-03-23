@@ -10,7 +10,9 @@ return new class extends Migration {
         Schema::create('personal_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained('trainer_profiles')->onDelete('cascade'); 
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+            $table->unsignedBigInteger('user_id'); // No direct constraint to users
+            // Instead of foreignId(), use a manual constraint
+            $table->foreign('user_id')->references('user_id')->on('trainer_profiles')->onDelete('cascade'); 
             $table->string('your_id')->nullable();
             $table->string('your_passport')->nullable();
             $table->string('other_document')->nullable();

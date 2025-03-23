@@ -29,9 +29,11 @@ class PersonalDocumentController extends Controller
 
     public function store(Request $request)
     {
+        \Log::info('Incoming document upload request:', $request->all());
+
         $request->validate([
             'profile_id' => 'required|exists:trainer_profiles,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:trainer_profiles,user_id', // Fix applied here
             'your_id' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
             'your_passport' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
             'other_document' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
