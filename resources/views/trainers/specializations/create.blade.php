@@ -44,18 +44,18 @@
         <button type="button" class="btn btn-primary" id="add-specialization">Save & Add More</button>
     </form>
 
-    <!-- Added Specializations -->
-    <div class="mt-4">
-        <h5>Added Specializations</h5>
-        <ul id="specialization-list">
-            @foreach ($specializations as $specialization)
-                <li id="specialization-{{ $specialization->id }}">
-                    {{ $specialization->specialization }} - {{ $specialization->name_of_the_institution }}
-                    <button class="btn btn-danger btn-sm remove-specialization" data-id="{{ $specialization->id }}">X</button>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+ <!-- Added Specializations -->
+<div class="mt-4">
+    <h5>Added Specializations</h5>
+    <ul id="specialization-list">
+        @foreach ($specializations as $specialization)
+            <li id="specialization-{{ $specialization->id }}">
+                {{ $specialization->specialization }} - {{ $specialization->name_of_the_institution }}
+                <button class="btn btn-danger btn-sm remove-specialization" data-id="{{ $specialization->id }}">X</button>
+            </li>
+        @endforeach
+    </ul>
+</div>
 
     <hr>
 
@@ -114,7 +114,7 @@
 
     <hr>
 
-    <form action="{{ route('trainers.complete') }}" method="POST">
+    <form action="{{ route('trainers.specializations.complete') }}" method="POST">
         @csrf
         <input type="hidden" name="profile_id" value="{{ $profileId }}">
         <input type="hidden" name="user_id" value="{{ $userId }}">
@@ -128,7 +128,7 @@
         document.getElementById('add-specialization').addEventListener('click', function () {
             let formData = new FormData(document.getElementById('specialization-form'));
 
-            fetch("{{ route('specializations.store') }}", {
+            fetch("{{ route('trainers.specializations.store') }}", {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -151,7 +151,7 @@
         document.getElementById('add-certification').addEventListener('click', function () {
             let formData = new FormData(document.getElementById('certification-form'));
 
-            fetch("{{ route('certifications.store') }}", {
+            fetch("{{ route('trainers.certifications.store') }}", {
                 method: 'POST',
                 body: formData,
                 headers: {

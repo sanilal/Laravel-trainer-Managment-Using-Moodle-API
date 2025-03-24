@@ -60,5 +60,6 @@ class PersonalDocumentController extends Controller
             'profile' => $request->input('profile_id'),
             'user' => $request->input('user_id')
         ]);
+
     }
 }

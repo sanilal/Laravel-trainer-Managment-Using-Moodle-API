@@ -8,6 +8,7 @@ use App\Http\Controllers\TrainerProfileController;
 use App\Http\Controllers\PersonalDocumentController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\AcademicsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,8 +26,6 @@ Route::get('lang/{locale}', function ($locale) {
 Route::get('/moodle/test', [MoodleController::class, 'test']);
 
 // Trainer Registration Routes
-Route::get('/trainer/register', [TrainerController::class, 'create'])->name('trainer.register');
-Route::post('/trainer/fetch', [TrainerController::class, 'fetchTrainerFromMoodle'])->name('trainer.fetch');
 Route::get('/moodle/users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users');
 Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name('moodle.users.add');
 
@@ -40,11 +39,22 @@ Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 
 Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
 
 // Specialization Routes
-Route::get('/trainers/{profile}/specializations', [SpecializationController::class, 'create'])->name('trainers.specializations.create');
+// Removed the 'create' route because you're handling it via AJAX
+Route::get('/trainers/specializations/create/{profile}/{user}', [SpecializationController::class, 'create'])->name('trainers.specializations.create');
+
 Route::post('/trainers/specializations', [SpecializationController::class, 'store'])->name('trainers.specializations.store');
 Route::delete('/trainers/specializations/{id}', [SpecializationController::class, 'destroy'])->name('trainers.specializations.destroy');
+Route::post('/trainers/specializations/complete', [SpecializationController::class, 'complete'])->name('trainers.specializations.complete');
+
 
 // Certification Routes
 Route::get('/trainers/{profile}/certifications', [CertificationController::class, 'create'])->name('trainers.certifications.create');
 Route::post('/trainers/certifications', [CertificationController::class, 'store'])->name('trainers.certifications.store');
 Route::delete('/trainers/certifications/{id}', [CertificationController::class, 'destroy'])->name('trainers.certifications.destroy');
+
+// Certification Routes
+
+
+// Academic Routes
+Route::get('/trainers/{profile}/academics', [AcademicsController::class, 'create'])->name('trainers.academics.create');
+Route::post('/trainers/academics', [AcademicsController::class, 'store'])->name('trainers.academics.store');
