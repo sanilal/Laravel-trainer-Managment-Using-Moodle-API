@@ -86,7 +86,10 @@ class SpecializationController extends Controller
     TrainerProfile::where('id', $request->profile_id)->update(['specialization_completed' => true]);
 
     // Redirect to the next step (modify this URL as needed)
-    return redirect()->route('next.step')->with('success', 'Specialization details completed successfully!');
+    return redirect()->route('trainers.academics.create', [
+        'profile' => $request->profile_id
+       // 'user' => $request->input('user_id')
+    ]);
 }
 
 
