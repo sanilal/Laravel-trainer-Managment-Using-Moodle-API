@@ -8,7 +8,8 @@ use App\Http\Controllers\TrainerProfileController;
 use App\Http\Controllers\PersonalDocumentController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\CertificationController;
-use App\Http\Controllers\AcademicsController;
+use App\Http\Controllers\AcademicController;
+use App\Http\Controllers\TrainerWorkExperienceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,5 +57,17 @@ Route::delete('/trainers/certifications/{id}', [CertificationController::class, 
 
 
 // Academic Routes
-Route::get('/trainers/{profile}/academics', [AcademicsController::class, 'create'])->name('trainers.academics.create');
-Route::post('/trainers/academics', [AcademicsController::class, 'store'])->name('trainers.academics.store');
+Route::get('/trainers/academics/create/{profile}', [AcademicController::class, 'create'])->name('trainers.academics.create');
+Route::post('/trainers/academics/store', [AcademicController::class, 'store'])->name('trainers.academics.store');
+Route::delete('/trainers/academics/destroy/{id}', [AcademicController::class, 'destroy'])->name('trainers.academics.destroy');
+
+
+// Work Experience Routes
+// Route::get('/trainers/work_experience/create/{profile}', [WorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
+
+Route::get('/trainers/work_experience/create', [TrainerWorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
+Route::post('/trainers/work_experience/store', [TrainerWorkExperienceController::class, 'store'])->name('trainers.work_experience.store');
+Route::delete('/trainers/work_experience/delete/{id}', [TrainerWorkExperienceController::class, 'delete'])->name('trainers.work_experience.delete');
+
+
+
