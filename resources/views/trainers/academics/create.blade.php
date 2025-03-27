@@ -114,11 +114,23 @@ document.getElementById("academicForm").onsubmit = function(event) {
 
 // Handle "Save & Proceed"
 document.getElementById("saveProceedBtn").onclick = function() {
+    let existingAcademics = document.getElementById("academicsList").children.length;
+
+    if (existingAcademics > 0) {
+        // If at least one academic detail exists, proceed without re-submitting
+        window.location.href = "{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}";
+        return;
+    }
+
+    // If no academic details exist, validate and submit form data
     let formData = new FormData(document.getElementById("academicForm"));
 
-    console.log("Form Data before sending:");
-    for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
+    if (!formData.get("academics") || 
+        !formData.get("name_of_the_university") || 
+        !formData.get("start_date") || 
+        !formData.get("end_date")) {
+        alert("Please add at least one academic record before proceeding.");
+        return;
     }
 
     fetch("{{ route('trainers.academics.store') }}", {
@@ -128,16 +140,16 @@ document.getElementById("saveProceedBtn").onclick = function() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Server Response:", data);
         if (data.success) {
             window.location.href = "{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}";
         } else {
-            console.error("Validation Errors:", data.errors);
             alert("Validation failed. Check console for details.");
+            console.error("Validation Errors:", data.errors);
         }
     })
     .catch(error => console.error("Fetch Error:", error));
 };
+
 
 
 </script>
