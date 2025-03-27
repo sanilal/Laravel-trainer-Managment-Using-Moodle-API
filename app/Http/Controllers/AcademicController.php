@@ -27,8 +27,8 @@ class AcademicController extends Controller
     $validator = \Validator::make($request->all(), [
         'profile_id' => 'required|exists:trainer_profiles,id',
         'user_id' => 'required|exists:trainer_profiles,user_id',
-        'academics' => 'required|in:diploma,bachelor degree,masters degree,doctoral degree',
-        'name_of_the_university' => 'required|string',
+        'academics' => 'required|string|in:diploma,bachelor degree,masters degree,doctoral degree',
+        'name_of_the_university' => 'required|string|min:3',
         'start_date' => 'required|date',
         'end_date' => 'required|date|after:start_date',
         'upload_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
@@ -50,7 +50,7 @@ class AcademicController extends Controller
     $academic = Academic::create([
         'profile_id' => $request->profile_id,
         'user_id' => $request->user_id,
-        'academics' => $request->academics,
+        'academics' => strtolower($request->academics), // Convert to lowercase for consistency
         'name_of_the_university' => $request->name_of_the_university,
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
@@ -60,7 +60,6 @@ class AcademicController extends Controller
     return response()->json([
         'success' => true,
         'message' => 'Academic record added successfully!',
-        'academic' => $academic,
     ]);
 }
 

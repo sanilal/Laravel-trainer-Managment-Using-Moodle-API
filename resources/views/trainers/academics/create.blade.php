@@ -26,8 +26,9 @@
                 <option value="">Select</option>
                 <option value="diploma">Diploma</option>
                 <option value="bachelor degree">Bachelor Degree</option>
-                <option value="masters degree">Masters Degree</option>
+                <option value="masters degree">Master's Degree</option>
                 <option value="doctoral degree">Doctoral Degree</option>
+
             </select>
         </div>
 
@@ -68,19 +69,32 @@
 
 <script>
 document.getElementById("academicForm").onsubmit = function(event) {
-    alert("Form submitted");
     event.preventDefault();
+    
     let formData = new FormData(this);
 
-    console.log("Sending FormData:");
+    // Debugging: Check FormData before sending
+    console.log("Form Data before sending:");
     for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
+        console.log(pair[0] + ": " + pair[1]);
     }
 
-    fetch("{{ route('trainers.academics.store') }}", {
+    // Validate before sending
+    if (!formData.get("academics") || 
+        !formData.get("name_of_the_university") || 
+        !formData.get("start_date") || 
+        !formData.get("end_date")) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    fetch(`{{ route('trainers.academics.store') }}`, {
         method: "POST",
         body: formData,
-        headers: { "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value }
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value,
+            "X-Requested-With": "XMLHttpRequest"
+        }
     })
     .then(response => response.json().catch(() => response.text().then(text => { throw new Error(text); })))
     .then(data => {
@@ -98,24 +112,33 @@ document.getElementById("academicForm").onsubmit = function(event) {
 };
 
 
-
 // Handle "Save & Proceed"
 document.getElementById("saveProceedBtn").onclick = function() {
     let formData = new FormData(document.getElementById("academicForm"));
+
+    console.log("Form Data before sending:");
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+    }
 
     fetch("{{ route('trainers.academics.store') }}", {
         method: "POST",
         body: formData,
         headers: { "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value }
-    }).then(response => response.json()).then(data => {
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server Response:", data);
         if (data.success) {
-            // Redirect to work experience form
             window.location.href = "{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}";
         } else {
-            alert('Error saving academic record.');
+            console.error("Validation Errors:", data.errors);
+            alert("Validation failed. Check console for details.");
         }
-    }).catch(error => console.error('Error:', error));
+    })
+    .catch(error => console.error("Fetch Error:", error));
 };
+
 
 </script>
 @endsection
