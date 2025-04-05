@@ -53,6 +53,13 @@ class PersonalDocumentController extends Controller
 
         $document->save();
 
-        return redirect()->route('trainers.documents.create', ['profile' => $request->input('profile_id')]);
+      //  return redirect()->route('trainers.documents.create', ['profile' => $request->input('profile_id')]);
+
+          // Redirect to the specialization form, passing profile_id and user_id
+          return redirect()->route('trainers.specializations.create', [
+            'profile' => $request->input('profile_id'),
+            'user' => $request->input('user_id')
+        ]);
+
     }
 }
