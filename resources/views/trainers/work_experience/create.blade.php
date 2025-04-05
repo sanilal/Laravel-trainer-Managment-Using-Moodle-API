@@ -25,8 +25,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="end_date">End Date</label>
-            <input type="date" id="end_date" name="end_date" class="form-control" required>
+            <label for="end_date">End Date (Leave blank if ongoing)</label>
+            <input type="date" id="end_date" name="end_date" class="form-control">
         </div>
 
         <div class="mb-3">
@@ -39,7 +39,7 @@
             <textarea name="job_description" class="form-control" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save & Add More</button>
+        <button type="submit" class="btn btn-primary" id="add-work-experience">Save & Add More</button>
         <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
     </form>
 
@@ -52,6 +52,12 @@
             </li>
         @endforeach
     </ul>
+    <form action="{{ route('trainers.work_experience.complete') }}" method="POST">
+        @csrf
+        <input type="hidden" name="profile_id" value="{{ $profileId }}">
+        <input type="hidden" name="user_id" value="{{ $userId }}">
+        <button type="submit" class="btn btn-success">Save and Proceed</button>
+    </form>
 </div>
 
 <script>
@@ -62,7 +68,7 @@ document.getElementById("workExperienceForm").onsubmit = function(event) {
     fetch("{{ route('trainers.work_experience.store') }}", {
         method: "POST",
         body: formData,
-        headers: { "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value }
+        headers: { "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content") }
     }).then(response => response.json()).then(data => {
         if (data.success) {
             location.reload();
@@ -72,14 +78,14 @@ document.getElementById("workExperienceForm").onsubmit = function(event) {
     }).catch(error => console.error('Error:', error));
 };
 
-// Save & Proceed to Next Form
+// Save & Proceed
 document.getElementById("saveProceedBtn").onclick = function() {
     let formData = new FormData(document.getElementById("workExperienceForm"));
 
     fetch("{{ route('trainers.work_experience.store') }}", {
         method: "POST",
         body: formData,
-        headers: { "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value }
+        headers: { "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content") }
     }).then(response => response.json()).then(data => {
         if (data.success) {
             window.location.href = "{{ route('trainers.documents.create', ['profile' => request('profile')]) }}";
@@ -88,23 +94,6 @@ document.getElementById("saveProceedBtn").onclick = function() {
         }
     }).catch(error => console.error('Error:', error));
 };
-
-// Handle removing work experience
-document.querySelectorAll(".remove-experience").forEach(button => {
-    button.addEventListener("click", function() {
-        let experienceId = this.getAttribute("data-id");
-        fetch(`/trainers/work_experience/delete/${experienceId}`, {
-            method: "DELETE",
-            headers: { "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value }
-        }).then(response => response.json()).then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert("Error deleting work experience.");
-            }
-        }).catch(error => console.error("Error:", error));
-    });
-});
 </script>
 
 @endsection

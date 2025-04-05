@@ -65,9 +65,11 @@ Route::delete('/trainers/academics/destroy/{id}', [AcademicController::class, 'd
 // Work Experience Routes
 // Route::get('/trainers/work_experience/create/{profile}', [WorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
 
-Route::get('/trainers/work_experience/create', [TrainerWorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
+// Work Experience Routes
+Route::get('/trainers/work_experience/create/{profile}', [TrainerWorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
 Route::post('/trainers/work_experience/store', [TrainerWorkExperienceController::class, 'store'])->name('trainers.work_experience.store');
 Route::delete('/trainers/work_experience/delete/{id}', [TrainerWorkExperienceController::class, 'delete'])->name('trainers.work_experience.delete');
+
 
 
 

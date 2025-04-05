@@ -9,6 +9,7 @@ class WorkExperience extends Model
 {
     use HasFactory;
 
+    protected $table = 'work_experiences'; // Ensure correct table name
     protected $fillable = [
         'profile_id',
         'user_id',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WorkExperience;
+use Illuminate\Support\Facades\Storage;
 
 class TrainerWorkExperienceController extends Controller
 {
@@ -21,36 +22,40 @@ class TrainerWorkExperienceController extends Controller
             'name_of_the_organization' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'upload_work_document' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:16000',
             'job_description' => 'required|string',
         ]);
 
-        $workExperience = new WorkExperience();
-        $workExperience->profile_id = $request->profile_id;
-        $workExperience->user_id = $request->user_id;
-        $workExperience->name_of_the_organization = $request->name_of_the_organization;
-        $workExperience->designation = $request->designation;
-        $workExperience->start_date = $request->start_date;
-        $workExperience->end_date = $request->end_date;
-        $workExperience->job_description = $request->job_description;
-
+        $filePath = null;
         if ($request->hasFile('upload_work_document')) {
-            $file = $request->file('upload_work_document');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/work_documents'), $filename);
-            $workExperience->upload_work_document = $filename;
+            $filePath = $request->file('upload_work_document')->store('work_documents', 'public');
         }
 
-        $workExperience->save();
+        WorkExperience::create([
+            'profile_id' => $request->profile_id,
+            'user_id' => $request->user_id,
+            'name_of_the_organization' => $request->name_of_the_organization,
+            'designation' => $request->designation,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'job_description' => $request->job_description,
+            'upload_work_document' => $filePath,
+        ]);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Work experience saved successfully!'
+        ]);
     }
 
     public function delete($id)
     {
         $experience = WorkExperience::find($id);
         if ($experience) {
+            if ($experience->upload_work_document) {
+                Storage::disk('public')->delete($experience->upload_work_document);
+            }
             $experience->delete();
             return response()->json(['success' => true]);
         }

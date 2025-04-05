@@ -118,7 +118,7 @@ document.getElementById("saveProceedBtn").onclick = function() {
 
     if (existingAcademics > 0) {
         // If at least one academic detail exists, proceed without re-submitting
-        window.location.href = "{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}";
+        window.location.href = "{{ url('trainers/work_experience/create/' . $profileId) }}";
         return;
     }
 
@@ -141,7 +141,7 @@ document.getElementById("saveProceedBtn").onclick = function() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.href = "{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}";
+            window.location.href = "{{ route('trainers.work_experience.create',  ['profile' => $profileId, 'user' => $userId]) }}";
         } else {
             alert("Validation failed. Check console for details.");
             console.error("Validation Errors:", data.errors);
