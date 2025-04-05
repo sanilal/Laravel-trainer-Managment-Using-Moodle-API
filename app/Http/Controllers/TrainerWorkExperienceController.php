@@ -4,21 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WorkExperience;
+use App\Models\TrainerProfile;
 use Illuminate\Support\Facades\Storage;
 
 class TrainerWorkExperienceController extends Controller
 {
-    public function create(Request $request)
+
+    public function create($profile)
     {
-        $workExperiences = WorkExperience::where('profile_id', $request->profile)->get();
-        return view('trainers.work_experience.create', compact('workExperiences'));
+        $trainerProfile = TrainerProfile::findOrFail($profile);
+        $workExperiences = WorkExperience::where('profile_id', $trainerProfile->id)->get();
+
+        return view('trainers.work_experience.create', [
+            'profileId' => $trainerProfile->id,
+            'userId' => $trainerProfile->user_id,
+            'workExperiences' => $workExperiences
+        ]);
+        
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'profile_id' => 'required|exists:trainer_profiles,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:trainer_profiles,user_id',
             'name_of_the_organization' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'start_date' => 'required|date',

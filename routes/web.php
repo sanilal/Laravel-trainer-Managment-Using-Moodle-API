@@ -10,6 +10,7 @@ use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\AcademicController;
 use App\Http\Controllers\TrainerWorkExperienceController;
+use App\Http\Controllers\TrainingProgramController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,6 +70,14 @@ Route::delete('/trainers/academics/destroy/{id}', [AcademicController::class, 'd
 Route::get('/trainers/work_experience/create/{profile}', [TrainerWorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
 Route::post('/trainers/work_experience/store', [TrainerWorkExperienceController::class, 'store'])->name('trainers.work_experience.store');
 Route::delete('/trainers/work_experience/delete/{id}', [TrainerWorkExperienceController::class, 'delete'])->name('trainers.work_experience.delete');
+
+
+// Training Program Routes
+Route::get('/trainers/training_programs/create/{profile}', [TrainingProgramController::class, 'create'])->name('trainers.training_programs.create');
+Route::post('/trainers/training_programs/store', [TrainingProgramController::class, 'store'])->name('trainers.training_programs.store');
+Route::delete('/trainers/training_programs/delete/{id}', [TrainingProgramController::class, 'destroy'])->name('trainers.training_programs.delete');
+
+
 
 
 
