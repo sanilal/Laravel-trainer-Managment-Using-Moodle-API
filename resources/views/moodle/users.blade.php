@@ -20,6 +20,13 @@
         </a>
         
     </div>
+    <form method="GET" action="{{ route('moodle.users.fetch') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="email_search" class="form-control" placeholder="Search by email..." value="{{ request('email_search') }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+            <a href="{{ route('moodle.users.fetch') }}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
     <table class="table">
         <thead>
             <tr>

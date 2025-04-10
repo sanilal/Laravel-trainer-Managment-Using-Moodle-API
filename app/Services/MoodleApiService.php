@@ -120,7 +120,6 @@ class MoodleApiService
      */
     public function getUsersByEmailPrefix($prefix = 'a%')
     {
-        // Ensure prefix is a valid string and default to 'a%' if null
         $value = $prefix ? $prefix . '%' : 'a%'; 
     
         return $this->request('core_user_get_users', [
@@ -128,5 +127,6 @@ class MoodleApiService
             'criteria[0][value]' => $value
         ]);
     }
+    
     
 }
