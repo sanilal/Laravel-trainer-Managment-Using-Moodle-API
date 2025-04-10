@@ -7,7 +7,6 @@ use App\Services\MoodleApiService;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 class MoodleUserController extends Controller
 {
@@ -18,55 +17,64 @@ class MoodleUserController extends Controller
         $this->moodleApi = $moodleApi;
     }
 
-    // Fetch all users from Moodle excluding already added ones
+    // Fetch users from Moodle with optional A-Z prefix filter
     public function fetchUsers(Request $request)
     {
-        $users = $this->moodleApi->getUsers(); // Fetch all users
+        $prefix = $request->input('prefix', '%'); // default to all if no prefix provided
 
-   
-
-        if (empty($users['users'])) {
-            return view('moodle.users', ['users' => [], 'pagination' => null]);
+        // Use the new getUsersByEmailPrefix method
+        if ($prefix === '%') {
+            $users = $this->moodleApi->getUsers(); // fallback to all users
+        } else {
+            $users = $this->moodleApi->getUsersByEmailPrefix($prefix);
         }
 
-        // Get emails of users already added to Laravel
-      //  $existingUsers = User::pluck('email')->toArray();
+        if (is_null($users) || !isset($users['users']) || !is_array($users['users'])) {
+            $empty = collect([]);
+            $paginatedUsers = new LengthAwarePaginator(
+                $empty,
+                0,
+                10,
+                LengthAwarePaginator::resolveCurrentPage(),
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
+            return view('moodle.users', ['users' => $paginatedUsers, 'selectedPrefix' => $prefix]);
+        }
 
-      $existingEmails = \DB::table('trainer_profiles')->pluck('email')->toArray();
+        // Get existing Laravel user data
+        $existingEmails = \DB::table('trainer_profiles')->pluck('email')->toArray();
         $existingUserIds = \DB::table('trainer_profiles')->pluck('user_id')->toArray();
 
-
-        // Filter out users that are already in Laravel
+        // Filter users
         $filteredUsers = array_filter($users['users'], function ($user) use ($existingEmails, $existingUserIds) {
-            return !in_array($user['email'], $existingEmails) &&
-                   !in_array($user['id'], $existingUserIds) &&
-                   $user['username'] !== 'guest' &&
-                   !$user['suspended'] &&
-                   $user['confirmed'];
+            return !in_array($user['email'], $existingEmails)
+                && !in_array($user['id'], $existingUserIds)
+                && $user['username'] !== 'guest'
+                && !$user['suspended']
+                && $user['confirmed'];
         });
 
-        // Convert to Laravel Collection for easier handling
+        // Paginate users
         $userCollection = collect($filteredUsers);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentPageUsers = $userCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
 
-        // Pagination setup
-    $currentPage = LengthAwarePaginator::resolveCurrentPage();
-    $perPage = 10; // Change as needed
-    $currentPageUsers = $userCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $paginatedUsers = new LengthAwarePaginator(
+            $currentPageUsers,
+            $userCollection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
-    $paginatedUsers = new LengthAwarePaginator(
-        $currentPageUsers,
-        $userCollection->count(),
-        $perPage,
-        $currentPage,
-        ['path' => $request->url(), 'query' => $request->query()]
-    );
-
-    $paginatedUsers->withPath($request->url())->onEachSide(1);
-
-        return view('moodle.users', ['users' => $paginatedUsers]);
+        return view('moodle.users', [
+            'users' => $paginatedUsers,
+            'selectedPrefix' => $prefix
+        ]);
     }
 
-    // Store a Moodle user in Laravel database
+    // Store Moodle user in Laravel DB
     public function addUser(Request $request)
     {
         $request->validate([
@@ -78,7 +86,7 @@ class MoodleUserController extends Controller
         User::create([
             'name' => $request->fullname,
             'email' => $request->email,
-            'password' => Hash::make('defaultpassword') // Set a default password
+            'password' => Hash::make('defaultpassword')
         ]);
 
         return response()->json(['success' => true, 'message' => 'User added successfully.']);

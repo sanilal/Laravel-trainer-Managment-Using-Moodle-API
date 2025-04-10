@@ -4,7 +4,18 @@
 <div class="container">
     <h2>Moodle Users</h2>
     <p>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</p>
-
+    <div class="d-flex flex-wrap align-items-center mb-3">
+        <strong class="me-2">Filter by email:</strong>
+        @foreach(range('A', 'Z') as $letter)
+            <a href="{{ request()->url() }}?prefix={{ strtolower($letter) }}"
+               class="btn btn-sm me-1 mb-1 {{ request('prefix') === strtolower($letter) ? 'btn-primary' : 'btn-outline-secondary' }}">
+                {{ $letter }}
+            </a>
+        @endforeach
+        <a href="{{ request()->url() }}" class="btn btn-sm mb-1 {{ request('prefix') ? 'btn-outline-danger' : 'btn-dark' }}">
+            All
+        </a>
+    </div>
     <table class="table">
         <thead>
             <tr>
