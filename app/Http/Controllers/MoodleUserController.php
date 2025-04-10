@@ -20,7 +20,12 @@ class MoodleUserController extends Controller
     // Fetch users from Moodle with optional A-Z prefix filter
     public function fetchUsers(Request $request)
     {
-        $prefix = $request->input('prefix', '%'); // default to all if no prefix provided
+       // $prefix = $request->input('prefix', '%'); // default to all if no prefix provided
+       $prefix = $request->prefix;
+
+       $emailValue = $prefix === 'all' ? '%' : ($prefix ? $prefix . '%' : 'a%');
+
+       $users = $this->moodleApi->getUsersByPrefix($emailValue);
 
         // Use the new getUsersByEmailPrefix method
         if ($prefix === '%') {
