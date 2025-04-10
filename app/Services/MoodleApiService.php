@@ -118,11 +118,15 @@ class MoodleApiService
     /**
      * ✅ NEW: Get users by email prefix (A-Z filtering)
      */
-    public function getUsersByEmailPrefix(string $prefix)
+    public function getUsersByEmailPrefix($prefix = 'a%')
     {
+        // Ensure prefix is a valid string and default to 'a%' if null
+        $value = $prefix ? $prefix . '%' : 'a%'; 
+    
         return $this->request('core_user_get_users', [
             'criteria[0][key]' => 'email',
-            'criteria[0][value]' => $prefix . '%'
+            'criteria[0][value]' => $value
         ]);
     }
+    
 }

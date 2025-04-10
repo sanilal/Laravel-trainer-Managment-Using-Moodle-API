@@ -21,11 +21,12 @@ class MoodleUserController extends Controller
     public function fetchUsers(Request $request)
     {
        // $prefix = $request->input('prefix', '%'); // default to all if no prefix provided
-       $prefix = $request->prefix;
+       $prefix = $request->input('prefix', 'a'); 
 
-       $emailValue = $prefix === 'all' ? '%' : ($prefix ? $prefix . '%' : 'a%');
+     //  $emailValue = $prefix === 'all' ? '%' : ($prefix ? $prefix . '%' : 'a%');
 
-       $users = $this->moodleApi->getUsersByPrefix($emailValue);
+      // $users = $this->moodleApi->getUsersByPrefix($emailValue);
+       $users = $this->moodleApi->getUsersByEmailPrefix($prefix);
 
         // Use the new getUsersByEmailPrefix method
         if ($prefix === '%') {
