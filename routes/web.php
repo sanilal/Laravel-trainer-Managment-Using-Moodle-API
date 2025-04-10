@@ -30,6 +30,8 @@ Route::get('/moodle/test', [MoodleController::class, 'test']);
 // Trainer Registration Routes
 Route::get('/moodle/users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users');
 Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name('moodle.users.add');
+Route::get('/moodle-users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users.fetch');
+
 
 // Trainer Profile Routes
 Route::get('/trainers', [TrainerProfileController::class, 'index'])->name('trainers.index');
