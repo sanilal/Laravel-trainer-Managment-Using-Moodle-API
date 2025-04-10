@@ -27,7 +27,19 @@ class MoodleApiService
         $params['moodlewsrestformat'] = $this->apiFormat;
         $params['wsfunction'] = $function;
 
+        // Measure start time before request
+        $startTime = microtime(true);
+
         $response = Http::get($this->apiUrl, $params);
+
+        // Measure end time after request
+        $endTime = microtime(true);
+
+        // Calculate the total time taken for the request
+        $responseTime = $endTime - $startTime;
+
+        // Log the response time
+        Log::info('Moodle API Response Time', ['time' => $responseTime]);
 
         if ($response->failed()) {
             Log::error("Moodle API Request Failed: $function", [
@@ -89,6 +101,17 @@ class MoodleApiService
         return $this->request('core_user_get_users', [
             'criteria[0][key]' => 'email',
             'criteria[0][value]' => '%'
+        ]);
+    }
+
+    /**
+     * ✅ NEW: Get users by email prefix (A-Z filtering)
+     */
+    public function getUsersByEmailPrefix(string $prefix)
+    {
+        return $this->request('core_user_get_users', [
+            'criteria[0][key]' => 'email',
+            'criteria[0][value]' => $prefix . '%'
         ]);
     }
 }
