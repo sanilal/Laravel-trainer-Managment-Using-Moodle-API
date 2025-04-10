@@ -12,9 +12,13 @@
                 {{ $letter }}
             </a>
         @endforeach
-        <a href="{{ request()->url() }}" class="btn btn-sm mb-1 {{ request('prefix') ? 'btn-outline-danger' : 'btn-dark' }}">
+        {{-- <a href="{{ request()->url() }}" class="btn btn-sm mb-1 {{ request('prefix') ? 'btn-outline-danger' : 'btn-dark' }}">
+            All
+        </a> --}}
+        <a href="{{ request()->url() }}?prefix=all" class="btn btn-sm mb-1 {{ request('prefix') === 'all' ? 'btn-outline-danger' : 'btn-dark' }}">
             All
         </a>
+        
     </div>
     <table class="table">
         <thead>
