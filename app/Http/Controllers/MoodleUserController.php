@@ -24,7 +24,8 @@ class MoodleUserController extends Controller
 
         // Use the new getUsersByEmailPrefix method
         if ($prefix === '%') {
-            $users = $this->moodleApi->getUsers(); // fallback to all users
+            //$users = $this->moodleApi->getUsers(); // fallback to all users
+            $users = $this->moodleApi->getUsers($request->prefix);
         } else {
             $users = $this->moodleApi->getUsersByEmailPrefix($prefix);
         }
