@@ -4,15 +4,10 @@
 
 {{-- Check if $moodleUser exists --}}
 @if($moodleUser)
-  <div>
-    <h3>Moodle User Details</h3>
-    <p>User Id: {{ $moodleUser['id'] ?? 'N/A' }}</p>
-    <p>Email: {{ $moodleUser['email'] ?? 'N/A' }}</p>
-    <p>First Name: {{ $moodleUser['firstname'] ?? 'N/A' }}</p>
-    <p>Last Name: {{ $moodleUser['lastname'] ?? 'N/A' }}</p>
-  </div>
+  
 @else
-  <p>No Moodle user data found.</p>
+  <p>Something went wrong.</p>
+  {{ exit }}
 @endif
 
 @if ($errors->any())
@@ -26,6 +21,9 @@
 @endif
 
 <div class="container">
+    <div class="page-title">
+        <h2>Trainer Profile</h2>
+    </div>
     <div class="form-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
