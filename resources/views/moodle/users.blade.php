@@ -45,7 +45,7 @@
         <td>{{ $user['fullname'] }}</td>
         <td>{{ $user['email'] }}</td>
         <td>
-            <a href="../trainers/create/{{ $user['id'] }}" class="btn btn-success add-user-btn" data-username="{{ $user['username'] }}" data-fullname="{{ $user['fullname'] }}" data-email="{{ $user['email'] }}">
+            <a href="../trainers/create/{{ $user['id'] }}" class="btn btn-success add-user-btn" >
                 Add User
             </a>
         </td>
@@ -60,31 +60,4 @@
     </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".add-user-btn").forEach(button => {
-        button.addEventListener("click", function () {
-            const username = this.dataset.username;
-            const fullname = this.dataset.fullname;
-            const email = this.dataset.email;
-
-            fetch("{{ route('moodle.users.add') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ username, fullname, email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    this.closest("tr").remove(); // Remove user from the list
-                }
-            });
-        });
-    });
-});
-</script>
 @endsection
