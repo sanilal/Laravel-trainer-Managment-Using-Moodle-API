@@ -3,11 +3,13 @@
 @section('content')
 
 {{-- Check if $moodleUser exists --}}
-@if($moodleUser)
-  
-@else
-  <p>Something went wrong.</p>
-  {{ exit }}
+
+
+@if(!$moodleUser)
+    <div class="alert alert-danger">Something went wrong. Moodle user not found.</div>
+    @php
+        return;
+    @endphp
 @endif
 
 @if ($errors->any())
