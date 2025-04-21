@@ -29,10 +29,10 @@
     <div class="form-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Personal Information</a>
+                <a class="nav-link active" href="trainers/create/{{ $moodleUser['id'] ?? 'N/A' }}">Personal Information</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Documents</a>
+                <a class="nav-link" href="trainers/create/{{ $moodleUser['id'] ?? 'N/A' }}">Documents</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Specialization</a>
