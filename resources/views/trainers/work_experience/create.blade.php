@@ -12,58 +12,194 @@
 @endif
 
 <div class="container">
-    <p>Profile ID: {{ $profileId }}</p>
+    {{-- <p>Profile ID: {{ $profileId }}</p>
     <p>User ID: {{ $userId }}</p>
-    <h2>Add Work Experience</h2>
+    <h2>Add Work Experience</h2> --}}
+    <div class="page-title">
+     
+        <h2>Trainer Profile</h2>
+    </div>
 
-    <form id="workExperienceForm" enctype="multipart/form-data">
-        @csrf
-        <input type="hidden" name="profile_id" value="{{ $profileId }}">
-        <input type="hidden" name="user_id" value="{{ $userId }}">
-
-        <div class="mb-3">
-            <label for="name_of_the_organization">Name of the Organization</label>
-            <input type="text" name="name_of_the_organization" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="designation">Designation</label>
-            <input type="text" name="designation" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="start_date">Start Date</label>
-            <input type="date" name="start_date" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="end_date">End Date (leave blank if ongoing)</label>
-            <input type="date" name="end_date" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="upload_work_document">Upload Work Document</label>
-            <input type="file" name="upload_work_document" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="job_description">Job Description</label>
-            <textarea name="job_description" class="form-control" required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Save & Add More</button>
-        <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
-    </form>
-
-    <h3 class="mt-4">Added Work Experiences</h3>
-    <ul id="workExperienceList">
-        @foreach($workExperiences as $experience)
-            <li>
-                {{ $experience->designation }} at {{ $experience->name_of_the_organization }}
-                <button class="btn btn-danger btn-sm remove-experience" data-id="{{ $experience->id }}">X</button>
+    <div class="form-tabs">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                @if (!empty($userId))
+            <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
+                Personal Information
+            </a>
+            @else
+        <span class="nav-link disabled">Personal Information</span>
+        @endif
             </li>
-        @endforeach
-    </ul>
+            <li class="nav-item">
+    
+                @if (!empty($profileId))
+        <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
+            Documents
+        </a>
+        @else
+        <span class="nav-link disabled">Documents</span>
+        @endif
+                
+            </li>
+            <li class="nav-item">
+               
+    
+                @if (!empty($profileId))
+                <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
+                    Specialization
+                </a>
+            @else
+                <span class="nav-link disabled">Specialization</span>
+            @endif
+    
+            </li>
+            <li class="nav-item">
+    
+                @if (!empty($profileId))
+                <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
+                    Academics
+                </a>
+            @else
+                <span class="nav-link disabled">Academics</span>
+            @endif
+    
+    
+               
+            </li>
+            <li class="nav-item">
+                @if (!empty($profileId))
+                <a class="nav-link active" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
+                    Work Experience
+                </a>
+            @else
+                <span class="nav-link disabled">Work Experience</span>
+            @endif
+               
+            </li>
+            <li class="nav-item">
+                @if (!empty($profileId))
+                <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
+                    Training Programs
+                </a>
+            @else
+                <span class="nav-link disabled">Training Programs</span>
+            @endif
+               
+              
+            </li>
+        </ul>
+    </div>
+
+    <div class="section-title">
+        <h2>Work Experience</h2>
+    </div>
+    <div class="form-container academics-form">
+        <form id="workExperienceForm" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="profile_id" value="{{ $profileId }}">
+            <input type="hidden" name="user_id" value="{{ $userId }}">
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="single-field">
+                        <div class="form-group">
+                            <label for="name_of_the_organization">Name of the Organization</label>
+                <input type="text" name="name_of_the_organization" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="single-field">
+                        <div class="form-group">
+                            <label for="designation">Designation</label>
+                            <input type="text" name="designation" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label">Start Date</label>
+                        <div class="input-group date-picker-group">
+                            <input type="date" name="start_date" class="form-control date-input">
+                            <button class="btn btn-outline-secondary calendar-button" type="button">
+                                <i class="fa fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label">End Date</label>
+                        <div class="input-group date-picker-group">
+                            <input type="date" name="end_date" class="form-control date-input">
+                            <button class="btn btn-outline-secondary calendar-button" type="button">
+                                <i class="fa fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                            <label for="job_description">Job Description</label>
+                            <textarea name="job_description" class="form-control" rows="5" required></textarea>
+                    </div>
+                </div>
+            </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="upload_work_document">Upload Work Document</label>
+                <input type="file" name="upload_work_document" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Save & Add More</button>
+        </div>
+        <div class="col-md-3"></div>
+      
+    </div>
+           <div class="row">
+            <div class="col-md-12">
+                <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
+            </div>
+           </div>
+    
+           
+    
+           
+    
+          
+    
+            
+            
+        </form>
+    
+        {{-- <h3 class="mt-4">Added Work Experiences</h3> --}}
+        <ul id="workExperienceList">
+            @foreach($workExperiences as $experience)
+                <li>
+                    {{ $experience->designation }} at {{ $experience->name_of_the_organization }}
+                    <button class="btn btn-danger btn-sm remove-experience" data-id="{{ $experience->id }}">X</button>
+                </li>
+            @endforeach
+        </ul>
+</div>
+    
 </div>
 
 <script>

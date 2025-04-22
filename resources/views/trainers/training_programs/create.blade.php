@@ -2,42 +2,153 @@
 
 @section('content')
 <div class="container">
-    <h4>Add Training Programs</h4>
+    <div class="page-title">
+     
+        <h2>Trainer Profile</h2>
+    </div>
 
-    <form id="trainingProgramForm">
-        @csrf
-        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-        <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
+    <div class="form-tabs">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                @if (!empty($userId))
+            <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
+                Personal Information
+            </a>
+            @else
+        <span class="nav-link disabled">Personal Information</span>
+        @endif
+            </li>
+            <li class="nav-item">
+    
+                @if (!empty($profileId))
+        <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
+            Documents
+        </a>
+        @else
+        <span class="nav-link disabled">Documents</span>
+        @endif
+                
+            </li>
+            <li class="nav-item">
+               
+    
+                @if (!empty($profileId))
+                <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
+                    Specialization
+                </a>
+            @else
+                <span class="nav-link disabled">Specialization</span>
+            @endif
+    
+            </li>
+            <li class="nav-item">
+    
+                @if (!empty($profileId))
+                <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
+                    Academics
+                </a>
+            @else
+                <span class="nav-link disabled">Academics</span>
+            @endif
+    
+    
+               
+            </li>
+            <li class="nav-item">
+                @if (!empty($profileId))
+                <a class="nav-link " href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
+                    Work Experience
+                </a>
+            @else
+                <span class="nav-link disabled">Work Experience</span>
+            @endif
+               
+            </li>
+            <li class="nav-item">
+                @if (!empty($profileId))
+                <a class="nav-link active" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
+                    Training Programs
+                </a>
+            @else
+                <span class="nav-link disabled">Training Programs</span>
+            @endif
+               
+              
+            </li>
+        </ul>
+    </div>
 
-        <div class="form-group mb-2">
-            <label>Name of Training Program</label>
-            <input type="text" name="program_name" class="form-control" required>
-        </div>
+    <div class="section-title">
+        <h2>Training Programs</h2>
+    </div>
 
-        <div class="form-group mb-2">
-            <label>Start Date</label>
-            <input type="date" name="start_date" class="form-control" required>
-        </div>
+    <div class="form-container academics-form">
 
-        <div class="form-group mb-2">
-            <label>End Date</label>
-            <input type="date" name="end_date" class="form-control">
-        </div>
+        <form id="trainingProgramForm">
+            @csrf
+            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+            <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="single-field">
+                        <div class="form-group ">
+                            <label>Name of Training Program</label>
+                            <input type="text" name="program_name" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label">Start Date</label>
+                        <div class="input-group date-picker-group">
+                            <input type="date" name="start_date" class="form-control date-input">
+                            <button class="btn btn-outline-secondary calendar-button" type="button">
+                                <i class="fa fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label">End Date</label>
+                        <div class="input-group date-picker-group">
+                            <input type="date" name="end_date" class="form-control date-input">
+                            <button class="btn btn-outline-secondary calendar-button" type="button">
+                                <i class="fa fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label>Training Program Details</label>
+                        <textarea name="details" class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Save & Add More</button>
+        </form>
+    
+    
+        <h5>Added Training Programs</h5>
+        <ul id="trainingProgramsList" class="list-group mt-2">
+            <!-- Training programs will be dynamically inserted here -->
+        </ul>
 
-        <div class="form-group mb-2">
-            <label>Training Program Details</label>
-            <textarea name="details" class="form-control" rows="3"></textarea>
-        </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Save & Add More</button>
-    </form>
-
-    <hr>
-
-    <h5>Added Training Programs</h5>
-    <ul id="trainingProgramsList" class="list-group mt-2">
-        <!-- Training programs will be dynamically inserted here -->
-    </ul>
+    
 </div>
 
 <script>
