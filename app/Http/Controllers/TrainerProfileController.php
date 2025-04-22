@@ -35,7 +35,7 @@ class TrainerProfileController extends Controller
             $moodleUser = null;
             \Log::error('No Moodle user found or invalid response.');
         }
-    
+        
         return view('trainers.create', compact('moodleUser'));
     }    
 
