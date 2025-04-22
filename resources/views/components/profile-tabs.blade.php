@@ -16,47 +16,70 @@
 <div class="form-tabs">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-
-            <a class="nav-link {{ request()->routeIs('trainer.create') ? 'active' : '' }}" 
-                href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-                 Personal Information
-             </a>
-             
+            @if (!empty($userId))
+        <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
+            Personal Information
+        </a>
+        @else
+    <span class="nav-link disabled">Personal Information</span>
+    @endif
         </li>
-
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('trainers.documents.create') ? 'active' : '' }}" 
-               href="{{ route('trainers.documents.create', $profileId) }}">
-                Documents
-            </a>
+
+            @if (!empty($profileId))
+    <a class="nav-link active" href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
+        Documents
+    </a>
+    @else
+    <span class="nav-link disabled">Documents</span>
+    @endif
+            
         </li>
-
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('trainers.specializations.create') ? 'active' : '' }}" 
-               href="{{ route('trainers.specializations.create', [$profileId, $userId]) }}">
+           
+
+            @if (!empty($profileId))
+            <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
                 Specialization
             </a>
-        </li>
+        @else
+            <span class="nav-link disabled">Specialization</span>
+        @endif
 
+        </li>
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('trainers.academics.create') ? 'active' : '' }}" 
-               href="{{ route('trainers.academics.create', $profileId) }}">
+
+            @if (!empty($profileId))
+            <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
                 Academics
             </a>
-        </li>
+        @else
+            <span class="nav-link disabled">Academics</span>
+        @endif
 
+
+           
+        </li>
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('trainers.work_experience.create') ? 'active' : '' }}" 
-               href="{{ route('trainers.work_experience.create', $profileId) }}">
+            @if (!empty($profileId))
+            <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
                 Work Experience
             </a>
+        @else
+            <span class="nav-link disabled">Work Experience</span>
+        @endif
+           
         </li>
-
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('trainers.training_programs.create') ? 'active' : '' }}" 
-               href="{{ route('trainers.training_programs.create', $profileId) }}">
+            @if (!empty($profileId))
+            <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
                 Training Programs
             </a>
+        @else
+            <span class="nav-link disabled">Training Programs</span>
+        @endif
+           
+          
         </li>
     </ul>
 </div>
