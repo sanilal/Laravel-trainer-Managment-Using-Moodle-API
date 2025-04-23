@@ -30,10 +30,10 @@ class CertificationController extends Controller
             'profile_id' => $request->profile_id,
             'user_id' => $request->user_id,
             'certified_in' => $request->certified_in,
-            'cert_name_of_the_institution' => $request->cert_name_of_the_institution,
-            'cert_start_date' => $request->cert_start_date,
-            'cert_end_date' => $request->cert_end_date,
-            'cert_upload_certificate' => $filePath,
+            'name_of_the_institution' => $request->cert_name_of_the_institution,
+            'start_date' => $request->cert_start_date,
+            'end_date' => $request->cert_end_date,
+            'upload_certificate' => $filePath,
         ]);
 
         return response()->json([

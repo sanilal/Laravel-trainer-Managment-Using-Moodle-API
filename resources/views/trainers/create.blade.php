@@ -11,7 +11,25 @@
         return;
     @endphp
 @endif
+{{-- @if($moodleUser)
+    @php
+        $dobValue = null;
 
+        foreach ($moodleUser['customfields'] as $field) {
+            if (isset($field['shortname']) && $field['shortname'] === 'dob') {
+                $dobValue = $field['value'];
+                break;
+            }
+        }
+    @endphp
+
+    <p>Date of Birth: {{ $dobValue }}</p>
+@endif --}}
+
+{{-- {{dd($moodleUser['customfields'][1]['value'])}} --}}
+{{-- Check if $moodleUser exists --}}
+
+{{-- Display validation errors --}}
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -133,11 +151,13 @@
                     <label for="gender">Gender:</label>
                     
                     <div class="d-flex justify-content-start">
+                    <div class="gender-select">
                         <input type="radio" id="male" name="gender" value="male">
-                    <label for="male">Male</label>
-                    
-                    <input type="radio" id="female" name="gender" value="female">
-                    <label for="female">Female</label>
+                        <label for="male">Male</label>
+                        
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                    </div>
                     </div>
                 </div>
                 
@@ -153,7 +173,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="middle_name">Middle Name:</label>
-                    <input type="text" name="middle_name" value="{{ old('middle_name', $moodleUser['middlename'] ?? '') }}" required>
+                    <input type="text" name="middle_name" value="{{ old('middle_name', $moodleUser['middlename'] ?? '') }}" >
                 </div>
             </div>
       </div>
@@ -251,14 +271,44 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
+                    @php
+                    $linkedin = null;
+                    $instagram = null;
+                    $facebook = null;
+                    $twitter = null;
+                    $youtube = null;
+                
+                    if (!empty($moodleUser['customfields'] ?? [])) {
+                        foreach ($moodleUser['customfields'] as $field) {
+                            switch ($field['shortname']) {
+                                case 'linkedin':
+                                    $linkedin = $field['value'];
+                                    break;
+                                case 'instagram':
+                                    $instagram = $field['value'];
+                                    break;
+                                case 'facebook':
+                                    $facebook = $field['value'];
+                                    break;
+                                case 'twitter':
+                                    $twitter = $field['value'];
+                                    break;
+                                case 'youtube':
+                                    $youtube = $field['value'];
+                                    break;
+                            }
+                        }
+                    }
+                @endphp
+                
                     <label for="linkedin">LinkedIn: </label>
-                    <input type="text" name="linkedin" value="{{ old('linkedin', $moodleUser['linkedin'] ?? '') }}">
+                    <input type="text" name="linkedin" value="{{ old('linkedin', $linkedin ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="facebook">Facebook: </label>
-                    <input type="text" name="facebook" value="{{ old('facebook', $moodleUser['facebook'] ?? '') }}">
+                    <input type="text" name="facebook" value="{{ old('facebook', $facebook ?? '') }}">
                 </div>
             </div>
         </div>
@@ -266,13 +316,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="instagram">Insagram: </label>
-                    <input type="text" name="instagram" value="{{ old('instagram', $moodleUser['instagram'] ?? '') }}">
+                    <input type="text" name="instagram" value="{{ old('instagram', $instagram ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="youtube">Youtube: </label>
-                    <input type="text" name="youtube" value="{{ old('youtube', $moodleUser['youtube'] ?? '') }}">
+                    <input type="text" name="youtube" value="{{ old('youtube', $youtube ?? '') }}">
                 </div>
             </div>
         </div>
@@ -280,7 +330,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="twitter">X: </label>
-                    <input type="text" name="twitter" value="{{ old('twitter', $moodleUser['twitter'] ?? '') }}">
+                    <input type="text" name="twitter" value="{{ old('twitter', $twitter ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">

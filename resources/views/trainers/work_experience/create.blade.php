@@ -153,10 +153,13 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                            <label for="job_description">Job Description</label>
+                    <div class="single-field">
+                        <div class="form-group flex-column">
+                            <label for="job_description">Describe About the Work </label>
                             <textarea name="job_description" class="form-control" rows="5" required></textarea>
                     </div>
+                    </div>
+                    
                 </div>
             </div>
     <div class="row">
@@ -168,16 +171,13 @@
             </div>
         </div>
         <div class="col-md-3">
+            
             <button type="submit" class="btn btn-primary">Save & Add More</button>
         </div>
         <div class="col-md-3"></div>
       
     </div>
-           <div class="row">
-            <div class="col-md-12">
-                <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
-            </div>
-           </div>
+           
     
            
     
@@ -199,7 +199,12 @@
             @endforeach
         </ul>
 </div>
-    
+<div class="row mt-5">
+    <div class="col-md-12"><div class="single-field text-center">
+        <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
+    </div>
+    </div>
+   </div>
 </div>
 
 <script>

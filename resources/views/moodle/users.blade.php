@@ -2,8 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h2>Moodle Users</h2>
-    <p>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</p>
+    <div class="page-title">
+     
+        <h2>Arkan LMS Users</h2>
+    </div>
+   
+    {{-- <p>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</p> --}}
     <div class="d-flex flex-wrap align-items-center mb-3">
         <strong class="me-2">Filter by email:</strong>
         @foreach(range('A', 'Z') as $letter)

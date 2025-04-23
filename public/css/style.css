@@ -361,3 +361,17 @@ a.logo img {
 .input-group .form-control:focus {
     z-index: 3;
 }
+.gender-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 253px;
+}
+.gender-select label {
+    width: 75px;
+}
+.specialization-complete-form {
+    width: 200px;
+    margin: 1rem auto;
+    text-align: center;
+}

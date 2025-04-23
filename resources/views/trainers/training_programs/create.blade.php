@@ -86,8 +86,9 @@
 
         <form id="trainingProgramForm">
             @csrf
-            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-            <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
+            
+            <input type="hidden" name="profile_id" value="{{ $profileId }}">
+            <input type="hidden" name="user_id" value="{{ $userId }}">
     
             <div class="row">
                 <div class="col-md-12">
@@ -141,7 +142,7 @@
         </form>
     
     
-        <h5>Added Training Programs</h5>
+        {{-- <h5>Added Training Programs</h5> --}}
         <ul id="trainingProgramsList" class="list-group mt-2">
             <!-- Training programs will be dynamically inserted here -->
         </ul>

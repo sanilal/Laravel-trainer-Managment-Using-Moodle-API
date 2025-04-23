@@ -94,4 +94,6 @@ class TrainerProfileController extends Controller
 
         return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id]);
     }
+
+    
 }

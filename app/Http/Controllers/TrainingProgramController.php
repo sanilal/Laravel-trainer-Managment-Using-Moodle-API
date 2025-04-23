@@ -12,8 +12,14 @@ class TrainingProgramController extends Controller
 {
     public function create($profileId)
     {
-        $profile = TrainerProfile::where('id', $profileId)->firstOrFail();
-        return view('trainers.training_programs.create', compact('profile'));
+      //  $profile = TrainerProfile::where('id', $profileId)->firstOrFail();
+      $trainerProfile = TrainerProfile::findOrFail($profileId);
+      $trainingProgrammes = TrainingProgram::where('profile_id', $trainerProfile->id)->get();
+        return view('trainers.training_programs.create', [
+            'profileId' => $trainerProfile->id,
+            'userId' => $trainerProfile->user_id,
+            'trainingProgrammes' => $trainingProgrammes
+        ]);
     }
 
     public function store(Request $request)
