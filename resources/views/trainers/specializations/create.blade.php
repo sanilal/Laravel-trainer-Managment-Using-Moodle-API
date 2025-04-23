@@ -138,7 +138,7 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3"> <div class="mb-3 documents-row">
-                    <label for="your_passport" class="custom-file-upload">
+                    <label for="upload_certificate" class="custom-file-upload">
                         Upload Certificate
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
@@ -247,39 +247,39 @@
     </div>
     <div class="col-md-3">
         <button type="button" class="btn btn-primary" id="add-certification">Save & Add More</button>
-    </form>
     </div>
     <div class="col-md-3"></div>    
+    </div>    
+    </form>
+
+         
+  <!-- Added Certifications -->
+  <ul id="certification-list">
+    @foreach ($certifications as $certification)
+        <li id="certification-{{ $certification->id }}">
+            {{ $certification->certified_in }} - {{ $certification->cert_name_of_the_institution }}
+            <button class="btn btn-danger btn-sm remove-certification" data-id="{{ $certification->id }}">X</button>
+        </li>
+    @endforeach
+</ul>
+    </div>
+ 
     </div>    
 
  
 
         
 
-       
-  <!-- Added Certifications -->
-    <div class="mt-4">
-        <h5>Added Certifications</h5>
-        <ul id="certification-list">
-            @foreach ($certifications as $certification)
-                <li id="certification-{{ $certification->id }}">
-                    {{ $certification->certified_in }} - {{ $certification->cert_name_of_the_institution }}
-                    <button class="btn btn-danger btn-sm remove-certification" data-id="{{ $certification->id }}">X</button>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+  
 </div>
 
-  
 
-    <hr>
 
-    <form action="{{ route('trainers.specializations.complete') }}" method="POST">
+    <form action="{{ route('trainers.specializations.complete') }}" method="POST" class="specialization-complete-form">
         @csrf
         <input type="hidden" name="profile_id" value="{{ $profileId }}">
         <input type="hidden" name="user_id" value="{{ $userId }}">
-        <button type="submit" class="btn btn-success">Save and Proceed</button>
+        <button type="submit" class="btn btn-primary">Save and Proceed</button>
     </form>
 </div>
 
