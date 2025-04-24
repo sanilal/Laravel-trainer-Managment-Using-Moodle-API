@@ -19,13 +19,19 @@ class Specialization extends Model
         'upload_certificate',
     ];
 
+    /**
+     * Belongs to a trainer profile via profile_id.
+     */
     public function trainerProfile()
     {
         return $this->belongsTo(TrainerProfile::class, 'profile_id');
     }
 
+    /**
+     * Optional: Belongs to a trainer using user_id (alternate relation).
+     */
     public function user()
     {
-        return $this->belongsTo(TrainerProfile::class, 'user_id', 'user_id'); 
+        return $this->belongsTo(TrainerProfile::class, 'user_id', 'user_id');
     }
 }
