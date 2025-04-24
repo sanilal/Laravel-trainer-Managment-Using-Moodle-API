@@ -95,5 +95,36 @@ class TrainerProfileController extends Controller
         return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id]);
     }
 
-    
+    public function registeredTrainers(Request $request)
+{
+    $query = TrainerProfile::query()->with('specializations');
+
+    if ($request->filled('name')) {
+        $query->where(function($q) use ($request) {
+            $q->where('first_name', 'like', '%' . $request->name . '%')
+              ->orWhere('middle_name', 'like', '%' . $request->name . '%')
+              ->orWhere('family_name', 'like', '%' . $request->name . '%');
+        });
+    }
+
+    if ($request->filled('email')) {
+        $query->where('email', 'like', '%' . $request->email . '%');
+    }
+
+    if ($request->filled('gender')) {
+        $query->where('gender', $request->gender);
+    }
+
+    if ($request->filled('country')) {
+        $query->where('country', 'like', '%' . $request->country . '%');
+    }
+
+    if ($request->filled('city')) {
+        $query->where('residing_city', 'like', '%' . $request->city . '%');
+    }
+
+    $trainers = $query->paginate(12);
+
+    return view('trainers.registered', compact('trainers'));
+}
 }
