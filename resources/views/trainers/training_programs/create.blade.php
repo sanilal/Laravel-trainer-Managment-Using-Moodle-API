@@ -142,6 +142,8 @@
         </form>
     
     
+        <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-outline-primary mt-2">Save & View</a>
+
         {{-- <h5>Added Training Programs</h5> --}}
         <ul id="trainingProgramsList" class="list-group mt-2">
             <!-- Training programs will be dynamically inserted here -->

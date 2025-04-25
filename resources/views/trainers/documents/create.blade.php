@@ -3,6 +3,31 @@
 
 @section('content')
 
+@if(!$moodleUser)
+
+    <div class="alert alert-danger">Something went wrong. Moodle user not found.</div>
+    @php
+        return;
+    @endphp
+@endif
+{{-- 
+@php
+    if (!empty($moodleUser['customfields'] ?? [])) {
+        foreach ($moodleUser['customfields'] as $field) {
+            $shortname = $field['shortname'] ?? '';
+            $value = $field['value'] ?? null;
+
+            switch ($shortname) {
+                case 'idcard':
+                        $idcard = $value;
+                    break;
+                case 'passport':
+                    $passport = $value;
+                    break;
+            }
+        }
+    }
+@endphp --}}
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -114,6 +139,7 @@
                 </label>
                 <input type="file" name="your_id" id="your_id" class="form-control" required>
             </div>
+            
     
             <div class="mb-3 documents-row">
                 <span>Your Passport:</span>
@@ -124,6 +150,7 @@
                     </svg>
                 </label>
                 <input type="file" name="your_passport" id="your_passport" class="form-control">
+                
             </div>
     
             <div class="mb-3 documents-row">
@@ -135,6 +162,7 @@
                     </svg>
                 </label>
                 <input type="file" name="other_document" id="other_document" class="form-control">
+               
             </div>
     
             <div class="mb-3 documents-row">
@@ -146,11 +174,36 @@
                     </svg>
                 </label>
                 <input type="file" name="other_document2" id="other_document2" class="form-control">
+                
             </div>
             <button type="submit" class="btn btn-primary">SAVE AND PROCEED</button>
         </div>
 
     </form>
+    <ul id="selected-file-list">
+        <li id="your_id_filename" class="file-name mt-1 text-sm text-muted"></li>
+        <li id="your_passport_filename" class="file-name mt-1 text-sm text-muted"></li>
+        <li id="other_document_filename" class="file-name mt-1 text-sm text-muted"></li>
+        <li id="other_document2_filename" class="file-name mt-1 text-sm text-muted"></li>
+    </ul>
 </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+
+        fileInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                const fileNameContainer = document.getElementById(`${this.id}_filename`);
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    fileNameContainer.innerHTML = `<a href="#" onclick="return false;">${file.name}</a>`;
+                } else {
+                    fileNameContainer.innerHTML = "";
+                }
+            });
+        });
+    });
+</script>

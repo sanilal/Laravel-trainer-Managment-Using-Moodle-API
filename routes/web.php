@@ -80,10 +80,7 @@ Route::post('/trainers/training_programs/store', [TrainingProgramController::cla
 Route::delete('/trainers/training_programs/delete/{id}', [TrainingProgramController::class, 'destroy'])->name('trainers.training_programs.delete');
 
 Route::get('trainers/registered-trainers', [TrainerProfileController::class, 'registeredTrainers'])->name('trainers.registered.trainers');
-
-
-
-
+Route::get('/trainers/{profile}/show', [TrainerProfileController::class, 'show'])->name('trainer.show');
 
 
 

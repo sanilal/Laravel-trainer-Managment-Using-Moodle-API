@@ -124,40 +124,169 @@
         <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
-        <input type="hidden" name="user_id" value="{{ $moodleUser['id'] ?? '' }}">
+       
+        @php
+        
+       if (is_array($moodleUser)) {
+    $prefix = null;
+    $prefix2 = null;
+    $gender = null;
+    $firstName = null;
+    $middleName = null;
+    $familyName = null;
+    $country = null;
+    $residencyStatus = null;
+    $residingCity = null;
+    $email = null;
+    $phone = null;
+    $profileImage = null;
+    $website = null;
+    $dob = null;
+    $linkedin = null;
+    $instagram = null;
+    $facebook = null;
+    $twitter = null;
+    $youtube = null;
+    $otherSocialMedia = null;
+    $languagesKnown = null;
+    $aboutYou = null;  
+
+    if (!empty($moodleUser['customfields'] ?? [])) {
+        foreach ($moodleUser['customfields'] as $field) {
+            $shortname = $field['shortname'] ?? '';
+            $value = $field['value'] ?? null;
+
+            switch ($shortname) {
+                case 'dob':
+                    if (is_numeric($value)) {
+                        $dob = date('Y-m-d', $value);
+                    } else {
+                        $dob = $value;
+                    }
+                    break;
+                case 'linkedin':
+                    $linkedin = $value;
+                    break;
+                case 'instagram':
+                    $instagram = $value;
+                    break;
+                case 'facebook':
+                    $facebook = $value;
+                    break;
+                case 'twitter':
+                    $twitter = $value;
+                    break;
+                case 'youtube':
+                    $youtube = $value;
+                    break;
+                case 'languagesKnown':
+                    $languagesKnown = $value;
+                    break;
+                case 'military_rank':
+                    $militaryRank = $value;
+                    break;
+            }
+        }
+    }
 
 
-        <input type="hidden" name="user_name" value="{{ $moodleUser['username'] ?? ''}}">
+
+
+        
+   
+    
+} elseif (is_object($moodleUser)) {
+    $firstName = !empty($moodleUser->first_name) ? $moodleUser->first_name : ($moodleUser->firstname ?? '');
+}
+
+$prefix = $moodleUser['prefix'] ?? '';
+        $userName= !empty($moodleUser['user_name']) ? $moodleUser['user_name'] : ($moodleUser['username'] ?? '');
+        $prefix2 = !empty($moodleUser['prefix2']) ? $moodleUser['prefix2'] : ($moodleUser['military_rank'] ?? '');
+        $gender = !empty($moodleUser['gender']) ? $moodleUser['gender'] : ($moodleUser['gender'] ?? '');
+        $firstName = !empty($moodleUser['first_name']) ? $moodleUser['first_name'] : ($moodleUser['firstname'] ?? '');
+        $middleName = !empty($moodleUser['middle_name']) ? $moodleUser['middle_name'] : ($moodleUser['middlename'] ?? '');
+        $familyName = !empty($moodleUser['family_name']) ? $moodleUser['family_name'] : ($moodleUser['lastname'] ?? '');
+        $dob = !empty($moodleUser['date_of_birth']) ? $moodleUser['date_of_birth'] : ($dob ?? '');
+        $country = !empty($moodleUser['country']) ? $moodleUser['country'] : ($moodleUser['country'] ?? '');
+        $residencyStatus = !empty($moodleUser['residency_status']) ? $moodleUser['residency_status'] : ($moodleUser['residency_status'] ?? '');
+        $residingCity = !empty($moodleUser['residing_city']) ? $moodleUser['residing_city'] : ($moodleUser['residing_city'] ?? '');
+        $email = !empty($moodleUser['email']) ? $moodleUser['email'] : ($moodleUser['email'] ?? '');
+        $phone = !empty($moodleUser['mobile_number']) ? $moodleUser['mobile_number'] : ($moodleUser['phone1'] ?? '');
+        $profileImage = !empty($moodleUser['profile_image']) ? $moodleUser['profile_image'] : ($moodleUser['profileimageurl'] ?? '');
+        $website = !empty($moodleUser['website']) ? $moodleUser['website'] : ($moodleUser['website'] ?? '');
+        $twitter = !empty($moodleUser['twitter']) ? $moodleUser['twitter'] : ($twitter ?? '');
+        $youtube = !empty($moodleUser['youtube']) ? $moodleUser['youtube'] : ($youtube ?? '');
+        $instagram = !empty($moodleUser['instagram']) ? $moodleUser['instagram'] : ($instagram ?? '');
+        $facebook = !empty($moodleUser['facebook']) ? $moodleUser['facebook'] : ($facebook ?? '');
+        $linkedin = !empty($moodleUser['linkedin']) ? $moodleUser['linkedin'] : ($linkedin ?? '');
+        $otherSocialMedia = !empty($moodleUser['other_socialmedia']) ? $moodleUser['other_socialmedia'] : ($moodleUser['other_socialmedia'] ?? '');
+        $languagesKnown = !empty($moodleUser['languages']) ? $moodleUser['languages'] : ($moodleUser['languages'] ?? '');
+        $aboutYou = !empty($moodleUser['about_you']) ? $moodleUser['about_you'] : ($moodleUser['description'] ?? '');
+
+        @endphp
+
+<input type="hidden" name="user_id" value="{{ $moodleUser['id'] ?? '' }}">
+
+
+<input type="hidden" name="user_name" value="{{ $userName ?? ''}}">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="prefix">Prefix:</label>
-                    <x-select-field name="prefix" :options="['Mr', 'Mrs', 'Ms', 'Dr']" />
+                    {{-- <x-select-field name="prefix" :options="['','Mr', 'Mrs', 'Ms', 'Dr']" /> --}}
+              
+                    <x-select-field 
+    name="prefix" 
+    :options="['' => 'Select...', 'Mr' => 'Mr', 'Mrs' => 'Mrs', 'Ms' => 'Ms', 'Dr' => 'Dr']" 
+    :selected="$prefix ?? ''" 
+/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="prefix2">Prefix2:</label>
-                    <x-select-field name="prefix2" :options="[
-                        'Brigadier(Ret)', 'Colonel(Ret)', 'Lieutenant Colonel(Ret)', 
-                        'Major(Ret)', 'Captain(Ret)', 'Lieutenant(Ret)'
-                    ]" />
+                    <x-select-field 
+                    name="prefix2" 
+                    :options="['' => 'Select...',
+                        'Brigadier(Ret)' => 'Brigadier(Ret)',
+                        'Colonel(Ret)' => 'Colonel(Ret)',
+                        'Lieutenant Colonel(Ret)' => 'Lieutenant Colonel(Ret)',
+                        'Major(Ret)' => 'Major(Ret)',
+                        'Captain(Ret)' => 'Captain(Ret)', 
+                        'Lieutenant(Ret)' => 'Lieutenant(Ret)'
+                    ]"
+                    :selected="$prefix2 ?? ''" 
+                    />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="gender">Gender:</label>
-                    
-                    <div class="d-flex justify-content-start">
-                    <div class="gender-select">
-                        <input type="radio" id="male" name="gender" value="male">
-                        <label for="male">Male</label>
-                        
-                        <input type="radio" id="female" name="gender" value="female">
-                        <label for="female">Female</label>
-                    </div>
+                    <label>Gender:</label>
+                    <div class="d-flex justify-content-start gender-select">
+                        <div class="form-check gender-radio">
+                            <input 
+                                type="radio" 
+                                id="male" 
+                                name="gender" 
+                                value="male" 
+                                class="form-check-input" 
+                                {{ $gender === 'male' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check gender-radio">
+                            <input 
+                                type="radio" 
+                                id="female" 
+                                name="gender" 
+                                value="female" 
+                                class="form-check-input" 
+                                {{ $gender === 'female' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
                     </div>
                 </div>
                 
@@ -167,13 +296,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="first_name">First Name:</label>
-                    <input type="text" name="first_name" value="{{ old('first_name', $moodleUser['firstname'] ?? '') }}" required>
+                    <input type="text" name="first_name" value="{{ old('first_name', $firstName ?? '') }}" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="middle_name">Middle Name:</label>
-                    <input type="text" name="middle_name" value="{{ old('middle_name', $moodleUser['middlename'] ?? '') }}" >
+                    <input type="text" name="middle_name" value="{{ old('middle_name', $middleName ?? '') }}" >
                 </div>
             </div>
       </div>
@@ -181,35 +310,32 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="family_name">Family Name:</label>
-                    <input type="text" name="family_name" value="{{ old('family_name', $moodleUser['lastname'] ?? '') }}" required>
+                    <input type="text" name="family_name" value="{{ old('family_name', $familyName ?? '') }}" required>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    @php
-                    $dob = null;
-                    if (!empty($moodleUser['customfields'] ?? [])) {
-                        foreach ($moodleUser['customfields'] as $field) {
-                            if ($field['shortname'] === 'dob') {
-                                $dob = date('Y-m-d', $field['value']);
-                                break;
-                            }
-                        }
-                    }
-                @endphp
-
-       
-        <label for="dob">Date of Birth:</label>
-        <input type="date" name="dob" value="{{ old('dob', $dob ?? '') }}" required min="1900-01-01" max="2020-12-31">
+                <div class="form-group mt-3">
+                    <label for="date_of_birth">Date of Birth:</label>
+                 
+                    <input 
+                        type="date" 
+                        id="date_of_birth" 
+                        name="date_of_birth" 
+                        class="form-control"
+                        value="{{ old('date_of_birth', $dob ?? '') }}" 
+                        required 
+                        min="1900-01-01" 
+                        max="2020-12-31"
+                    >
                 </div>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="country">Country:</label>
-                   <x-select-field name="country" :options="config('countries.list')" :selected="$moodleUser['country'] ?? ''" />
+                   <x-select-field name="country" :options="config('countries.list')" :selected="$country ?? ''" />
                 </div>
             </div>
         </div>
@@ -217,13 +343,35 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="residency_status">Residency Status:</label>
-                    <x-select-field name="residency_status" :options="['UAE National', 'Golden Visa', 'Green Visa', 'Employment Visa', 'Family Visa', 'Student Visa', 'Visitor Visa']" />
+                    <x-select-field 
+                    name="residency_status" 
+                    :options="['' => 'Select...', 
+                    'UAE National' => 'UAE National', 
+                    'Golden Visa' => 'Golden Visa', 
+                    'Green Visa' => 'Green Visa', 
+                    'Employment Visa' => 'Employment Visa', 
+                    'Family Visa' => 'Family Visa', 
+                    'Student Visa' => 'Student Visa', 
+                    'Visitor Visa' => 'Visitor Visa'
+                    ]"
+                    :selected="$residencyStatus ?? ''"  />
                 </div> 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="residing_city">Residing City:</label>
-                    <x-select-field name="residing_city" :options="['Abu Dhabi', 'Dubai', 'Sharjah', 'Fujairah', 'Umm Al Quwain', 'Ajman', 'Ras Al Khaima', 'Al Ain']" />
+                    <x-select-field 
+                    name="residing_city" 
+                    :options="[''=>'Select...', 
+                    'Abu Dhabi' => 'Abu Dhabi', 
+                    'Dubai' => 'Dubai', 
+                    'Sharjah' => 'Sharjah', 
+                    'Fujairah' => 'Fujairah', 
+                    'Umm Al Quwain' => 'Umm Al Quwain', 
+                    'Ajman' => 'Ajman', 
+                    'Ras Al Khaima' => 'Ras Al Khaima', 
+                    'Al Ain' => 'Al Ain']"
+                    :selected="$residingCity ?? ''" />
                 </div> 
             </div>
         </div>
@@ -231,7 +379,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" value="{{ old('email', $moodleUser['email'] ?? '') }}" required>
+                    <input type="email" name="email" value="{{ old('email', $email ?? '') }}" required>
                 </div>
             </div>
         </div>
@@ -239,7 +387,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="phone">Mobile Number: </label>
-                    <input type="text" name="phone" value="{{ old('phone', $moodleUser['phone2'] ?? '') }}" required>
+                   
+                    <input type="text" name="mobile_number" value="{{ old('mobile_number', $phone ?? '') }}" required>
                 </div>
             </div>
             <div class="col-md-6">
@@ -253,7 +402,7 @@
                         </div>
                     @endif
                     
-                    <input type="file" name="profileimage" accept="image/*">
+                    <input type="file" name="profile_image" accept="image/*">
                     </div>
                     <span>.jpeg / png </span>
                 </div>
@@ -264,42 +413,14 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="website">Website URL: </label>
-                    <input type="text" name="website" value="{{ old('website', $moodleUser['website'] ?? '') }}">
+                    <input type="text" name="website" value="{{ old('website', $website ?? '') }}">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    @php
-                    $linkedin = null;
-                    $instagram = null;
-                    $facebook = null;
-                    $twitter = null;
-                    $youtube = null;
                 
-                    if (!empty($moodleUser['customfields'] ?? [])) {
-                        foreach ($moodleUser['customfields'] as $field) {
-                            switch ($field['shortname']) {
-                                case 'linkedin':
-                                    $linkedin = $field['value'];
-                                    break;
-                                case 'instagram':
-                                    $instagram = $field['value'];
-                                    break;
-                                case 'facebook':
-                                    $facebook = $field['value'];
-                                    break;
-                                case 'twitter':
-                                    $twitter = $field['value'];
-                                    break;
-                                case 'youtube':
-                                    $youtube = $field['value'];
-                                    break;
-                            }
-                        }
-                    }
-                @endphp
                 
                     <label for="linkedin">LinkedIn: </label>
                     <input type="text" name="linkedin" value="{{ old('linkedin', $linkedin ?? '') }}">
@@ -336,7 +457,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="other_socialmedia">Others: </label>
-                    <input type="text" name="other_socialmedia" value="{{ old('other_socialmedia' ?? '') }}">
+                    <input type="text" name="other_socialmedia" value="{{ old('other_socialmedia', $otherSocialMedia ?? '') }}">
                 </div>
             </div>
         </div>
@@ -344,7 +465,7 @@
             <div class="col-md-12">
                 <div class="form-group flex-column align-items-start">
                     <label class="w-100">Describe About You:</label>
-                    <textarea class="w-100" name="about_you" placeholder="Describe about you. Minimum 100 words maximum 300 words ">{{ old('about_you', str_replace('<br />', "\n", strip_tags($moodleUser['description'] ?? ''))) }}</textarea>
+                    <textarea class="w-100" name="about_you" placeholder="Describe about you. Minimum 100 words maximum 300 words ">{{ old('about_you', str_replace('<br />', "\n", strip_tags($aboutYou ?? ''))) }}</textarea>
 
                 </div>
                 <div class="form-btn">

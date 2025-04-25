@@ -370,8 +370,28 @@ a.logo img {
 .gender-select label {
     width: 75px;
 }
+.gender-select input[type="radio"] {
+    width: 20px !important;
+    height: 20px !important;
+}
+.gender-radio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
 .specialization-complete-form {
     width: 200px;
     margin: 1rem auto;
     text-align: center;
+}
+#selected-file-list {
+    list-style: none;
+    display: flex;
+    flex-flow: wrap;
+}
+#selected-file-list li {
+    background: var(--white);
+    width: max-content;
+    padding: 8px;
+    margin: 0 10px 10px 0;
 }

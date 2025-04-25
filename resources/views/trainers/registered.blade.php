@@ -55,6 +55,8 @@
                                         <strong>Specialization:</strong>
                                         {{ $trainer->specializations->pluck('title')->join(', ') ?? 'N/A' }}
                                     </p>
+                                    <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-outline-primary mt-2">View Profile</a>
+
                                 </div>
                             </div>
                         </div>
