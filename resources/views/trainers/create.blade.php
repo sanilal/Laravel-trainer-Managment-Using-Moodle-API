@@ -179,7 +179,7 @@
                 case 'youtube':
                     $youtube = $value;
                     break;
-                case 'languagesKnown':
+                case 'languages':
                     $languagesKnown = $value;
                     break;
                 case 'military_rank':
@@ -220,13 +220,12 @@ $prefix = $moodleUser['prefix'] ?? '';
         $facebook = !empty($moodleUser['facebook']) ? $moodleUser['facebook'] : ($facebook ?? '');
         $linkedin = !empty($moodleUser['linkedin']) ? $moodleUser['linkedin'] : ($linkedin ?? '');
         $otherSocialMedia = !empty($moodleUser['other_socialmedia']) ? $moodleUser['other_socialmedia'] : ($moodleUser['other_socialmedia'] ?? '');
-        $languagesKnown = !empty($moodleUser['languages']) ? $moodleUser['languages'] : ($moodleUser['languages'] ?? '');
+        $languagesKnown = !empty($moodleUser['languages']) ? $moodleUser['languages'] : ($languagesKnown ?? '');
         $aboutYou = !empty($moodleUser['about_you']) ? $moodleUser['about_you'] : ($moodleUser['description'] ?? '');
 
         @endphp
 
 <input type="hidden" name="user_id" value="{{ $moodleUser['id'] ?? '' }}">
-
 
 <input type="hidden" name="user_name" value="{{ $userName ?? ''}}">
         <div class="row">
@@ -244,6 +243,8 @@ $prefix = $moodleUser['prefix'] ?? '';
             </div>
             <div class="col-md-6">
                 <div class="form-group">
+                   
+                    {{-- <x-select-field name="prefix2" :options="['','Brigadier(Ret)', 'Colonel(Ret)', 'Lieutenant Colonel(Ret)', 'Major(Ret)', 'Captain(Ret)', 'Lieutenant(Ret)']" /> --}}
                     <label for="prefix2">Prefix2:</label>
                     <x-select-field 
                     name="prefix2" 
@@ -460,6 +461,15 @@ $prefix = $moodleUser['prefix'] ?? '';
                     <input type="text" name="other_socialmedia" value="{{ old('other_socialmedia', $otherSocialMedia ?? '') }}">
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="languages">Languages Known: </label>
+                    <input type="text" name="languages" value="{{ old('languages', $languagesKnown ?? '') }}">
+                </div>
+            </div>
+         
         </div>
         <div class="row">
             <div class="col-md-12">
