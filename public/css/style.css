@@ -185,7 +185,7 @@ a.logo img {
     background: var(--secondary);
 }
 .nav-top {
-    font-size: 14px;
+    font-size: .85rem;
 }
 .nav-main .nav-item {
     padding: 5px 15px;
@@ -211,7 +211,7 @@ a.logo img {
 }
 
 .section-title h2{
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--white);
     margin-bottom: 0;
@@ -224,7 +224,7 @@ a.logo img {
     border-bottom: 1px solid var(--black);
 }
 .page-title h2{
-    font-size: 24px;
+    font-size: 1.5;
     font-weight: bold;
     color: var(--brick-red);
     margin-bottom: 0;
@@ -323,7 +323,7 @@ a.logo img {
     background-color: white;
     cursor: pointer;
     font-family: Arial, sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
     color: #000;
     text-decoration: none;
@@ -428,10 +428,10 @@ a.logo img {
 }
 .profile-info p {
     margin-bottom: 0;
-    font-size: 17px;
+    font-size: 1rem;
 }
 .basic_personal p.name {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 .basic_personal p.designation {
@@ -456,16 +456,38 @@ ul.social-media li {
 }
 ul.social-media li a {
     color: var(--secondary);
-    font-size: 17px;
     padding: 5px;
     border-radius: 50%;
-    background: var(--white);
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+}
+ul.social-media li a:hover {
+    text-decoration: none;
 }
 .profile-info h3 {
     color: var(--secondary);
-    font-size: 25px;
+    font-size: 2rem;
     font-weight: bold;
+}
+.course-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+.course-group p {
+    font-size: 1.2rem;
+}
+.course-group-name {
+    color: var(--secondary);
+}
+.course-group-info {
+    width: max-content;
+    padding-right: 15px;
+}
+.course-group-dates {
+    display: flex;
+    justify-content: space-between;
 }

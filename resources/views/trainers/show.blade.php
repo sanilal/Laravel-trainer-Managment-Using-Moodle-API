@@ -162,7 +162,7 @@
         {{-- Specializations --}}
         <div class="profile-info" id="specializations">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-11">
                     <h3>Specializations : </h3>
                     <div class="course-group">
                         <div class="course-group-info">
@@ -174,7 +174,7 @@
                             </div>
                         </div>
                         <div class="course-group-image">
-                            <img src="" alt="">
+                            <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                         </div>
                        
                     </div>
