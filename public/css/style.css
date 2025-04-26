@@ -424,7 +424,7 @@ a.logo img {
     background: var(--light-creamy-beige);
     padding: 20px;
     border-radius: 5px;
-    margin-top: 15px;
+    margin: 20px 0;
 }
 .profile-info p {
     margin-bottom: 0;
@@ -463,4 +463,9 @@ ul.social-media li a {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.profile-info h3 {
+    color: var(--secondary);
+    font-size: 25px;
+    font-weight: bold;
 }
