@@ -13,7 +13,7 @@ class TrainerProfile extends Model
         'user_id', 'user_name', 'prefix', 'prefix2', 'gender', 'first_name',
         'middle_name', 'family_name', 'date_of_birth', 'country', 'residency_status',
         'residing_city', 'email', 'mobile_number', 'profile_image', 'website',
-        'facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'other_socialmedia', 'about_you'
+        'facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'other_socialmedia', 'languages', 'about_you'
     ];
 
     /**

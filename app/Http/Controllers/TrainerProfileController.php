@@ -77,6 +77,7 @@ public function store(Request $request)
         'twitter' => 'nullable|string',
         'linkedin' => 'nullable|string',
         'other_socialmedia' => 'nullable|string',
+        'languages' => 'nullable|string',
         'about_you' => 'nullable|string',
     ]);
 
@@ -109,6 +110,7 @@ public function store(Request $request)
     $trainerProfile->facebook = $request->input('facebook');
     $trainerProfile->linkedin = $request->input('linkedin');
     $trainerProfile->other_socialmedia = $request->input('other_socialmedia');
+    $trainerProfile->languages = $request->input('languages');
     $trainerProfile->about_you = $request->input('about_you');
     $trainerProfile->save();
 

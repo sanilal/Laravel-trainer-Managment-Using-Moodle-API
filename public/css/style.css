@@ -1,4 +1,5 @@
 
+
 :root{
     --primary:#C7B84A;
     --secondary: #655C26;
@@ -9,8 +10,17 @@
     --brick-red: #C23A2B;
     
 }
+
+.noto-sans {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Noto Sans", sans-serif;
 }
 
 .d-flex {
@@ -51,6 +61,15 @@ body {
 }
 .text-left {
     text-align: left;
+}
+.color-secondary {
+    color: var(--secondary);
+}
+.color-primary {
+    color: var(--primary);
+}
+.color-white {
+    color: var(--white);
 }
 .mt-5 {
     margin-top: 5px;
@@ -129,6 +148,12 @@ body {
 }
 .mb-150 {
     margin-bottom: 150px;
+}
+.separator {
+    width: 100%;
+    height: 1px;
+    margin: 1.5rem 0;
+    background: var(--secondary);
 }
 
 .rounded-full {
@@ -394,4 +419,48 @@ a.logo img {
     width: max-content;
     padding: 8px;
     margin: 0 10px 10px 0;
+}
+.profile-info {
+    background: var(--light-creamy-beige);
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+.profile-info p {
+    margin-bottom: 0;
+    font-size: 17px;
+}
+.basic_personal p.name {
+    font-size: 20px;
+    font-weight: bold;
+}
+.basic_personal p.designation {
+    color: var(--secondary);
+    margin-bottom: 1.3rem
+}
+.namedetails {
+    color: var(--secondary);
+}
+.sm-icon {
+    width: 28px;
+    max-width: 28px;
+    margin-right: 10px;
+}
+ul.social-media {
+    padding-left: 0;
+    list-style: none;
+}
+ul.social-media li {
+    display: flex;
+    margin-right: 10px;
+}
+ul.social-media li a {
+    color: var(--secondary);
+    font-size: 17px;
+    padding: 5px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
