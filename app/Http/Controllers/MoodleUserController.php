@@ -10,6 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class MoodleUserController extends Controller
 {
+ 
     protected $moodleApi;
 
     public function __construct(MoodleApiService $moodleApi)

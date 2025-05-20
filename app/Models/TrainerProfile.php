@@ -21,9 +21,29 @@ class TrainerProfile extends Model
      */
     public function specializations()
     {
-        return $this->hasMany(Specialization::class, 'profile_id');
+        return $this->hasMany(Specialization::class, 'profile_id', 'id');
     }
+    public function certifications()
+{
+    return $this->hasMany(Certification::class, 'profile_id', 'id');
+}
 
+    public function academics()
+{
+    return $this->hasMany(Academic::class, 'profile_id', 'id');
+}
+public function workExperiences()
+{
+    return $this->hasMany(WorkExperience::class, 'profile_id', 'id');
+}
+public function trainingPrograms()
+{
+    return $this->hasMany(TrainingProgram::class, 'profile_id', 'id');
+}
+public function personalDocuments()
+{
+    return $this->hasOne(PersonalDocument::class, 'profile_id', 'id');
+}
     /**
      * Optional: You can define this if you want to fetch only the first specialization
      */

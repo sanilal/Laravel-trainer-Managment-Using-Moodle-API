@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class TrainerProfileController extends Controller
 {
+  
     protected $moodleApi;
 
     // Inject MoodleApiService
@@ -154,7 +155,7 @@ public function store(Request $request)
 public function show($profileId)
 {
     $trainer = TrainerProfile::with([
-        'specializations', 
+        'specializations', 'certifications', 'academics', 'workExperiences', 'trainingPrograms', 'personalDocuments'
     ])->findOrFail($profileId);
 
     return view('trainers.show', compact('trainer'));

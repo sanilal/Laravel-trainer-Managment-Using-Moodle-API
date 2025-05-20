@@ -6,6 +6,7 @@ use App\Services\MoodleApiService;
 
 class MoodleController extends Controller
 {
+
     public function test(MoodleApiService $moodleApi)
     {
         $email = 'design@iconceptme.com';

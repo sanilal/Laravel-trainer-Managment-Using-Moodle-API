@@ -1,14 +1,11 @@
-
-
-:root{
-    --primary:#C7B84A;
-    --secondary: #655C26;
-    --light-creamy-beige: #F9F7EA;
-    --red:#FF0202;
-    --white:#ffffff;
+:root {
+    --primary: #c7b84a;
+    --secondary: #655c26;
+    --light-creamy-beige: #f9f7ea;
+    --red: #ff0202;
+    --white: #ffffff;
     --black: #000000;
-    --brick-red: #C23A2B;
-    
+    --brick-red: #c23a2b;
 }
 
 .noto-sans {
@@ -16,9 +13,8 @@
     font-optical-sizing: auto;
     font-weight: <weight>;
     font-style: normal;
-    font-variation-settings:
-      "wdth" 100;
-  }
+    font-variation-settings: "wdth" 100;
+}
 body {
     font-family: "Noto Sans", sans-serif;
 }
@@ -160,7 +156,7 @@ body {
     border-radius: 50%;
 }
 .header {
-    background: url('../images/inner-bg.jpg') no-repeat center center;
+    background: url("../images/inner-bg.jpg") no-repeat center center;
     background-size: cover;
     color: white;
     padding: 15px 0;
@@ -185,7 +181,7 @@ a.logo img {
     background: var(--secondary);
 }
 .nav-top {
-    font-size: .85rem;
+    font-size: 0.85rem;
 }
 .nav-main .nav-item {
     padding: 5px 15px;
@@ -199,18 +195,18 @@ a.logo img {
 }
 .small-thumb {
     width: 30px;
-    height:30px
+    height: 30px;
 }
 .section-title {
     text-align: center;
     margin-bottom: 15px;
     width: 100%;
     background: var(--brick-red);
-    padding: .35rem 0;
+    padding: 0.35rem 0;
     border-radius: 5px;
 }
 
-.section-title h2{
+.section-title h2 {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--white);
@@ -220,10 +216,10 @@ a.logo img {
     text-align: left;
     margin: 2.5rem 0;
     width: 100%;
-    padding: .35rem 0;
+    padding: 0.35rem 0;
     border-bottom: 1px solid var(--black);
 }
-.page-title h2{
+.page-title h2 {
     font-size: 1.5;
     font-weight: bold;
     color: var(--brick-red);
@@ -243,7 +239,7 @@ a.logo img {
     align-items: center;
 }
 .profile-form form {
-    width:800px;
+    width: 800px;
     max-width: 90%;
     margin: 0 auto;
 }
@@ -251,7 +247,8 @@ a.logo img {
     width: 210px;
     max-width: 100%;
 }
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 6px 10px;
     border-radius: 5px;
@@ -293,8 +290,8 @@ a.logo img {
 .form-tabs .nav-link {
     color: #000;
     padding: 5px 0;
-    
-}.form-tabs .nav-link.active {
+}
+.form-tabs .nav-link.active {
     border-bottom: 2px solid var(--brick-red);
 }
 .documents-collection {
@@ -365,7 +362,6 @@ a.logo img {
     width: 20px;
     height: 20px;
     font-size: 10px;
-
 }
 
 .form-control[type="date"]::-webkit-calendar-picker-indicator {
@@ -402,7 +398,7 @@ a.logo img {
 .gender-radio {
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
 }
 .specialization-complete-form {
     width: 200px;
@@ -436,7 +432,7 @@ a.logo img {
 }
 .basic_personal p.designation {
     color: var(--secondary);
-    margin-bottom: 1.3rem
+    margin-bottom: 1.3rem;
 }
 .namedetails {
     color: var(--secondary);
@@ -468,7 +464,7 @@ ul.social-media li a:hover {
 }
 .profile-info h3 {
     color: var(--secondary);
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 .course-group {
@@ -490,4 +486,51 @@ ul.social-media li a:hover {
 .course-group-dates {
     display: flex;
     justify-content: space-between;
+}
+.document-box {
+    padding: 10px;
+}
+/* \login form */
+
+.login-container {
+    width: 400px;
+    margin: 1rem auto 3.5rem auto;
+    border: 1px solid var(--secondary);
+    border-radius: 15px;
+    padding: 2rem 2.5rem;
+    background-color: var(--light-creamy-beige);
+}
+.login-container h3 {
+    margin-bottom: 2rem;
+}
+.loginform label,
+.loginform button,
+.loginform input {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.loginform input {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #000;
+}
+.dashboard-container {
+    background-color: var(--light-creamy-beige);
+    padding: 30px;
+    border-radius: 10px;
+}
+.card {
+    background: var(--white);
+    padding: 20px;
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.status-complete {
+    color: green;
+    font-weight: bold;
+}
+.status-incomplete {
+    color: var(--red);
+    font-weight: bold;
 }

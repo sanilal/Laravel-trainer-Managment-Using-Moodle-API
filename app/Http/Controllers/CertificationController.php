@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class CertificationController extends Controller
 {
+
     // Store Certification via AJAX
     public function store(Request $request)
     {

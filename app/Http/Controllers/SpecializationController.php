@@ -10,6 +10,7 @@ use App\Models\Certification;
 
 class SpecializationController extends Controller
 {
+ 
     public function create($profile)
     {
         $trainerProfile = TrainerProfile::findOrFail($profile);

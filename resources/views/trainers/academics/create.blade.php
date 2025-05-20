@@ -108,14 +108,22 @@
                         <select name="academics" class="form-control" required>
                             <option value="">Select</option>
                             <option value="diploma">Diploma</option>
-                            <option value="bachelor degree">Bachelor Degree</option>
-                            <option value="masters degree">Master's Degree</option>
-                            <option value="doctoral degree">Doctoral Degree</option>
+                            <option value="bachelor">Bachelor Degree</option>
+                            <option value="masters">Master's Degree</option>
+                            <option value="doctoral">Doctoral Degree</option>
             
                         </select>
                     </div>
                 </div>
              </div>
+             <div class="col-md-12">
+                <div class="single-field">
+                    <div class="form-group">
+                        <label for="stream">Stream</label>
+                        <input type="text" name="stream" class="form-control" placeholder="e.g. Computer Science, Mechanical, etc.">
+                    </div>
+                </div>
+            </div>
             </div>
     
             <div class="row">

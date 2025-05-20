@@ -30,7 +30,11 @@ class MoodleApiService
         // Measure start time before request
         $startTime = microtime(true);
 
-        $response = Http::get($this->apiUrl, $params);
+     //   $response = Http::get($this->apiUrl, $params);
+
+     $response = Http::withOptions([
+        'verify' => false, // <<< Add this line
+    ])->get($this->apiUrl, $params);
 
         // Measure end time after request
         $endTime = microtime(true);

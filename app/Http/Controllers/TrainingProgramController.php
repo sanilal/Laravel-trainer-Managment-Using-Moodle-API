@@ -10,6 +10,7 @@ use App\Models\TrainerProfile;
 
 class TrainingProgramController extends Controller
 {
+   
     public function create($profileId)
     {
       //  $profile = TrainerProfile::where('id', $profileId)->firstOrFail();

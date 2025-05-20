@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AcademicController extends Controller
 {
+
     public function create($profile)
     {
         $trainerProfile = TrainerProfile::findOrFail($profile);
@@ -36,6 +37,7 @@ class AcademicController extends Controller
             'profile_id' => 'required|exists:trainer_profiles,id',
             'user_id' => 'required|exists:trainer_profiles,user_id',
             'academics' => 'required|string|in:diploma,bachelor degree,masters degree,doctoral degree',
+            'stream' => 'nullable|string',
             'name_of_the_university' => 'required|string|min:3',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
@@ -61,6 +63,7 @@ class AcademicController extends Controller
             'profile_id' => $request->profile_id,
             'user_id' => $request->user_id,
             'academics' => strtolower($request->academics), // Ensure consistency
+            'stream' =>  $request->stream,
             'name_of_the_university' => $request->name_of_the_university,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,

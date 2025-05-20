@@ -13,6 +13,7 @@ class Academic extends Model
         'profile_id',
         'user_id',
         'academics',
+        'stream',
         'name_of_the_university',
         'start_date',
         'end_date',

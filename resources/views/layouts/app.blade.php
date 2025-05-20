@@ -30,7 +30,11 @@
                         <a href="{{ route('register') }}" class="text-light">Register</a> --}}
                     @else
                         <a href="{{ route('dashboard') }}" class="text-light me-3">Dashboard</a>
-                        <a href="{{ route('logout') }}" class="text-light">Logout</a>
+                        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                        </form>
+
                     @endguest
 
                     <!-- Language Switcher -->
