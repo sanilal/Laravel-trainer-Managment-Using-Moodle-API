@@ -534,3 +534,9 @@ ul.social-media li a:hover {
     color: var(--red);
     font-weight: bold;
 }
+.nationalid {
+    width: 70%;
+    max-width: 200px;
+    margin: 0;
+    display: block;
+}

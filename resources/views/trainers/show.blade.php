@@ -180,13 +180,18 @@
                                     <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($specialization->end_date)->format('d/m/Y') }}</p>
                                 </div>
                             </div>
+                            
+
                             <div class="course-group-image">
-                                @if ($specialization->upload_certificate)
-                                    <img src="{{ asset('storage/' . $specialization->upload_certificate) }}" alt="Certificate" class="img-fluid">
-                                @else
-                                    <img src="{{ asset('images/certificate.png') }}" alt="Default Certificate" class="img-fluid">
-                                @endif
-                            </div>
+    @if ($specialization->upload_certificate)
+        <a href="{{ asset('storage/' . $specialization->upload_certificate) }}" target="_blank">
+            <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+        </a>
+    @else
+        <p>No attachment</p>
+    @endif
+</div>
+
                         </div>
                     @empty
                         <p>No specializations added yet.</p>
@@ -211,8 +216,15 @@
                             <p class="course-group-end-date">End Date: {{ langContent($certification->end_date) }}</p>
                         </div>
                     </div>
+                  
                     <div class="course-group-image">
-                        <img src="" alt="">
+                        @if ($certification->upload_certificate)
+                            <a href="{{ asset('storage/' . $certification->upload_certificate) }}" target="_blank">
+                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                            </a>
+                        @else
+                            <p>No attachment</p>
+                        @endif
                     </div>
                    
                 </div>
@@ -262,11 +274,20 @@
                             <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($academic->end_date)->format('d/m/Y') }}</p>
                         </div>
                     </div>
+                
+
                     <div class="course-group-image">
                         @if ($academic->upload_certificate)
-                            <a href="{{ asset('storage/' . $academic->upload_certificate) }}" target="_blank">View Certificate</a>
+                            <a href="{{ asset('storage/' . $academic->upload_certificate) }}" target="_blank">
+                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                            </a>
+                        @else
+                            <p>No attachment</p>
                         @endif
                     </div>
+
+
+                    
                 </div>
             </div>
         </div>
@@ -298,13 +319,18 @@
                             <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
                         </div>
                     </div>
+                   
                     <div class="course-group-image">
-                        @if($work->upload_certificate)
+                        @if ($work->upload_certificate)
                             <a href="{{ asset('storage/' . $work->upload_certificate) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $work->upload_certificate) }}" alt="Certificate" style="max-height: 100px;">
+                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
+                        @else
+                            <p>No attachment</p>
                         @endif
                     </div>
+                    
+
                 </div>
             </div>
         </div>
@@ -335,9 +361,15 @@
                                 <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($program->end_date)->format('d/m/Y') }}</p>
                             </div>
                         </div>
-                        <div class="course-group-image">
-                            <img src="" alt="">
-                        </div>
+                         <div class="course-group-image">
+                        @if ($program->upload_certificate)
+                            <a href="{{ asset('storage/' . $program->upload_certificate) }}" target="_blank">
+                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                            </a>
+                        @else
+                            <p>No attachment</p>
+                        @endif
+                    </div>
                     </div>
                 </div>
             </div>
@@ -360,12 +392,15 @@
                 @if ($trainer->personalDocuments->your_id)
                     <div class="col-md-12 mb-3">
                         <div class="document-box">
-                            <p><strong>Your ID:</strong></p>
-                            <a href="{{ asset('uploads/documents/' . $trainer->personalDocuments->your_id) }}" target="_blank">View Document</a>
+                            <p><strong>national ID:</strong></p>
+                            <a href="{{ asset('uploads/documents/' . $trainer->personalDocuments->your_id) }}" target="_blank" class="nationalid"><img src="{{ asset('images/id-card.png') }}" alt="national Id" class="img-fluid"></a>
                         </div>
                     </div>
                 @endif
-
+            </div>
+        </div>
+        <div class="profile-info">
+            <div class="row">
                 {{-- Three-column layout for the rest --}}
                 @php
                     $documents = [
@@ -396,20 +431,7 @@
 
 
 
-    <div class="card shadow mb-4">
-        <div class="card-body d-flex align-items-center">
-            <img src="{{ $trainer->profile_image ?? asset('default-avatar.png') }}" class="rounded-circle me-4" width="100" height="100" alt="Profile Image">
-            <div>
-                <h3>{{ $trainer->salutation }} {{ $trainer->first_name }} {{ $trainer->lastname }}</h3>
-                <p><strong>Email:</strong> {{ $trainer->email }}</p>
-                <p><strong>Gender:</strong> {{ ucfirst($trainer->gender) }}</p>
-                <p><strong>Country:</strong> {{ $trainer->country }}</p>
-                <p><strong>City:</strong> {{ $trainer->residing_city }}</p>
-                <p><strong>Specializations:</strong> {{ $trainer->specializations->pluck('title')->join(', ') ?? 'N/A' }}</p>
-                <!-- Add more fields as needed -->
-            </div>
-        </div>
-    </div>
+
 
     {{-- Optional: Additional Sections --}}
     {{-- Include partials for documents, academics, etc. if available --}}
