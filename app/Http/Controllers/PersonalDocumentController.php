@@ -63,4 +63,43 @@ class PersonalDocumentController extends Controller
         ]);
 
     }
+
+    public function edit($profile)
+{
+    $trainerProfile = TrainerProfile::findOrFail($profile);
+    $document = PersonalDocument::where('profile_id', $trainerProfile->id)->firstOrFail();
+
+    return view('trainers.documents.edit', [
+        'profileId' => $trainerProfile->id,
+        'userId' => $trainerProfile->user_id,
+        'document' => $document,
+        'moodleUser' => $this->moodleApiService->getUserById($trainerProfile->user_id) ?? []
+    ]);
+}
+
+public function update(Request $request, $profile)
+{
+    $request->validate([
+        'your_id' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
+        'your_passport' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
+        'other_document' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
+        'other_document2' => 'nullable|file|mimes:pdf,jpg,png|max:16000',
+    ]);
+
+    $document = PersonalDocument::where('profile_id', $profile)->firstOrFail();
+
+    foreach (['your_id', 'your_passport', 'other_document', 'other_document2'] as $field) {
+        if ($request->hasFile($field)) {
+            $document->$field = $request->file($field)->store('documents', 'public');
+        }
+    }
+
+    $document->save();
+
+    return redirect()->route('trainers.specializations.create', [
+        'profile' => $profile,
+        'user' => $document->user_id
+    ])->with('success', 'Documents updated successfully.');
+}
+
 }

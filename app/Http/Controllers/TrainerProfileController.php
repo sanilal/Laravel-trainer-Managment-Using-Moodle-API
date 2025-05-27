@@ -8,6 +8,7 @@ use App\Services\MoodleApiService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\PersonalDocument; // Assuming you have a PersonalDocument model
 
 class TrainerProfileController extends Controller
 {
@@ -114,6 +115,9 @@ public function store(Request $request)
      $this->saveProfileData($trainerProfile, $request);
 
      // deleted lines
+
+     
+
    
 
     return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id]);
@@ -162,7 +166,15 @@ public function update(Request $request, $id)
 
         $this->saveProfileData($trainerProfile, $request);
 
-        return redirect()->route('trainers.show', $trainerProfile->id)->with('success', 'Trainer profile updated successfully.');
+        $documentExists = \App\Models\PersonalDocument::where('profile_id', $trainerProfile->id)->exists();
+
+       if ($documentExists) {
+    return redirect()->route('trainers.documents.edit', ['profile' => $trainerProfile->id])
+        ->with('success', 'Trainer profile updated. Proceed to update your documents.');
+} else {
+    return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id])
+        ->with('success', 'Trainer profile updated. Proceed to upload your documents.');
+}
     }
 
      // ✅ Shared method to reduce code duplication

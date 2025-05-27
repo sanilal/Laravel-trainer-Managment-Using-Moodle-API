@@ -59,6 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 'create'])->name('trainers.documents.create');
     Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
 
+    // Edit documents form
+    Route::get('/trainers/{profile}/documents/edit', [PersonalDocumentController::class, 'edit'])->name('trainers.documents.edit');
+    Route::put('/trainers/{profile}/documents', [PersonalDocumentController::class, 'update'])->name('trainers.documents.update');
+
     // Specializations
     Route::get('/trainers/specializations/create/{profile}/{user}', [SpecializationController::class, 'create'])->name('trainers.specializations.create');
     Route::post('/trainers/specializations', [SpecializationController::class, 'store'])->name('trainers.specializations.store');
