@@ -220,7 +220,7 @@ a.logo img {
     border-bottom: 1px solid var(--black);
 }
 .page-title h2 {
-    font-size: 1.5;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--brick-red);
     margin-bottom: 0;
@@ -466,6 +466,9 @@ ul.social-media li a:hover {
     color: var(--secondary);
     font-size: 1.5rem;
     font-weight: bold;
+}
+.profile-image {
+    width: 80px;
 }
 .course-group {
     display: flex;

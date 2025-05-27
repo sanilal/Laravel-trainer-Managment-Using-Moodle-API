@@ -50,6 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/trainers/{profile}/show', [TrainerProfileController::class, 'show'])->name('trainer.show');
     Route::get('trainers/registered-trainers', [TrainerProfileController::class, 'registeredTrainers'])->name('trainers.registered.trainers');
 
+   Route::get('/trainers/{id}/edit', [TrainerProfileController::class, 'edit'])->name('trainer.edit');
+
+   Route::put('/trainers/{id}', [TrainerProfileController::class, 'update'])->name('trainer.update');
+
+
     // Documents
     Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 'create'])->name('trainers.documents.create');
     Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');

@@ -121,8 +121,13 @@
     </div>
 
     <div class="form-container profile-form">
-        <form action="{{ route('trainer.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+        <form action="{{ isset($trainerProfile) ? route('trainer.update', $trainerProfile->id) : route('trainer.store') }}" 
+      method="POST" 
+      enctype="multipart/form-data">
+    @csrf
+    @if(isset($trainerProfile))
+        @method('PUT')
+    @endif
         
        
         @php
@@ -393,22 +398,32 @@ $prefix = $moodleUser['prefix'] ?? '';
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group w-full d-flex flex-column ">
-                    <div class="d-flex w-full justify-between align-items-center">
-                        <label for="profileimage">Upload Your Photo:</label>
-                
-                    @if(!empty($moodleUser['profileimageurl'])) 
-                        <div class="profile-image">
-                            <img src="{{ $moodleUser['profileimageurl'] }}" alt="Profile Image" class="rounded-full">
-                        </div>
-                    @endif
-                    
-                    <input type="file" name="profile_image" accept="image/*">
-                    </div>
-                    <span>.jpeg / png </span>
-                </div>
-                
-            </div>
+    <div class="form-group w-full d-flex flex-column">
+        <div class="d-flex w-full justify-between align-items-center">
+            <label for="profileimage">Upload Your Photo:</label>
+
+            <div class="profile-image">
+    @if (!empty($profileImage))
+        @if (Str::startsWith($profileImage, 'http'))
+            {{-- Use external URL directly (Moodle image) --}}
+            <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-full img-fluid">
+        @else
+            {{-- Use locally stored image --}}
+            <img src="{{ asset('storage/' . $profileImage) }}" alt="Profile Image" class="rounded-full img-fluid">
+        @endif
+    @else
+        {{-- Default placeholder --}}
+        <img src="{{ asset('images/placeholder-profile.png') }}" alt="Default Placeholder" class="rounded-full img-fluid">
+    @endif
+</div>
+
+
+            <input type="file" name="profile_image" accept="image/*">
+        </div>
+        <span>.jpeg / png</span>
+    </div>
+</div>
+
         </div>
         <div class="row">
             <div class="col-md-6">
