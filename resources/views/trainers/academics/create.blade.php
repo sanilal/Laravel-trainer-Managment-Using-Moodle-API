@@ -291,7 +291,35 @@ document.getElementById("saveProceedBtn").onclick = function() {
     .catch(error => console.error("Fetch Error:", error));
 };
 
+document.querySelectorAll('.remove-academic').forEach(button => {
+    button.addEventListener('click', function () {
+        if (!confirm('Are you sure you want to delete this academic record?')) {
+            return;
+        }
 
+        const academicId = this.getAttribute('data-id');
+
+        fetch(`/trainers/academics/${academicId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                this.parentElement.remove(); // Remove the <li> element from DOM
+            } else {
+                alert('Error deleting record.');
+            }
+        })
+        .catch(error => {
+            console.error('Delete error:', error);
+            alert('An error occurred while deleting the academic record.');
+        });
+    });
+});
 
 </script>
 @endsection

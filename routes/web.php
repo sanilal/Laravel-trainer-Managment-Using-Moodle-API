@@ -90,7 +90,8 @@ Route::middleware('auth')->group(function () {
     // -------------------------
     Route::get('/trainers/academics/create/{profile}', [AcademicController::class, 'create'])->name('trainers.academics.create');
     Route::post('/trainers/academics/store', [AcademicController::class, 'store'])->name('trainers.academics.store');
-    Route::delete('/trainers/academics/destroy/{id}', [AcademicController::class, 'destroy'])->name('trainers.academics.destroy');
+    Route::delete('/trainers/academics/{id}', [AcademicController::class, 'destroy'])->name('trainers.academics.destroy');
+
     Route::get('/trainers/academics/edit/{id}', [AcademicController::class, 'edit'])->name('trainers.academics.edit');
     Route::put('/trainers/academics/update/{id}', [AcademicController::class, 'update'])->name('trainers.academics.update');
     
