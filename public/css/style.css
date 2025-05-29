@@ -67,6 +67,9 @@ body {
 .color-white {
     color: var(--white);
 }
+.color-red {
+    color: var(--brick-red);
+}
 .mt-5 {
     margin-top: 5px;
 }
@@ -523,11 +526,13 @@ ul.social-media li a:hover {
     border-radius: 10px;
 }
 .card {
-    background: var(--white);
+    background: var(--light-creamy-beige);
     padding: 20px;
-    border: 1px solid var(--secondary);
+    border: none;
     border-radius: 8px;
     margin-bottom: 20px;
+    max-width: 380px;
+    margin: 0 auto;
 }
 .status-complete {
     color: green;

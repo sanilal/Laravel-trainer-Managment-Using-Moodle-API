@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\PersonalDocument; // Assuming you have a PersonalDocument model
+use App\Models\Specialization;
+use App\Models\Academic; // Assuming you have an Academic model
 
 class TrainerProfileController extends Controller
 {
@@ -228,37 +230,55 @@ public function update(Request $request, $id)
 
 
     public function registeredTrainers(Request $request)
-    {
-        $query = TrainerProfile::query()->with('specializations');
+{
+    $query = TrainerProfile::query()->with(['specializations', 'academics']);
 
-        if ($request->filled('name')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('first_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('middle_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('family_name', 'like', '%' . $request->name . '%');
-            });
-        }
-
-        if ($request->filled('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
-        }
-
-        if ($request->filled('gender')) {
-            $query->where('gender', $request->gender);
-        }
-
-        if ($request->filled('country')) {
-            $query->where('country', 'like', '%' . $request->country . '%');
-        }
-
-        if ($request->filled('city')) {
-            $query->where('residing_city', 'like', '%' . $request->city . '%');
-        }
-
-        $trainers = $query->paginate(12);
-
-        return view('trainers.registered', compact('trainers'));
+    if ($request->filled('name')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('first_name', 'like', '%' . $request->name . '%')
+                ->orWhere('middle_name', 'like', '%' . $request->name . '%')
+                ->orWhere('family_name', 'like', '%' . $request->name . '%');
+        });
     }
+
+    if ($request->filled('email')) {
+        $query->where('email', 'like', '%' . $request->email . '%');
+    }
+
+    if ($request->filled('gender')) {
+        $query->where('gender', $request->gender);
+    }
+
+    if ($request->filled('country')) {
+        $query->where('country', 'like', '%' . $request->country . '%');
+    }
+
+    if ($request->filled('city')) {
+        $query->where('residing_city', 'like', '%' . $request->city . '%');
+    }
+
+    // Filter by specialization title
+    if ($request->filled('specialization')) {
+        $query->whereHas('specializations', function ($q) use ($request) {
+            $q->where('specialization', $request->specialization);
+        });
+    }
+
+    // Filter by academic degree (or another valid column)
+    if ($request->filled('academic')) {
+        $query->whereHas('academics', function ($q) use ($request) {
+            $q->where('academics', $request->academic);
+        });
+    }
+
+    $trainers = $query->paginate(12);
+
+    // Get all distinct specialization titles and academic degrees for filter options
+    $specializations = Specialization::select('specialization')->distinct()->get();
+    $academics = Academic::select('academics')->distinct()->get();
+
+    return view('trainers.registered', compact('trainers', 'specializations', 'academics'));
+}
 
  public function show($profileId)
     {
