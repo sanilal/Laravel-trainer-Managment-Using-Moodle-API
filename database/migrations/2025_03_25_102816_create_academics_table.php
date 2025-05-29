@@ -18,7 +18,7 @@ return new class extends Migration {
                   ->on('trainer_profiles')
                   ->onDelete('cascade');
             
-            $table->enum('academics', ['diploma', 'bachelor degree', 'masters degree', 'doctoral degree']);
+            $table->enum('academics', ['diploma', 'bachelor', 'masters', 'doctoral']);
             $table->string('name_of_the_university');
             $table->date('start_date');
             $table->date('end_date');

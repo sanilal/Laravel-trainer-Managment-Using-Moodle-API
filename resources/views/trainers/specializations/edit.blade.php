@@ -95,7 +95,7 @@
                         <label for="specialization" class="form-label">Specialization</label>
                 <select name="specialization" class="form-control">
     <option value="">Select Specialization</option>
-    @include('components.specializations.admin_financial', ['selected' => old('specialization', $profile->specialization ?? null)])
+    @include('components.specialization-options', ['selected' => old('specialization', $profile->specialization ?? null)])
 </select>
                     </div>
                 </div>

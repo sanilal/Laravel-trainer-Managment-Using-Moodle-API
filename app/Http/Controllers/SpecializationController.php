@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\TrainerProfile;
 use App\Models\Certification;
+use App\Models\Academic; // Assuming you have an Academic model
 
 class SpecializationController extends Controller
 {
@@ -88,7 +89,19 @@ class SpecializationController extends Controller
 
     // Redirect to the next step (modify this URL as needed)
   
-    return redirect()->route('trainers.academics.create', ['profile' => $request->profile_id]);
+       // Check if an academic record already exists for this profile
+    $existingAcademic = Academic::where('profile_id', $request->profile_id)->first();
+
+    if ($existingAcademic) {
+        return redirect()
+            // ->route('trainers.academics.edit', ['id' => $existingAcademic->id])
+            ->route('trainers.academics.create', ['profile' => $request->profile_id])
+            ->with('success', 'Specializations saved. Please update your academic information.');
+    } else {
+        return redirect()
+            ->route('trainers.academics.create', ['profile' => $request->profile_id])
+            ->with('success', 'Specializations saved. Please provide your academic information.');
+    }
 }
 
 
@@ -109,11 +122,28 @@ class SpecializationController extends Controller
         return response()->json(['success' => true, 'message' => 'Specialization deleted successfully']);
     }
 
-    public function edit($id)
+  public function edit($id)
 {
     $specialization = Specialization::findOrFail($id);
-    return view('trainers.specializations.edit', compact('specialization'));
+
+    $profileId = $specialization->profile_id; // or however it's named in your model
+    $userId = $specialization->user_id;       // assuming this is stored in the specialization
+
+    // Fetch all specializations for this profile/user if needed
+    $specializations = Specialization::where('profile_id', $profileId)->get();
+
+    // If certifications are stored separately
+    $certifications = Certification::where('profile_id', $profileId)->get(); // Update model name if different
+
+    return view('trainers.specializations.edit', compact(
+        'specialization',
+        'profileId',
+        'userId',
+        'specializations',
+        'certifications'
+    ));
 }
+
 
 public function update(Request $request, $id)
 {

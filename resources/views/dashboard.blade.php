@@ -73,7 +73,7 @@
             <a href="{{ url('/trainers/' . $trainer->id . '/show') }}" class="btn btn-info btn-sm">View</a>
         </td>
         <td>
-            <a href="{{ url('/trainers/documents/' . $trainer->id) }}" class="btn btn-danger btn-sm">Edit</a>
+            <a href="{{ url('/trainers/' . $trainer->id . '/edit') }}" class="btn btn-danger btn-sm">Edit</a>
         </td>
     </tr>
 @endforeach

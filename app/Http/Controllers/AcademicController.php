@@ -25,6 +25,8 @@ class AcademicController extends Controller
 
     public function store(Request $request)
     {
+
+        \Log::info('Incoming request:', $request->all());
         $existingAcademics = Academic::where('user_id', $request->user_id)->exists();
     
         // If "Save & Proceed" was clicked and records already exist, allow proceeding without validation
@@ -36,7 +38,7 @@ class AcademicController extends Controller
         $validator = \Validator::make($request->all(), [
             'profile_id' => 'required|exists:trainer_profiles,id',
             'user_id' => 'required|exists:trainer_profiles,user_id',
-            'academics' => 'required|string|in:diploma,bachelor degree,masters degree,doctoral degree',
+            'academics' => 'required|in:diploma,bachelor,masters,doctoral',
             'stream' => 'nullable|string',
             'name_of_the_university' => 'required|string|min:3',
             'start_date' => 'required|date',
@@ -91,4 +93,40 @@ class AcademicController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Academic record deleted successfully']);
     }
+
+    public function edit($id)
+{
+    $academic = Academic::findOrFail($id);
+    $profileId = $academic->profile_id;
+    $userId = $academic->user_id;
+
+    return view('trainers.academics.edit', compact('academic', 'profileId', 'userId'));
+}
+
+public function update(Request $request, $id)
+{
+    $academic = Academic::findOrFail($id);
+
+    $validated = $request->validate([
+        'academics' => 'required|string',
+        'stream' => 'nullable|string',
+        'name_of_the_university' => 'required|string',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+        'upload_certificate' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:2048',
+    ]);
+
+    if ($request->hasFile('upload_certificate')) {
+        $filename = time().'_'.$request->file('upload_certificate')->getClientOriginalName();
+        $request->file('upload_certificate')->move(public_path('uploads/academics'), $filename);
+        $validated['upload_certificate'] = $filename;
+    }
+
+    $academic->update($validated);
+
+    return redirect()->route('trainers.academics.create', ['profile' => $academic->profile_id])
+        ->with('success', 'Academic details updated successfully.');
+}
+
+
 }

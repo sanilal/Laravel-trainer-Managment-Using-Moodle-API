@@ -43,7 +43,8 @@
      
         <h2>Trainer Profile</h2>
     </div>
-    {{-- <h2>Upload Your Documents</h2>
+    {{-- {{ dd($profileId) }}
+    <h2>Upload Your Documents</h2>
     <p>Profile ID: {{ $profileId }}</p>
 <p>User ID: {{ $userId }}</p> --}}
 <div class="form-tabs">

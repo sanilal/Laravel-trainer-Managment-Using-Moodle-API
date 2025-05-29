@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PersonalDocument;
 use App\Models\TrainerProfile;
 use App\Services\MoodleApiService;
+use App\Models\Specialization; // Assuming you have a Specialization model
 
 class PersonalDocumentController extends Controller
 {
@@ -95,11 +96,18 @@ public function update(Request $request, $profile)
     }
 
     $document->save();
-
+$specialization = Specialization::where('profile_id', $profile)
+                                ->where('user_id', $document->user_id)
+                                ->first();
+   if ($specialization) {
+    return redirect()->route('trainers.specializations.edit', $specialization->id)
+                     ->with('success', 'Documents updated successfully.');
+} else {
     return redirect()->route('trainers.specializations.create', [
         'profile' => $profile,
         'user' => $document->user_id
-    ])->with('success', 'Documents updated successfully.');
+    ])->with('info', 'Please complete your specialization information.');
+}
 }
 
 }

@@ -134,84 +134,97 @@ public function store(Request $request)
     }
 
 public function update(Request $request, $id)
-    {
-        $trainerProfile = TrainerProfile::findOrFail($id);
+{
+    $trainerProfile = TrainerProfile::findOrFail($id);
 
-        $request->validate([
-            'user_id' => 'required|numeric', 
-            'user_name' => 'required|string',
-            'prefix' => 'required|string',
-            'prefix2' => 'required|string',
-            'gender' => 'required|string',
-            'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'family_name' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'country' => 'required|string',
-            'residency_status' => 'nullable|string',
-            'residing_city' => 'nullable|string',
-            'email' => 'required|email|unique:trainer_profiles,email,' . $trainerProfile->id,
-            'mobile_number' => 'nullable|string',
-            'profile_image' => 'nullable|image|max:2048',
-            'website' => 'nullable|string',
-            'facebook' => 'nullable|string',
-            'instagram' => 'nullable|string',
-            'youtube' => 'nullable|string',
-            'twitter' => 'nullable|string',
-            'linkedin' => 'nullable|string',
-            'other_socialmedia' => 'nullable|string',
-            'languages' => 'nullable|string',
-            'about_you' => 'nullable|string',
-        ]);
+    // Validate input
+    $request->validate([
+        'user_id' => 'required|numeric', // Validate but don't update
+        'user_name' => 'required|string',
+        'prefix' => 'required|string',
+        'prefix2' => 'required|string',
+        'gender' => 'required|string',
+        'first_name' => 'required|string',
+        'middle_name' => 'nullable|string',
+        'family_name' => 'nullable|string',
+        'date_of_birth' => 'nullable|date',
+        'country' => 'required|string',
+        'residency_status' => 'nullable|string',
+        'residing_city' => 'nullable|string',
+        'email' => 'required|email|unique:trainer_profiles,email,' . $trainerProfile->id,
+        'mobile_number' => 'nullable|string',
+        'profile_image' => 'nullable|image|max:2048',
+        'website' => 'nullable|string',
+        'facebook' => 'nullable|string',
+        'instagram' => 'nullable|string',
+        'youtube' => 'nullable|string',
+        'twitter' => 'nullable|string',
+        'linkedin' => 'nullable|string',
+        'other_socialmedia' => 'nullable|string',
+        'languages' => 'nullable|string',
+        'about_you' => 'nullable|string',
+    ]);
 
-        $this->saveProfileData($trainerProfile, $request);
+    // Save profile data except user_id
+    // $this->saveProfileData($trainerProfile, $request->except('user_id'));
 
-        $documentExists = \App\Models\PersonalDocument::where('profile_id', $trainerProfile->id)->exists();
+    $this->saveProfileData($trainerProfile, $request);
 
-       if ($documentExists) {
-    return redirect()->route('trainers.documents.edit', ['profile' => $trainerProfile->id])
-        ->with('success', 'Trainer profile updated. Proceed to update your documents.');
-} else {
-    return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id])
-        ->with('success', 'Trainer profile updated. Proceed to upload your documents.');
+
+    // Check if personal documents already exist
+    $documentExists = \App\Models\PersonalDocument::where('profile_id', $trainerProfile->id)->exists();
+
+    // Redirect accordingly
+    if ($documentExists) {
+        return redirect()->route('trainers.documents.edit', ['profile' => $trainerProfile->id])
+            ->with('success', 'Trainer profile updated. Proceed to update your documents.');
+    } else {
+        return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id])
+            ->with('success', 'Trainer profile updated. Proceed to upload your documents.');
+    }
 }
-    }
 
-     // ✅ Shared method to reduce code duplication
-    protected function saveProfileData(TrainerProfile $profile, Request $request)
-    {
+
+     //  Shared method to reduce code duplication
+   protected function saveProfileData(TrainerProfile $profile, Request $request)
+{
+    // Only set user_id if creating a new profile (i.e., if it's not already set)
+    if (!$profile->exists || !$profile->user_id) {
         $profile->user_id = $request->input('user_id');
-        $profile->user_name = $request->input('user_name');
-        $profile->prefix = $request->input('prefix');
-        $profile->prefix2 = $request->input('prefix2');
-        $profile->gender = $request->input('gender');
-        $profile->first_name = $request->input('first_name');
-        $profile->middle_name = $request->input('middle_name');
-        $profile->family_name = $request->input('family_name');
-        $profile->date_of_birth = $request->input('date_of_birth');
-        $profile->country = $request->input('country');
-        $profile->residency_status = $request->input('residency_status');
-        $profile->residing_city = $request->input('residing_city');
-        $profile->email = $request->input('email');
-        $profile->mobile_number = $request->input('mobile_number');
-
-        if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('profile_images', 'public');
-            $profile->profile_image = $path;
-        }
-
-        $profile->website = $request->input('website');
-        $profile->facebook = $request->input('facebook');
-        $profile->instagram = $request->input('instagram');
-        $profile->youtube = $request->input('youtube');
-        $profile->twitter = $request->input('twitter');
-        $profile->linkedin = $request->input('linkedin');
-        $profile->other_socialmedia = $request->input('other_socialmedia');
-        $profile->languages = $request->input('languages');
-        $profile->about_you = $request->input('about_you');
-
-        $profile->save();
     }
+
+    $profile->user_name = $request->input('user_name');
+    $profile->prefix = $request->input('prefix');
+    $profile->prefix2 = $request->input('prefix2');
+    $profile->gender = $request->input('gender');
+    $profile->first_name = $request->input('first_name');
+    $profile->middle_name = $request->input('middle_name');
+    $profile->family_name = $request->input('family_name');
+    $profile->date_of_birth = $request->input('date_of_birth');
+    $profile->country = $request->input('country');
+    $profile->residency_status = $request->input('residency_status');
+    $profile->residing_city = $request->input('residing_city');
+    $profile->email = $request->input('email');
+    $profile->mobile_number = $request->input('mobile_number');
+
+    if ($request->hasFile('profile_image')) {
+        $path = $request->file('profile_image')->store('profile_images', 'public');
+        $profile->profile_image = $path;
+    }
+
+    $profile->website = $request->input('website');
+    $profile->facebook = $request->input('facebook');
+    $profile->instagram = $request->input('instagram');
+    $profile->youtube = $request->input('youtube');
+    $profile->twitter = $request->input('twitter');
+    $profile->linkedin = $request->input('linkedin');
+    $profile->other_socialmedia = $request->input('other_socialmedia');
+    $profile->languages = $request->input('languages');
+    $profile->about_you = $request->input('about_you');
+
+    $profile->save();
+}
+
 
 
     public function registeredTrainers(Request $request)
