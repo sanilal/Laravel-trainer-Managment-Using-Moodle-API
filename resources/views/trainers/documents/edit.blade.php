@@ -138,9 +138,17 @@
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
                 </label>
-                <input type="file" name="your_id" id="your_id" class="form-control" required>
+                    @if (!empty($document->your_id))
+    <div class="existing-document">
+        <a href="{{ asset('storage/' . $document->your_id) }}" target="_blank">
+                Current File
+            </a>
+       
+    </div>
+@endif
+<input type="file" name="your_id" id="your_id" class="form-control">
             </div>
-            
+        
     
             <div class="mb-3 documents-row">
                 <span>Your Passport:</span>
@@ -150,6 +158,14 @@
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
                 </label>
+
+                @if (!empty($document->your_passport))
+    <div class="existing-document">
+            <a href="{{ asset('storage/' . $document->your_passport) }}" target="_blank">
+                Current File
+            </a>
+    </div>
+@endif
                 <input type="file" name="your_passport" id="your_passport" class="form-control">
                 
             </div>
@@ -162,6 +178,11 @@
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
                 </label>
+                  @if (!empty($document->other_document))
+    <div class="existing-document">
+            <a href="{{ asset('storage/' . $document->other_document) }}" target="_blank">Current File</a>
+    </div>
+@endif
                 <input type="file" name="other_document" id="other_document" class="form-control">
                
             </div>
@@ -174,6 +195,14 @@
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
                 </label>
+                
+                 @if (!empty($document->other_document2))
+    <div class="existing-document">
+            <a href="{{ asset('storage/' . $document->other_document2) }}" target="_blank">
+                Current File
+            </a>
+    </div>
+@endif
                 <input type="file" name="other_document2" id="other_document2" class="form-control">
                 
             </div>

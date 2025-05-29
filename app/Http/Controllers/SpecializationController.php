@@ -36,7 +36,7 @@ class SpecializationController extends Controller
             'specialization' => 'required|string',
             'name_of_the_institution' => 'required|string',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
+           'end_date' => 'required|date|after_or_equal:start_date',
             'upload_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
@@ -108,4 +108,44 @@ class SpecializationController extends Controller
         // Return success response
         return response()->json(['success' => true, 'message' => 'Specialization deleted successfully']);
     }
+
+    public function edit($id)
+{
+    $specialization = Specialization::findOrFail($id);
+    return view('trainers.specializations.edit', compact('specialization'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'specialization' => 'required|string|max:255',
+        'name_of_the_institution' => 'nullable|string|max:255',
+        'name_of_the_institution' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        'upload_certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+    ]);
+
+    $specialization = Specialization::findOrFail($id);
+
+    $specialization->update($request->except('upload_certificate'));
+
+    if ($request->hasFile('upload_certificate')) {
+    // Delete old file
+    if ($specialization->upload_certificate && Storage::exists('public/' . $specialization->upload_certificate)) {
+        Storage::delete('public/' . $specialization->upload_certificate);
+    }
+
+    // Upload new file
+    $path = $request->file('upload_certificate')->store('certificates', 'public');
+    $specialization->upload_certificate = $path;
+    $specialization->save();
+}
+
+    return redirect()->route('trainers.academics.edit', ['profile' => $request->profile_id]);;
+
+}
+
+
+
 }

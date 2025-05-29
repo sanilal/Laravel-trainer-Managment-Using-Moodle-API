@@ -14,7 +14,9 @@ use App\Http\Controllers\TrainingProgramController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DashboardController;
 
-// Public Routes (no auth middleware)
+// -------------------------
+// Public Routes (No Auth)
+// -------------------------
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,62 +35,74 @@ Route::post('/login/attempt', [CustomAuthController::class, 'login'])->name('log
 Route::post('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout.get');
 
-// Protected Routes (only for logged-in users)
+// -------------------------
+// Protected Routes (Auth)
+// -------------------------
 Route::middleware('auth')->group(function () {
-    // Moodle API Test Route
-    Route::get('/moodle/test', [MoodleController::class, 'test']);
 
-    // Moodle Users (for registration)
+    // Moodle API
+    Route::get('/moodle/test', [MoodleController::class, 'test']);
     Route::get('/moodle/users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users');
     Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name('moodle.users.add');
     Route::get('/moodle-users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users.fetch');
 
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // -------------------------
     // Trainer Profile
+    // -------------------------
     Route::get('/trainers', [TrainerProfileController::class, 'index'])->name('trainers.index');
     Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 'create'])->name('trainer.create');
     Route::post('/trainer/store', [TrainerProfileController::class, 'store'])->name('trainer.store');
     Route::get('/trainers/{profile}/show', [TrainerProfileController::class, 'show'])->name('trainer.show');
     Route::get('trainers/registered-trainers', [TrainerProfileController::class, 'registeredTrainers'])->name('trainers.registered.trainers');
+    Route::get('/trainers/{id}/edit', [TrainerProfileController::class, 'edit'])->name('trainer.edit');
+    Route::put('/trainers/{id}', [TrainerProfileController::class, 'update'])->name('trainer.update');
 
-   Route::get('/trainers/{id}/edit', [TrainerProfileController::class, 'edit'])->name('trainer.edit');
-
-   Route::put('/trainers/{id}', [TrainerProfileController::class, 'update'])->name('trainer.update');
-
-
-    // Documents
+    // -------------------------
+    // Personal Documents
+    // -------------------------
     Route::get('/trainers/documents/{profile}', [PersonalDocumentController::class, 'create'])->name('trainers.documents.create');
     Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
-
-    // Edit documents form
     Route::get('/trainers/{profile}/documents/edit', [PersonalDocumentController::class, 'edit'])->name('trainers.documents.edit');
     Route::put('/trainers/{profile}/documents', [PersonalDocumentController::class, 'update'])->name('trainers.documents.update');
 
+    // -------------------------
     // Specializations
+    // -------------------------
     Route::get('/trainers/specializations/create/{profile}/{user}', [SpecializationController::class, 'create'])->name('trainers.specializations.create');
     Route::post('/trainers/specializations', [SpecializationController::class, 'store'])->name('trainers.specializations.store');
     Route::delete('/trainers/specializations/{id}', [SpecializationController::class, 'destroy'])->name('trainers.specializations.destroy');
     Route::post('/trainers/specializations/complete', [SpecializationController::class, 'complete'])->name('trainers.specializations.complete');
+    Route::get('/trainers/specializations/{id}/edit', [SpecializationController::class, 'edit'])->name('trainers.specializations.edit');
+    Route::put('/trainers/specializations/{id}', [SpecializationController::class, 'update'])->name('trainers.specializations.update');
 
+    // -------------------------
     // Certifications
+    // -------------------------
     Route::get('/trainers/{profile}/certifications', [CertificationController::class, 'create'])->name('trainers.certifications.create');
     Route::post('/trainers/certifications', [CertificationController::class, 'store'])->name('trainers.certifications.store');
     Route::delete('/trainers/certifications/{id}', [CertificationController::class, 'destroy'])->name('trainers.certifications.destroy');
 
-    // Academics
+    // -------------------------
+    // Academic Records
+    // -------------------------
     Route::get('/trainers/academics/create/{profile}', [AcademicController::class, 'create'])->name('trainers.academics.create');
     Route::post('/trainers/academics/store', [AcademicController::class, 'store'])->name('trainers.academics.store');
     Route::delete('/trainers/academics/destroy/{id}', [AcademicController::class, 'destroy'])->name('trainers.academics.destroy');
 
+    // -------------------------
     // Work Experience
+    // -------------------------
     Route::get('/trainers/work_experience/create/{profile}', [TrainerWorkExperienceController::class, 'create'])->name('trainers.work_experience.create');
     Route::post('/trainers/work_experience/store', [TrainerWorkExperienceController::class, 'store'])->name('trainers.work_experience.store');
     Route::delete('/trainers/work_experience/delete/{id}', [TrainerWorkExperienceController::class, 'delete'])->name('trainers.work_experience.delete');
 
+    // -------------------------
     // Training Programs
+    // -------------------------
     Route::get('/trainers/training_programs/create/{profile}', [TrainingProgramController::class, 'create'])->name('trainers.training_programs.create');
     Route::post('/trainers/training_programs/store', [TrainingProgramController::class, 'store'])->name('trainers.training_programs.store');
     Route::delete('/trainers/training_programs/delete/{id}', [TrainingProgramController::class, 'destroy'])->name('trainers.training_programs.delete');
-
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
