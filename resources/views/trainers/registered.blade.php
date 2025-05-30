@@ -79,17 +79,27 @@
           
 
 <!-- Academic Filter -->
-<div class="mb-3">
-    <label class="form-label">Academic Degree</label>
-    <select name="academic" class="form-select">
-        <option value="">-- All --</option>
-        @foreach ($academics as $acad)
-            <option value="{{ $acad->academics }}" {{ request('academic') == $acad->academics ? 'selected' : '' }}>
-                {{ $acad->academics }}
-            </option>
-        @endforeach
-    </select>
+ <div class="filter-title"><h4>Filter By Academics</h4></div>
+    <div class="filterparams">
+<div class="mb-3 custom-radio-group">
+    <label class="custom-radio">
+        <input type="radio" name="academic" value=""
+            {{ request('academic') == '' ? 'checked' : '' }}>
+        <span class="checkmark"></span>
+        All
+    </label>
+
+    @foreach ($academics as $acad)
+        <label class="custom-radio">
+            <input type="radio" name="academic" value="{{ $acad->academics }}"
+                {{ request('academic') == $acad->academics ? 'checked' : '' }}>
+            <span class="checkmark"></span>
+            {{ $acad->academics }}
+        </label>
+    @endforeach
 </div>
+</div>
+
                 <div class="mb-3">
                     <label class="form-label">Country</label>
                     <input type="text" name="country" class="form-control" value="{{ request('country') }}">
