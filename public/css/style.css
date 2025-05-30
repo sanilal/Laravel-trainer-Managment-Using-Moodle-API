@@ -149,6 +149,9 @@ body {
 .mb-150 {
     margin-bottom: 150px;
 }
+.w-16 {
+    width: 16px;
+}
 .separator {
     width: 100%;
     height: 1px;
@@ -557,24 +560,70 @@ ul.social-media li a:hover {
     border-radius: 5px;
     padding: 0.5rem;
 }
-.searchboxfilter {
+.filterparams {
     margin: 1rem 0;
     background: var(--light-creamy-beige); 
     padding: 2.5rem 1rem;
 }
-.searchboxfilter label {
+.filterparams label {
     display: flex;
     width: 100%;
     background: var(--white);
     color: var(--light-gray);
 }
-.searchboxfilter input {
+.filterparams input {
     width: 100%;
     border: none;
     outline: none;
     margin-left: 10px;
     color: var(--black);
 }
-.searchboxfilter input::placeholder {
+.filterparams input::placeholder {
     color: var(--light-gray);
+}
+.filterparams label svg {
+    padding-left: 10px;
+    width: 36px;
+    height: auto;
+}
+
+.custom-radio {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    margin: 0px 20px 12px 0;
+    font-size: 14px;
+    user-select: none;
+}
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio .checkmark {
+    height: 20px;
+    width: 20px;
+    border: 2px solid var(--brick-red);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 12px;
+    position: relative;
+    transition: 0.2s;
+}
+label.custom-radio {
+    background: transparent;
+}
+
+/* Show red checkmark when selected */
+.custom-radio input[type="radio"]:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 9px;
+    border: solid var(--brick-red);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }

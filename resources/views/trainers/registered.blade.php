@@ -12,45 +12,69 @@
             <form method="GET" action="{{ route('trainers.registered.trainers') }}">
                 <div class="mb-3">
                     <div class="filter-title"><h4>Filter Trainers List</h4></div>
-                    <div class="searchboxfilter">
+                    <div class="filterparams">
                         <label for="name" class="form-label"> 
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="16.5" cy="16.5" r="9" stroke="#A7A4A4"/>
-<path d="M16.5 12C15.9091 12 15.3239 12.1164 14.7779 12.3425C14.232 12.5687 13.7359 12.9002 13.318 13.318C12.9002 13.7359 12.5687 14.232 12.3425 14.7779C12.1164 15.3239 12 15.9091 12 16.5" stroke="#A7A4A4" stroke-linecap="round"/>
-<path d="M30 30L25.5 25.5" stroke="#A7A4A4" stroke-linecap="round"/>
-</svg>
-
-                        
+                            <x-icon name="search" />
                     <input type="text" placeholder="Search by Name" name="name" id="name" class="form-control" value="{{ request('name') }}">
                     </label>
-                    <div class="mb-3">
-                    <label for="email" class="form-label"><i class="fa-regular fa-envelope"></i>
+                   
+                    <label for="email" class="form-label">
+                        <x-icon name="email" />
                         <input type="text" placeholder="Search by Email" name="email" id="email" class="form-control" value="{{ request('email') }}">
                     </label>
-                </div>
+                
                     </div>
                     
                 </div>
-                
-                      <div class="mb-3">
-    <label class="form-label">Specialization</label>
-    <select name="specialization" class="form-select">
-        <option value="">-- All --</option>
-        @foreach ($specializations as $spec)
-            <option value="{{ $spec->specialization }}" {{ request('specialization') == $spec->specialization ? 'selected' : '' }}>
-                {{ $spec->specialization }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                <div class="mb-3">
+                    <div class="filter-title"><h4>Filter By Category</h4></div>
+                      <div class="filterparams">
+                        <div class="mb-3 custom-radio-group">
+                            <label class="custom-radio">
+                                <input type="radio" name="specialization" value=""
+                                    {{ request('specialization') == '' ? 'checked' : '' }}>
+                                <span class="checkmark"></span>
+                                All
+                            </label>
+                            @foreach ($specializations as $spec)
+                                <label class="custom-radio">
+                                    <input type="radio" name="specialization" value="{{ $spec->specialization }}"
+                                        {{ request('specialization') == $spec->specialization ? 'checked' : '' }}>
+                                    <span class="checkmark"></span>
+                                    {{ $spec->specialization }}
+                                </label>
+                            @endforeach
+                        </div>
+                        
+
+                        </div>
+                    </div>
                 <!-- More filters -->
                 <div class="mb-3">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-select">
-                        <option value="">-- All --</option>
-                        <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ request('gender') == 'female' ? 'selected' : '' }}>Female</option>
-                    </select>
+                      <div class="filter-title"><h4>Filter By Gender</h4></div>
+    <div class="filterparams">
+        <label class="custom-radio">
+            <input type="radio" name="gender" value=""
+                {{ request('gender') == '' ? 'checked' : '' }}>
+            <span class="checkmark"></span>
+            All
+        </label>
+
+        <label class="custom-radio">
+            <input type="radio" name="gender" value="male"
+                {{ request('gender') == 'male' ? 'checked' : '' }}>
+            <span class="checkmark"></span>
+            Male
+        </label>
+
+        <label class="custom-radio">
+            <input type="radio" name="gender" value="female"
+                {{ request('gender') == 'female' ? 'checked' : '' }}>
+            <span class="checkmark"></span>
+            Female
+        </label>
+    </div>
+                    
                 </div>
           
 
