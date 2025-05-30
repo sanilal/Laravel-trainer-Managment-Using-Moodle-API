@@ -232,6 +232,8 @@ public function update(Request $request, $id)
     public function registeredTrainers(Request $request)
 {
     $query = TrainerProfile::query()->with(['specializations', 'academics']);
+   
+    $countries = config('countries.list');
 
     if ($request->filled('name')) {
         $query->where(function ($q) use ($request) {
@@ -249,13 +251,13 @@ public function update(Request $request, $id)
         $query->where('gender', $request->gender);
     }
 
-    if ($request->filled('country')) {
-        $query->where('country', 'like', '%' . $request->country . '%');
-    }
+    // if ($request->filled('country')) {
+    //     $query->where('country', 'like', '%' . $request->country . '%');
+    // }
 
-    if ($request->filled('city')) {
-        $query->where('residing_city', 'like', '%' . $request->city . '%');
-    }
+    // if ($request->filled('city')) {
+    //     $query->where('residing_city', 'like', '%' . $request->city . '%');
+    // }
 
     // Filter by specialization title
     if ($request->filled('specialization')) {
@@ -277,7 +279,7 @@ public function update(Request $request, $id)
     $specializations = Specialization::select('specialization')->distinct()->get();
     $academics = Academic::select('academics')->distinct()->get();
 
-    return view('trainers.registered', compact('trainers', 'specializations', 'academics'));
+    return view('trainers.registered', compact('trainers', 'specializations', 'academics', 'countries'));
 }
 
  public function show($profileId)

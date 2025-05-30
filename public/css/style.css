@@ -628,3 +628,6 @@ label.custom-radio {
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple {
+    border: none !important;
+}

@@ -1,4 +1,6 @@
 @extends('layouts.app')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
 @section('content')
 <div class="container">
@@ -99,15 +101,25 @@
     @endforeach
 </div>
 </div>
+ {{-- <div class="filter-title"><h4>Filter By Country</h4></div>
+    <div class="filterparams">
+                <div class="mb-3">
+               
+               <select name="country[]" multiple class="select2">
+    @foreach ($countries as $code => $name)
+        <option value="{{ $code }}" {{ in_array($code, (array) request('country', [])) ? 'selected' : '' }}>
+            {{ $name }}
+        </option>
+    @endforeach
+</select>
 
-                <div class="mb-3">
-                    <label class="form-label">Country</label>
-                    <input type="text" name="country" class="form-control" value="{{ request('country') }}">
-                </div>
-                <div class="mb-3">
+            </div></div> --}}
+
+
+                {{-- <div class="mb-3">
                     <label class="form-label">City</label>
                     <input type="text" name="city" class="form-control" value="{{ request('city') }}">
-                </div>
+                </div> --}}
                 <button type="submit" class="btn btn-primary w-100">Filter</button>
             </form>
         </div>
@@ -156,3 +168,13 @@
     </div>
 </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "All",
+            allowClear: true
+        });
+    });
+</script>
