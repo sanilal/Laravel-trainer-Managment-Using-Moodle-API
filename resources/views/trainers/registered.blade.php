@@ -12,13 +12,26 @@
             <form method="GET" action="{{ route('trainers.registered.trainers') }}">
                 <div class="mb-3">
                     <div class="filter-title"><h4>Filter Trainers List</h4></div>
-                    <label for="name" class="form-label">Search by Name</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ request('name') }}">
+                    <div class="searchboxfilter">
+                        <label for="name" class="form-label"> 
+                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="16.5" cy="16.5" r="9" stroke="#A7A4A4"/>
+<path d="M16.5 12C15.9091 12 15.3239 12.1164 14.7779 12.3425C14.232 12.5687 13.7359 12.9002 13.318 13.318C12.9002 13.7359 12.5687 14.232 12.3425 14.7779C12.1164 15.3239 12 15.9091 12 16.5" stroke="#A7A4A4" stroke-linecap="round"/>
+<path d="M30 30L25.5 25.5" stroke="#A7A4A4" stroke-linecap="round"/>
+</svg>
+
+                        
+                    <input type="text" placeholder="Search by Name" name="name" id="name" class="form-control" value="{{ request('name') }}">
+                    </label>
+                    <div class="mb-3">
+                    <label for="email" class="form-label"><i class="fa-regular fa-envelope"></i>
+                        <input type="text" placeholder="Search by Email" name="email" id="email" class="form-control" value="{{ request('email') }}">
+                    </label>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Search by Email</label>
-                    <input type="text" name="email" id="email" class="form-control" value="{{ request('email') }}">
+                    </div>
+                    
                 </div>
+                
                       <div class="mb-3">
     <label class="form-label">Specialization</label>
     <select name="specialization" class="form-select">

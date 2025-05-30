@@ -6,6 +6,7 @@
     --white: #ffffff;
     --black: #000000;
     --brick-red: #c23a2b;
+    --light-gray: #949292;
 }
 
 .noto-sans {
@@ -547,4 +548,33 @@ ul.social-media li a:hover {
     max-width: 200px;
     margin: 0;
     display: block;
+}
+.filter-title h4 {
+    background: var(--brick-red);
+    color: var(--white);
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+.searchboxfilter {
+    margin: 1rem 0;
+    background: var(--light-creamy-beige); 
+    padding: 2.5rem 1rem;
+}
+.searchboxfilter label {
+    display: flex;
+    width: 100%;
+    background: var(--white);
+    color: var(--light-gray);
+}
+.searchboxfilter input {
+    width: 100%;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    color: var(--black);
+}
+.searchboxfilter input::placeholder {
+    color: var(--light-gray);
 }

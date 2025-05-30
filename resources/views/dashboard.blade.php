@@ -6,14 +6,9 @@
 <div class="container dashboard-container">
     <h2 class="mb-4" style="color: var(--secondary);">Trainer Management Dashboard</h2>
 
-    <div class="card">
-        <h4>Trainers Not Yet added (from LMS)</h4>
-        <p>Total: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p>
+ 
 
-        <a href="{{ url('/moodle/users') }}" class="btn btn-warning">View Unregistered Trainers</a>
-    </div>
-
-    <div class="card">
+    <div class="card" style="max-width:100%">
         <h4>Registered Trainers </h4>
         <p>Total: <strong>{{ $activeTrainers->count() }}</strong></p>
 
@@ -79,6 +74,13 @@
 @endforeach
             </tbody>
         </table>
+    </div>
+
+       <div class="card" style="max-width:100%">
+        <h4>Trainers Not Yet added (from LMS)</h4>
+        <p>Total: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p>
+
+        <a href="{{ url('/moodle/users') }}" class="btn btn-warning">View Unregistered Trainers</a>
     </div>
 </div>
 @endsection

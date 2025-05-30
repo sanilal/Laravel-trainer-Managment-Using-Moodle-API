@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-3 col-xs-3">
                             <div class="profilepic ">
-                                <img src="{{ $trainer->profile_image ? asset('storage/' . $trainer->profile_image) : asset('default-avatar.png') }}" alt="Profile Picture" class="img-fluid rounded-circle">
+                                <img src="{{ $trainer->profile_image ? asset('storage/' . $trainer->profile_image) : asset('images/placeholder-profile.png') }}" alt="Profile Picture" class="img-fluid rounded-circle">
         
         
                                             </div>

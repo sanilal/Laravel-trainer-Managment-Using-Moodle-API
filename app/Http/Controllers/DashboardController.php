@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
-use App\Services\MoodleApiService;
+ use App\Services\MoodleApiService;
 
 class DashboardController extends Controller
 {
@@ -42,5 +42,6 @@ class DashboardController extends Controller
         ])->get();
 
         return view('dashboard', compact('notRegisteredLmsUsers', 'activeTrainers'));
+       // return view('dashboard', compact('activeTrainers'));
     }
 }

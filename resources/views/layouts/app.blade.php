@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 <div class="col-md-8 text-end nav-top">
-                    <a href="https://externalsite.com" class="text-light me-3">External Link</a>
+                    {{-- <a href="https://externalsite.com" class="text-light me-3">External Link</a> --}}
                     @guest
                         {{-- <a href="{{ route('login') }}" class="text-light me-3">Login</a>
                         <a href="{{ route('register') }}" class="text-light">Register</a> --}}
@@ -32,7 +32,7 @@
                         <a href="{{ route('dashboard') }}" class="text-light me-3">Dashboard</a>
                         <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                             @csrf
-                            <button type="submit" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                            <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
                         </form>
 
                     @endguest
@@ -54,8 +54,11 @@
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav ms-auto nav-main">
                             <li class="nav-item"><a href="{{ url('/') }}" class="nav-link text-light">Home</a></li>
-                            <li class="nav-item"><a href="{{ url('/about') }}" class="nav-link text-light">About</a></li>
-                            <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link text-light">Contact</a></li>
+                            <li class="nav-item"><a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">Browse Trainers</a></li>
+                            <li class="nav-item"><a href="{{ url('/moodle/users') }}" class="nav-link text-light">Unregistered Trainers</a></li>
+                           
+                            {{-- <li class="nav-item"><a href="{{ url('/about') }}" class="nav-link text-light">About</a></li>
+                            <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link text-light">Contact</a></li> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">More</a>
                                 <ul class="dropdown-menu">
