@@ -58,10 +58,14 @@ class CustomAuthController extends Controller
             ]);
         }
 
+        $profile = TrainerProfile::where('email', $request->email)->firstOrFail();
+
         $newUser = new User();
         $newUser->email = $request->email;
+        $newUser->name = $profile->user_name ?? 'Unnamed'; // fallback just in case
         $newUser->password = Hash::make($request->password);
         $newUser->save();
+\Log::info("New user registered: " . $newUser->email . " | Name: " . $newUser->name);
 
         Auth::login($newUser);
 
@@ -75,7 +79,7 @@ class CustomAuthController extends Controller
         $profile = TrainerProfile::where('email', $credentials['email'])->first();
         if (!$profile) {
             return redirect()->route('login.form')->withErrors([
-                'lms' => url('/moodle/users')
+                'lms' => 'User not found. Contact admin or check Moodle users list.'
             ]);
         }
 
@@ -83,9 +87,13 @@ class CustomAuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'password' => 'Invalid password'
-        ]);
+           return redirect()
+        ->route('login.password.form', ['email' => $credentials['email']])
+        ->withErrors(['password' => 'Incorrect password. Please try again.']);
+
+        // return back()->withErrors([
+        //     'password' => 'Invalid password'
+        // ]);
     }
 
     public function logout(Request $request)

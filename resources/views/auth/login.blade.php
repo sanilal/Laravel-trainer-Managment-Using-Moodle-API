@@ -24,7 +24,7 @@
 
                 @error('lms')
                     <div class="mt-2 text-info">
-                        User not found. <a href="{{ $message }}" target="_blank">Click here to add from LMS</a>
+                        User not found. <a href="{{ $message }}" target="_blank">Contact Administrator</a>
                     </div>
                 @enderror
 

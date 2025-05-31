@@ -13,6 +13,7 @@ use App\Http\Controllers\TrainerWorkExperienceController;
 use App\Http\Controllers\TrainingProgramController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Http\Request; 
 
 // -------------------------
 // Public Routes (No Auth)
@@ -32,6 +33,12 @@ Route::get('/login', [CustomAuthController::class, 'showLoginForm'])->name('logi
 Route::post('/login/check', [CustomAuthController::class, 'verifyEmail'])->name('login.check');
 Route::post('/login/create-password', [CustomAuthController::class, 'storePassword'])->name('login.create_password');
 Route::post('/login/attempt', [CustomAuthController::class, 'login'])->name('login.attempt');
+
+Route::get('/login/password', function (Request $request) {
+    $email = $request->query('email'); // GET parameter
+    return view('auth.login_password', compact('email'));
+})->name('login.password.form');
+
 Route::post('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout.get');
 

@@ -140,7 +140,7 @@
                                 <div>
                                     <h5 class="color-red">{{ $trainer->prefix }} {{ $trainer->first_name }} {{ $trainer->middle_name }} {{ $trainer->family_name }}</h5>
                                     <h6>{{ $trainer->prefix2 }}</h6>
-                                    <p class="mb-0 text-muted">
+                                    <p class="mb-1 text-muted">
                                         <strong>Specialization:</strong>
                                         
                                         {{ $trainer->specializations->pluck('specialization')->join(', ') ?? 'N/A' }}
@@ -149,7 +149,7 @@
                                         {!! Str::limit(strip_tags(langContent($trainer->about_you)), 100, '...') !!}
                                      
                                     </p>
-                                    <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-outline-primary mt-2">View Profile</a>
+                                    <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-primary mt-2">View Profile</a>
 
                                 </div>
                             </div>
