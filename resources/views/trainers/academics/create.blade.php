@@ -167,14 +167,16 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3 ">
                     <div class="mb-3 documents-row">
-                        <label for="your_passport" class="custom-file-upload">
-                        Upload Certificate
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
-                        </svg>
-                    </label>
-                    <input type="file" name="upload_certificate" class="form-control">
-                    </div>
+    <label for="upload_certificate" class="custom-file-upload">
+        Upload Certificate
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
+        </svg>
+    </label>
+    <input type="file" name="upload_certificate" id="upload_certificate" class="form-control" style="display: none;">
+    <p id="file-name" class="mt-2"></p>
+</div>
+
                     
                 </div>
                 <div class="col-md-3">
@@ -320,6 +322,13 @@ document.querySelectorAll('.remove-academic').forEach(button => {
         });
     });
 });
+
+
+    document.getElementById("upload_certificate").addEventListener("change", function () {
+        const fileName = this.files[0]?.name;
+        document.getElementById("file-name").textContent = fileName ? `Selected: ${fileName}` : '';
+    });
+
 
 </script>
 @endsection
