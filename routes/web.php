@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 // -------------------------
 // Public Routes (No Auth)
 // -------------------------
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -45,13 +47,19 @@ Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout.get
 // -------------------------
 // Protected Routes (Auth)
 // -------------------------
-Route::middleware('auth')->group(function () {
-
-    // Moodle API
+Route::get('/test-admin-middleware', function () {
+    dd(App::make('admin'));
+});
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/moodle/test', [MoodleController::class, 'test']);
     Route::get('/moodle/users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users');
     Route::post('/moodle/users/add', [MoodleUserController::class, 'addUser'])->name('moodle.users.add');
     Route::get('/moodle-users', [MoodleUserController::class, 'fetchUsers'])->name('moodle.users.fetch');
+});
+
+
+
+Route::middleware('auth')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
