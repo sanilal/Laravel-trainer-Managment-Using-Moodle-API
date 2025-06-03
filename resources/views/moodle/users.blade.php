@@ -4,7 +4,7 @@
 <div class="container">
     <div class="page-title">
      
-        <h2>Arkan LMS Users</h2>
+        <h2>{{ __('messages.lms_users') }}</h2>
     </div>
    
     {{-- <p>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</p> --}}
