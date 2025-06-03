@@ -70,6 +70,7 @@ return [
     'documents' => 'المستندات',
     'national_id' => 'الهوية الوطنية',
     'your_passport' => 'جواز السفر',
+    'other_document' => 'وثيقة أخرى',
     'other_document_1' => 'مستند آخر 1',
     'other_document_2' => 'مستند آخر 2',
     'view_document' => 'عرض المستند',
@@ -112,4 +113,7 @@ return [
     'others' => 'آحرون',
     'describe_about_you' => 'وصف عنك',
     'save_and_proceed' => 'حفظ ومتابعة',
+    'your_id_document' => 'وثيقة الهوية الخاصة بك',
+    'upload_documents' => 'تحميل المستندات',
+    'upload_document' => 'تحميل الوثيقة',
 ];

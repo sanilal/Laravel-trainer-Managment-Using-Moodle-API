@@ -70,13 +70,12 @@ return [
     'documents' => 'Documents',
     'national_id' => 'National ID',
     'your_passport' => 'Your Passport',
+    'other_document' => 'Other Document',
     'other_document_1' => 'Other Document 1',
     'other_document_2' => 'Other Document 2',
     'view_document' => 'View Document',
     'no_documents' => 'No documents uploaded yet.',
     'trainer_profile' => 'Trainer Profile',
-    'documents' => 'Documents',
-
     'academic_level' => 'Academic Level',
     'select' => 'Select',
     'diploma' => 'Diploma',
@@ -111,4 +110,7 @@ return [
     'others' => 'Others',
     'describe_about_you' => 'Describe About You',
     'save_and_proceed' => 'SAVE AND PROCEED',
+    'your_id_document' => 'Your ID Document',
+    'upload_documents' => 'Upload Documents',
+    'upload_document' => 'Upload Document',
 ];

@@ -41,7 +41,7 @@
 <div class="container">
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
     {{-- <h2>Upload Your Documents</h2>
     <p>Profile ID: {{ $profileId }}</p>
@@ -51,20 +51,20 @@
         <li class="nav-item">
             @if (!empty($userId))
         <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-            Personal Information
+            {{__('messages.personal_information')}}
         </a>
         @else
-    <span class="nav-link disabled">Personal Information</span>
+    <span class="nav-link disabled">{{__('messages.personal_information')}}</span>
     @endif
         </li>
         <li class="nav-item">
 
             @if (!empty($profileId))
     <a class="nav-link active" href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-        Documents
+        {{__('messages.documents')}}
     </a>
     @else
-    <span class="nav-link disabled">Documents</span>
+    <span class="nav-link disabled">{{__('messages.documents')}}</span>
     @endif
             
         </li>
@@ -73,10 +73,10 @@
 
             @if (!empty($profileId))
             <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                Specialization
+                {{__('messages.specialization')}}
             </a>
         @else
-            <span class="nav-link disabled">Specialization</span>
+            <span class="nav-link disabled">{{__('messages.specialization')}}</span>
         @endif
 
         </li>
@@ -84,10 +84,10 @@
 
             @if (!empty($profileId))
             <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                Academics
+                {{__('messages.academics')}}
             </a>
         @else
-            <span class="nav-link disabled">Academics</span>
+            <span class="nav-link disabled">{{__('messages.academics')}}</span>
         @endif
 
 
@@ -96,20 +96,20 @@
         <li class="nav-item">
             @if (!empty($profileId))
             <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                Work Experience
+                {{__('messages.work_experience')}}
             </a>
         @else
-            <span class="nav-link disabled">Work Experience</span>
+            <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
         @endif
            
         </li>
         <li class="nav-item">
             @if (!empty($profileId))
             <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                Training Programs
+                {{__('messages.training_programs')}}
             </a>
         @else
-            <span class="nav-link disabled">Training Programs</span>
+            <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
         @endif
            
           
@@ -117,7 +117,7 @@
     </ul>
 </div>
 <div class="section-title">
-    <h2>Documents</h2>
+    <h2>{{__('messages.documents')}}</h2>
 </div>
 <div class="form-container profile-form">
     <form action="{{ route('trainers.documents.store') }}" method="POST" enctype="multipart/form-data">
@@ -130,9 +130,9 @@
 
         <div class="documents-collection">
             <div class="mb-3 documents-row">
-                <span>Your ID Document:</span>
+                <span>{{__('messages.your_id_document')}}:</span>
                 <label for="your_id" class="custom-file-upload">
-                    Upload Document
+                    {{__('messages.upload_documents')}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
@@ -142,9 +142,9 @@
             
     
             <div class="mb-3 documents-row">
-                <span>Your Passport:</span>
+                <span>{{__('messages.your_passport')}}:</span>
                 <label for="your_passport" class="custom-file-upload">
-                    Upload Document
+                    {{__('messages.upload_documents')}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
@@ -154,9 +154,9 @@
             </div>
     
             <div class="mb-3 documents-row">
-                <span>Other Document:</span>
+                <span>{{__('messages.other_document')}}:</span>
                 <label for="other_document" class="custom-file-upload">
-                    Upload Document
+                    {{__('messages.upload_document')}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
@@ -166,9 +166,9 @@
             </div>
     
             <div class="mb-3 documents-row">
-                <span>Other Document:</span>
+                <span>{{__('messages.other_document')}}:</span>
                 <label for="other_document2" class="custom-file-upload">
-                    Upload Document
+                    {{__('messages.upload_document')}}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
@@ -176,7 +176,7 @@
                 <input type="file" name="other_document2" id="other_document2" class="form-control">
                 
             </div>
-            <button type="submit" class="btn btn-primary">SAVE AND PROCEED</button>
+            <button type="submit" class="btn btn-primary">{{__('messages.save_and_proceed')}}</button>
         </div>
 
     </form>
