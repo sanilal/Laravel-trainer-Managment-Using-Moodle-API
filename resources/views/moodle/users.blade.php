@@ -9,7 +9,7 @@
    
     {{-- <p>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</p> --}}
     <div class="d-flex flex-wrap align-items-center mb-3">
-        <strong class="me-2">Filter by email:</strong>
+        <strong class="me-2">{{ __('messages.filter_by_email') }}</strong>
         @foreach(range('A', 'Z') as $letter)
             <a href="{{ request()->url() }}?prefix={{ strtolower($letter) }}"
                class="btn btn-sm me-1 mb-1 {{ request('prefix') === strtolower($letter) ? 'btn-primary' : 'btn-outline-secondary' }}">
@@ -20,7 +20,7 @@
             All
         </a> --}}
         <a href="{{ request()->url() }}?prefix=all" class="btn btn-sm mb-1 {{ request('prefix') === 'all' ? 'btn-outline-danger' : 'btn-dark' }}">
-            All
+            {{ __('messages.all') }}
         </a>
         
     </div>
@@ -34,11 +34,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Photo</th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Action</th>
+                <th>{{__('messages.photo')}}</th>
+                <th>{{__('messages.username')}}</th>
+                <th>{{__('messages.fullname')}}</th>
+                <th>{{__('messages.email')}}</th>
+                <th>{{__('messages.action')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@
         <td>{{ $user['email'] }}</td>
         <td>
             <a href="../trainers/create/{{ $user['id'] }}" class="btn btn-success add-user-btn" >
-                Add User
+                {{__('messages.add_user') }}
             </a>
         </td>
     </tr>
