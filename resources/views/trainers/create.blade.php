@@ -43,27 +43,27 @@
 <div class="container">
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
     <div class="form-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 @if (!empty($moodleUser['id']))
             <a class="nav-link active" href="{{ route('trainer.create', ['moodleUserId' =>  $moodleUser['id']]) }}">
-                Personal Information
+                {{__('messages.personal_information') }}
             </a>
             @else
-        <span class="nav-link disabled">Personal Information</span>
+        <span class="nav-link disabled">{{__('messages.personal_information') }}</span>
         @endif
             </li>
             <li class="nav-item">
     
                 @if (!empty($profileId))
         <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            Documents
+            {{__('messages.documents')}}
         </a>
         @else
-        <span class="nav-link disabled">Documents</span>
+        <span class="nav-link disabled">{{__('messages.documents')}}</span>
         @endif
                 
             </li>
@@ -72,10 +72,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    Specialization
+                    {{__('messages.specialization')}}
                 </a>
             @else
-                <span class="nav-link disabled">Specialization</span>
+                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
             @endif
     
             </li>
@@ -83,10 +83,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    Academics
+                    {{__('messages.academics')}}
                 </a>
             @else
-                <span class="nav-link disabled">Academics</span>
+                <span class="nav-link disabled">{{__('messages.academics')}}</span>
             @endif
     
     
@@ -95,20 +95,20 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    Work Experience
+                    {{__('messages.work_experience')}}
                 </a>
             @else
-                <span class="nav-link disabled">Work Experience</span>
+                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
             @endif
                
             </li>
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    Training Programs
+                    {{__('messages.training_programs')}}
                 </a>
             @else
-                <span class="nav-link disabled">Training Programs</span>
+                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
             @endif
                
               
@@ -117,7 +117,7 @@
     </div>
 
     <div class="section-title">
-        <h2>Personal Information</h2>
+        <h2>{{__('messages.personal_information')}}</h2>
     </div>
 
     <div class="form-container profile-form">
@@ -236,7 +236,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="prefix">Prefix:</label>
+                    <label for="prefix">{{__('messages.prefix')}}:</label>
                     {{-- <x-select-field name="prefix" :options="['','Mr', 'Mrs', 'Ms', 'Dr']" /> --}}
               
                     <x-select-field 
@@ -250,7 +250,7 @@ $prefix = $moodleUser['prefix'] ?? '';
                 <div class="form-group">
                    
                     {{-- <x-select-field name="prefix2" :options="['','Brigadier(Ret)', 'Colonel(Ret)', 'Lieutenant Colonel(Ret)', 'Major(Ret)', 'Captain(Ret)', 'Lieutenant(Ret)']" /> --}}
-                    <label for="prefix2">Prefix2:</label>
+                    <label for="prefix2">{{__('messages.prefix2')}}:</label>
                     <x-select-field 
                     name="prefix2" 
                     :options="['' => 'Select...',
@@ -269,7 +269,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Gender:</label>
+                    <label>{{__('messages.gender')}}:</label>
                     <div class="d-flex justify-content-start gender-select">
                         <div class="form-check gender-radio">
                             <input 
@@ -280,7 +280,7 @@ $prefix = $moodleUser['prefix'] ?? '';
                                 class="form-check-input" 
                                 {{ $gender === 'male' ? 'checked' : '' }}
                             >
-                            <label class="form-check-label" for="male">Male</label>
+                            <label class="form-check-label" for="male">{{__('messages.male')}}</label>
                         </div>
                         <div class="form-check gender-radio">
                             <input 
@@ -291,7 +291,7 @@ $prefix = $moodleUser['prefix'] ?? '';
                                 class="form-check-input" 
                                 {{ $gender === 'female' ? 'checked' : '' }}
                             >
-                            <label class="form-check-label" for="female">Female</label>
+                            <label class="form-check-label" for="female">{{__('messages.female')}}</label>
                         </div>
                     </div>
                 </div>
@@ -301,13 +301,13 @@ $prefix = $moodleUser['prefix'] ?? '';
       <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="first_name">First Name:</label>
+                    <label for="first_name">{{__('messages.first_name')}}:</label>
                     <input type="text" name="first_name" value="{{ old('first_name', $firstName ?? '') }}" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="middle_name">Middle Name:</label>
+                    <label for="middle_name">{{__('messages.middle_name')}}:</label>
                     <input type="text" name="middle_name" value="{{ old('middle_name', $middleName ?? '') }}" >
                 </div>
             </div>
@@ -315,7 +315,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="family_name">Family Name:</label>
+                    <label for="family_name">{{__('messages.family_name')}}:</label>
                     <input type="text" name="family_name" value="{{ old('family_name', $familyName ?? '') }}" required>
                 </div>
             </div>
@@ -323,7 +323,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mt-3">
-                    <label for="date_of_birth">Date of Birth:</label>
+                    <label for="date_of_birth">{{__('messages.date_of_birth')}}:</label>
                  
                     <input 
                         type="date" 
@@ -340,7 +340,7 @@ $prefix = $moodleUser['prefix'] ?? '';
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="country">Country:</label>
+                    <label for="country">{{__('messages.country')}}:</label>
                    <x-select-field name="country" :options="config('countries.list')" :selected="$country ?? ''" />
                 </div>
             </div>
@@ -348,7 +348,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="residency_status">Residency Status:</label>
+                    <label for="residency_status">{{__('messages.residency_status')}}:</label>
                     <x-select-field 
                     name="residency_status" 
                     :options="['' => 'Select...', 
@@ -365,7 +365,7 @@ $prefix = $moodleUser['prefix'] ?? '';
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="residing_city">Residing City:</label>
+                    <label for="residing_city">{{__('messages.residing_city')}}:</label>
                     <x-select-field 
                     name="residing_city" 
                     :options="[''=>'Select...', 
@@ -384,7 +384,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="email">Email:</label>
+                    <label for="email">{{__('messages.email')}}:</label>
                     <input type="email" name="email" value="{{ old('email', $email ?? '') }}" required>
                 </div>
             </div>
@@ -392,7 +392,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="phone">Mobile Number: </label>
+                    <label for="phone">{{__('messages.mobile_number')}}: </label>
                    
                     <input type="text" name="mobile_number" value="{{ old('mobile_number', $phone ?? '') }}" required>
                 </div>
@@ -400,7 +400,7 @@ $prefix = $moodleUser['prefix'] ?? '';
             <div class="col-md-6">
     <div class="form-group w-full d-flex flex-column">
         <div class="d-flex w-full justify-between align-items-center">
-            <label for="profileimage">Upload Your Photo:</label>
+            <label for="profileimage">{{__('messages.upload_photo')}}:</label>
 
             <div class="profile-image">
     @if (!empty($profileImage))
@@ -428,7 +428,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="website">Website URL: </label>
+                    <label for="website">{{__('messages.website')}}: </label>
                     <input type="text" name="website" value="{{ old('website', $website ?? '') }}">
                 </div>
             </div>
@@ -438,13 +438,13 @@ $prefix = $moodleUser['prefix'] ?? '';
                 <div class="form-group">
                 
                 
-                    <label for="linkedin">LinkedIn: </label>
+                    <label for="linkedin">{{__('messages.linkedin')}}: </label>
                     <input type="text" name="linkedin" value="{{ old('linkedin', $linkedin ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="facebook">Facebook: </label>
+                    <label for="facebook">{{__('messages.facebook')}}: </label>
                     <input type="text" name="facebook" value="{{ old('facebook', $facebook ?? '') }}">
                 </div>
             </div>
@@ -452,13 +452,13 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="instagram">Insagram: </label>
+                    <label for="instagram">{{__('messages.instagram')}}: </label>
                     <input type="text" name="instagram" value="{{ old('instagram', $instagram ?? '') }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="youtube">Youtube: </label>
+                    <label for="youtube">{{__('messages.youtube')}}: </label>
                     <input type="text" name="youtube" value="{{ old('youtube', $youtube ?? '') }}">
                 </div>
             </div>
@@ -472,7 +472,7 @@ $prefix = $moodleUser['prefix'] ?? '';
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="other_socialmedia">Others: </label>
+                    <label for="other_socialmedia">{{__('messages.others')}}: </label>
                     <input type="text" name="other_socialmedia" value="{{ old('other_socialmedia', $otherSocialMedia ?? '') }}">
                 </div>
             </div>
@@ -480,7 +480,7 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="languages">Languages Known: </label>
+                    <label for="languages">{{__('messages.languages_known')}}: </label>
                     <input type="text" name="languages" value="{{ old('languages', $languagesKnown ?? '') }}">
                 </div>
             </div>
@@ -489,12 +489,12 @@ $prefix = $moodleUser['prefix'] ?? '';
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group flex-column align-items-start">
-                    <label class="w-100">Describe About You:</label>
+                    <label class="w-100">{{__('messages.describe_about_you')}}:</label>
                     <textarea class="w-100" name="about_you" placeholder="Describe about you. Minimum 100 words maximum 300 words ">{{ old('about_you', str_replace('<br />', "\n", strip_tags($aboutYou ?? ''))) }}</textarea>
 
                 </div>
                 <div class="form-btn">
-                    <button type="submit" class="btn btn-primary ">SAVE AND PROCEED </button>
+                    <button type="submit" class="btn btn-primary ">{{__('messages.save_and_proceed')}} </button>
                 </div>
         </div>
            

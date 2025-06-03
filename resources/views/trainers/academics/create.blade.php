@@ -16,7 +16,7 @@
     <h2>Add Academic Details</h2> --}}
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
 
     <div class="form-tabs">
@@ -24,20 +24,20 @@
             <li class="nav-item">
                 @if (!empty($userId))
             <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-                Personal Information
+                {{(__('messages.personal_information'))}}
             </a>
             @else
-        <span class="nav-link disabled">Personal Information</span>
+        <span class="nav-link disabled">{{(__('messages.personal_information'))}}</span>
         @endif
             </li>
             <li class="nav-item">
     
                 @if (!empty($profileId))
         <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            Documents
+            {{__('messages.documents')}}
         </a>
         @else
-        <span class="nav-link disabled">Documents</span>
+        <span class="nav-link disabled">{{__('messages.documents')}}</span>
         @endif
                 
             </li>
@@ -46,10 +46,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    Specialization
+                    {{__('messages.specialization')}}
                 </a>
             @else
-                <span class="nav-link disabled">Specialization</span>
+                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
             @endif
     
             </li>
@@ -57,10 +57,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link active" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    Academics
+                    {{__('messages.academics')}}
                 </a>
             @else
-                <span class="nav-link disabled">Academics</span>
+                <span class="nav-link disabled">{{__('messages.academics')}}</span>
             @endif
     
     
@@ -69,20 +69,20 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    Work Experience
+                    {{__('messages.work_experience')}}
                 </a>
             @else
-                <span class="nav-link disabled">Work Experience</span>
+                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
             @endif
                
             </li>
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    Training Programs
+                    {{__('messages.training_programs')}}
                 </a>
             @else
-                <span class="nav-link disabled">Training Programs</span>
+                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
             @endif
                
               
@@ -91,7 +91,7 @@
     </div>
 
     <div class="section-title">
-        <h2>Academics</h2>
+        <h2>{{__('messages.academics')}}</h2>
     </div>
     
     <div class="form-container academics-form">
@@ -104,13 +104,13 @@
              <div class="col-md-12">
                 <div class="single-field">
                     <div class="form-group">
-                        <label for="academics">Academic Level</label>
+                        <label for="academics">{{__('messages.academic_level')}}</label>
                         <select name="academics" class="form-control" required>
-                            <option value="">Select</option>
-                            <option value="diploma">Diploma</option>
-                            <option value="bachelor">Bachelor Degree</option>
-                            <option value="masters">Master's Degree</option>
-                            <option value="doctoral">Doctoral Degree</option>
+                            <option value="">{{{{__('messages.select')}}}}</option>
+                            <option value="diploma">{{__('messages.diploma')}}</option>
+                            <option value="bachelor">{{__('messages.bachelor')}}</option>
+                            <option value="masters">{{__('messages.masters')}}</option>
+                            <option value="doctoral">{{__('messages.doctoral')}}</option>
             
                         </select>
                     </div>
@@ -119,8 +119,8 @@
              <div class="col-md-12">
                 <div class="single-field">
                     <div class="form-group">
-                        <label for="stream">Stream</label>
-                        <input type="text" name="stream" class="form-control" placeholder="e.g. Computer Science, Mechanical, etc.">
+                        <label for="stream">{{__('messages.stream')}}</label>
+                        <input type="text" name="stream" class="form-control" placeholder="{{__('messages.example_stream')}}" required>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group">
-                            <label for="name_of_the_university">Name of the University</label>
+                            <label for="name_of_the_university">{{__('messages.university_name')}}</label>
                 <input type="text" name="name_of_the_university" class="form-control" required>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{{__('messages.start_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="start_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -152,7 +152,7 @@
         
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{{__('messages.end_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="end_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -168,7 +168,7 @@
                 <div class="col-md-3 ">
                     <div class="mb-3 documents-row">
     <label for="upload_certificate" class="custom-file-upload">
-        Upload Certificate
+        {{__('messages.upload_certificate')}}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
         </svg>
@@ -180,7 +180,7 @@
                     
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Save & Add More</button>
+                    <button type="submit" class="btn btn-primary">{{__('messages.save_add_more')}}</button>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -188,7 +188,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="single-field">
-                        <button type="button" id="saveProceedBtn" class="btn btn-success">Save & Proceed</button>
+                        <button type="button" id="saveProceedBtn" class="btn btn-success">{{__('messages.save_proceed')}}</button>
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@
             
         
     </form>
-    {{-- <h3 class="mt-4">Added Academics</h3> --}}
+    {{-- <h3 class="mt-4">{{__('messages.added_academics')}}</h3> --}}
     <ul id="academicsList">
         @foreach($academics as $academic)
             <li>
@@ -227,7 +227,7 @@ document.getElementById("academicForm").onsubmit = function(event) {
         !formData.get("name_of_the_university") || 
         !formData.get("start_date") || 
         !formData.get("end_date")) {
-        alert("Please fill in all required fields.");
+        alert("{{__('messages.no_academics_warning')}}.");
         return;
     }
 
@@ -245,7 +245,7 @@ document.getElementById("academicForm").onsubmit = function(event) {
             location.reload();
         } else {
             console.error('Validation Errors:', data.errors);
-            alert('Error saving academic record. Check console for details.');
+            alert('{{__('messages.save_error')}}.');
         }
     })
     .catch(error => {
@@ -272,7 +272,7 @@ document.getElementById("saveProceedBtn").onclick = function() {
         !formData.get("name_of_the_university") || 
         !formData.get("start_date") || 
         !formData.get("end_date")) {
-        alert("Please add at least one academic record before proceeding.");
+        alert("{{__('messages.no_academics_warning')}}.");
         return;
     }
 
@@ -295,7 +295,7 @@ document.getElementById("saveProceedBtn").onclick = function() {
 
 document.querySelectorAll('.remove-academic').forEach(button => {
     button.addEventListener('click', function () {
-        if (!confirm('Are you sure you want to delete this academic record?')) {
+        if (!confirm('{{__('messages.delete_confirmation')}}')) {
             return;
         }
 
@@ -318,7 +318,7 @@ document.querySelectorAll('.remove-academic').forEach(button => {
         })
         .catch(error => {
             console.error('Delete error:', error);
-            alert('An error occurred while deleting the academic record.');
+            alert('{{__('messages.delete_error')}}.');
         });
     });
 });

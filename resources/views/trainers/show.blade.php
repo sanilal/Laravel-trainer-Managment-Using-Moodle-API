@@ -4,7 +4,7 @@
 <div class="container">
     <div class="profile-wraper">
         <div class="section-title">
-            <h2>Personal Information</h2>
+            <h2>{{__('messages.personal_information')}}</h2>
         </div>
         {{-- Personal Information --}}
         <div class="profile-info" id="personal-info">
@@ -40,16 +40,16 @@
                                             <div class="col-md-8">
                                                 <div class="namedetails">
                                                     @if (!empty($trainer->first_name))
-                                                    <p>First Name: {!! langContent($trainer->first_name) !!}</p>
+                                                    <p>{{__('messages.first_name')}}: {!! langContent($trainer->first_name) !!}</p>
                                                     @endif
                                                     @if (!empty($trainer->middle_name))
-                                                    <p>Mddle Name: {!! langContent($trainer->middle_name) !!}</p>
+                                                    <p>{{__('messages.middle_name')}}: {!! langContent($trainer->middle_name) !!}</p>
                                                     @endif
                                                     @if (!empty($trainer->family_name))
-                                                    <p>Family Name: {!! langContent($trainer->family_name) !!}</p>
+                                                    <p>{{__('messages.family_name')}}: {!! langContent($trainer->family_name) !!}</p>
                                                     @endif
                                                     @if (!empty($trainer->prefix2))
-                                                    <p>Title: {!! langContent($trainer->prefix2) !!}</p>
+                                                    <p>{{__('messages.title')}}: {!! langContent($trainer->prefix2) !!}</p>
                                                     @endif
                                                     
                                                 </div>
@@ -60,11 +60,11 @@
                                                     <p><span class="color-secondary">Gender: </span> {!! langContent($trainer->gender) !!}</p>
                                                     @endif
                                                     @if (!empty($trainer->date_of_birth))
-                                                    <p><span class="color-secondary">Date of Birth: </span> {{ \Carbon\Carbon::parse($trainer->date_of_birth)->format('d/m/Y') }}
+                                                    <p><span class="color-secondary">{{__('messages.date_of_birth')}}: </span> {{ \Carbon\Carbon::parse($trainer->date_of_birth)->format('d/m/Y') }}
                                                     </p>
                                                     @endif
                                                     @if (!empty($trainer->languages))
-                                                    <p><span class="color-secondary">Languages Known: </span> {!! langContent($trainer->languages) !!}</p>
+                                                    <p><span class="color-secondary">{{__('messages.languages_known')}}: </span> {!! langContent($trainer->languages) !!}</p>
                                                     @endif
                                                    
                                                 </div>
@@ -81,23 +81,23 @@
                 <div class="col-md-8">
                     <div class="residency">
                         @if (!empty($trainer->residency_status))
-    <p><span class="color-secondary">Residency Status: </span> {!! langContent($trainer->residency_status) !!}</p>
+    <p><span class="color-secondary">{{__('messages.residency_status')}}: </span> {!! langContent($trainer->residency_status) !!}</p>
 @endif
 
 @if (!empty($trainer->country))
-    <p><span class="color-secondary">Country: </span> {{ config('countries.list.' . $trainer->country, $trainer->country) }}</p>
+    <p><span class="color-secondary">{{__('messages.country')}}: </span> {{ config('countries.list.' . $trainer->country, $trainer->country) }}</p>
 @endif
 
 @if (!empty($trainer->residing_city))
-    <p><span class="color-secondary">City: </span> {!! langContent($trainer->residing_city) !!}</p>
+    <p><span class="color-secondary">{{__('messages.city')}}: </span> {!! langContent($trainer->residing_city) !!}</p>
 @endif
 
 @if (!empty($trainer->email))
-    <p><span class="color-secondary">Email: </span> {{ $trainer->email }}</p>
+    <p><span class="color-secondary">{{__('messages.email')}}: </span> {{ $trainer->email }}</p>
 @endif
 
 @if (!empty($trainer->mobile_number))
-    <p><span class="color-secondary">Mobile Number: </span> {{ $trainer->mobile_number }}</p>
+    <p><span class="color-secondary">{{__('messages.mobile_number')}}: </span> {{ $trainer->mobile_number }}</p>
 @endif
 
                     </div>
@@ -151,7 +151,7 @@
         <div class="profile-info" id="about-me">
 <div class="row">
     <div class="col-md-12">
-        <h3>About Me : </h3>
+        <h3>{{__('messages.about_me')}} : </h3>
 
         {!! langContent($trainer->about_you) !!}
 
@@ -162,22 +162,22 @@
         </div>
         @endif
         <div class="section-title">
-            <h2>Specialization & Certifications</h2>
+            <h2>{{__('messages.specialization_certifications')}}</h2>
         </div>
         
         <div class="profile-info" id="specializations">
             <div class="row">
                 <div class="col-md-11">
-                    <h3>Specializations : </h3>
+                    <h3>{{__('messages.specialization')}} : </h3>
         
                     @forelse($trainer->specializations as $specialization)
                         <div class="course-group mb-4">
                             <div class="course-group-info">
                                 <p class="course-group-name">{{ langContent($specialization->specialization) }}</p>
-                                <p class="course-group-institute">Name of the Institution: {{ langContent($specialization->name_of_the_institution) }}</p>
+                                <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($specialization->name_of_the_institution) }}</p>
                                 <div class="course-group-dates">
-                                    <p class="course-group-start-date">Start Date: {{ \Carbon\Carbon::parse($specialization->start_date)->format('d/m/Y') }}</p>
-                                    <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($specialization->end_date)->format('d/m/Y') }}</p>
+                                    <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($specialization->start_date)->format('d/m/Y') }}</p>
+                                    <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($specialization->end_date)->format('d/m/Y') }}</p>
                                 </div>
                             </div>
                             
@@ -188,13 +188,13 @@
             <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
         </a>
     @else
-        <p>No attachment</p>
+        <p>{{__('messages.no_attachment')}}</p>
     @endif
 </div>
 
                         </div>
                     @empty
-                        <p>No specializations added yet.</p>
+                        <p>{{__('messages.no_specializations')}}.</p>
                     @endforelse
         
                 </div>
@@ -205,15 +205,15 @@
     <div class="profile-info" id="certifications">
         <div class="row">
             <div class="col-md-9">
-                <h3>Certifications : </h3>
+                <h3>{{__('messages.certifications')}} : </h3>
                 @forelse ($trainer->certifications as $certification)
                 <div class="course-group">
                     <div class="course-group-info">
                         <p class="course-group-name">{{ langContent($certification->certified_in) }}</p>
-                        <p class="course-group-institute">Name of the Institution: {{ langContent($certification->name_of_the_institution) }} </p>
+                        <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($certification->name_of_the_institution) }} </p>
                         <div class="course-group-dates">
-                            <p class="course-group-start-date">Start Date: {{ langContent($certification->start_date) }}</p>
-                            <p class="course-group-end-date">End Date: {{ langContent($certification->end_date) }}</p>
+                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ langContent($certification->start_date) }}</p>
+                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ langContent($certification->end_date) }}</p>
                         </div>
                     </div>
                   
@@ -223,13 +223,13 @@
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else
-                            <p>No attachment</p>
+                            <p>{{__('messages.no_attachment')}}</p>
                         @endif
                     </div>
                    
                 </div>
                 @empty
-                <p>No Certifiations added yet.</p>
+                <p>{{__('messages.no_certifications')}}.</p>
                 @endforelse
                
                 
@@ -255,7 +255,7 @@
 @endphp
 
 <div class="section-title">
-    <h2>Academics</h2>
+    <h2>{{__('messages.academics')}}</h2>
 </div>
 <div id="academics">
     @forelse ($sortedAcademics as $academic)
@@ -268,10 +268,10 @@
                        
 
                         <p class="course-group-name"> {{ $academic->stream ? langContent($academic->stream) : 'Stream not specified' }}</p>
-                        <p class="course-group-institute">Name of the Institution: {{ langContent($academic->name_of_the_university) }}</p>
+                        <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($academic->name_of_the_university) }}</p>
                         <div class="course-group-dates">
-                            <p class="course-group-start-date">Start Date: {{ \Carbon\Carbon::parse($academic->start_date)->format('d/m/Y') }}</p>
-                            <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($academic->end_date)->format('d/m/Y') }}</p>
+                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($academic->start_date)->format('d/m/Y') }}</p>
+                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($academic->end_date)->format('d/m/Y') }}</p>
                         </div>
                     </div>
                 
@@ -282,7 +282,7 @@
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else
-                            <p>No attachment</p>
+                            <p>{{__('messages.no_attachment')}}</p>
                         @endif
                     </div>
 
@@ -293,7 +293,7 @@
         </div>
     </div>
     @empty
-        <p>No Certifications added yet.</p>
+        <p>{{__('messages.no_certifications')}}.</p>
     @endforelse
 </div>
 
@@ -301,7 +301,7 @@
 {{-- Work Experience  --}}
 
 <div class="section-title">
-    <h2>Work Experience</h2>
+    <h2>{{__('messages.work_experience')}}</h2>
 </div>
 
 <div id="work-experience">
@@ -313,10 +313,10 @@
                 <div class="course-group">
                     <div class="course-group-info">
                         <p class="course-group-name">{{ langContent($work->organization_name) }}</p>
-                        <p class="course-group-institute">Designation: {{ langContent($work->designation) }}</p>
+                        <p class="course-group-institute">{{__('messages.designation')}}: {{ langContent($work->designation) }}</p>
                         <div class="course-group-dates">
-                            <p class="course-group-start-date">Start Date: {{ \Carbon\Carbon::parse($work->start_date)->format('d/m/Y') }}</p>
-                            <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
+                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($work->start_date)->format('d/m/Y') }}</p>
+                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
                         </div>
                     </div>
                    
@@ -326,7 +326,7 @@
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else
-                            <p>No attachment</p>
+                            <p>{{__('messages.no_attachment')}}</p>
                         @endif
                     </div>
                     
@@ -336,7 +336,7 @@
         </div>
     </div>
     @empty
-        <p>No work experience added yet.</p>
+        <p>{{__('messages.no_work_experience')}}.</p>
     @endforelse
 </div>
 
@@ -345,20 +345,20 @@
 {{-- Training Programs  --}}
 
 <div class="section-title">
-    <h2>Training Programs</h2>
+    <h2>{{__('messages.training_programs')}}</h2>
 </div>
 <div id="training-programs">
     @forelse ($trainer->trainingPrograms as $index => $program)
         <div class="profile-info">
             <div class="row">
                 <div class="col-md-9">
-                    <h3>Program {{ $index + 1 }}:</h3>
+                    <h3>{{__('messages.program')}} {{ $index + 1 }}:</h3>
                     <div class="course-group">
                         <div class="course-group-info">
                             <p class="course-group-name">{{ langContent($program->program_name) }}</p>
                             <div class="course-group-dates">
-                                <p class="course-group-start-date">Start Date: {{ \Carbon\Carbon::parse($program->start_date)->format('d/m/Y') }}</p>
-                                <p class="course-group-end-date">End Date: {{ \Carbon\Carbon::parse($program->end_date)->format('d/m/Y') }}</p>
+                                <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($program->start_date)->format('d/m/Y') }}</p>
+                                <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($program->end_date)->format('d/m/Y') }}</p>
                             </div>
                         </div>
                          <div class="course-group-image">
@@ -367,7 +367,7 @@
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else
-                            <p>No attachment</p>
+                            <p>{{__('messages.no_attachment')}}</p>
                         @endif
                     </div>
                     </div>
@@ -375,13 +375,13 @@
             </div>
         </div>
     @empty
-        <p>No training programs added yet.</p>
+        <p>{{__('messages.no_training_programs')}}.</p>
     @endforelse
 </div>
 
 {{-- Documents --}}
 <div class="section-title">
-    <h2>Documents</h2>
+    <h2>{{__('messages.documents')}}</h2>
 </div>
 
 <div id="documents">
@@ -392,7 +392,7 @@
                 @if ($trainer->personalDocuments->your_id)
                     <div class="col-md-12 mb-3">
                         <div class="document-box">
-                            <p><strong>national ID:</strong></p>
+                            <p><strong>{{__('messages.national_id')}}:</strong></p>
                             <a href="{{ asset('uploads/documents/' . $trainer->personalDocuments->your_id) }}" target="_blank" class="nationalid"><img src="{{ asset('images/id-card.png') }}" alt="national Id" class="img-fluid"></a>
                         </div>
                     </div>
@@ -415,7 +415,7 @@
                         <div class="col-md-4 mb-3">
                             <div class="document-box">
                                 <p><strong>{{ $label }}:</strong></p>
-                                <a href="{{ asset('uploads/documents/' . $file) }}" target="_blank">View Document</a>
+                                <a href="{{ asset('uploads/documents/' . $file) }}" target="_blank">{{__('messages.view_document')}}</a>
                             </div>
                         </div>
                     @endif
@@ -423,7 +423,7 @@
             </div>
         </div>
     @else
-        <p>No documents uploaded yet.</p>
+        <p>{{__('messages.no_documents')}}.</p>
     @endif
 </div>
 
