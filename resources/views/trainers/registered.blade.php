@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="section-title">
-        <h2 class="">List of Registered Trainers</h2>
+        <h2 class="">{{__('messages.list_of_trainers')}}</h2>
     </div>
     
     <div class="row mt-50">
@@ -13,30 +13,30 @@
         <div class="col-md-3">
             <form method="GET" action="{{ route('trainers.registered.trainers') }}">
                 <div class="mb-3">
-                    <div class="filter-title"><h4>Filter Trainers List</h4></div>
+                    <div class="filter-title"><h4>{{__('messages.filter_trainers')}}</h4></div>
                     <div class="filterparams">
                         <label for="name" class="form-label"> 
                             <x-icon name="search" />
-                    <input type="text" placeholder="Search by Name" name="name" id="name" class="form-control" value="{{ request('name') }}">
+                    <input type="text" placeholder="{{__('messages.search_name')}}" name="name" id="name" class="form-control" value="{{ request('name') }}">
                     </label>
                    
                     <label for="email" class="form-label">
                         <x-icon name="email" />
-                        <input type="text" placeholder="Search by Email" name="email" id="email" class="form-control" value="{{ request('email') }}">
+                        <input type="text" placeholder="{{__('messages.search_email')}}" name="email" id="email" class="form-control" value="{{ request('email') }}">
                     </label>
                 
                     </div>
                     
                 </div>
                 <div class="mb-3">
-                    <div class="filter-title"><h4>Filter By Category</h4></div>
+                    <div class="filter-title"><h4>{{__('messages.filter_by_category')}}</h4></div>
                       <div class="filterparams">
                         <div class="mb-3 custom-radio-group">
                             <label class="custom-radio">
                                 <input type="radio" name="specialization" value=""
                                     {{ request('specialization') == '' ? 'checked' : '' }}>
                                 <span class="checkmark"></span>
-                                All
+                                {{__('messages.all')}}
                             </label>
                             @foreach ($specializations as $spec)
                                 <label class="custom-radio">
@@ -53,27 +53,27 @@
                     </div>
                 <!-- More filters -->
                 <div class="mb-3">
-                      <div class="filter-title"><h4>Filter By Gender</h4></div>
+                      <div class="filter-title"><h4>{{__('messages.filter_by_gender')}}</h4></div>
     <div class="filterparams">
         <label class="custom-radio">
             <input type="radio" name="gender" value=""
                 {{ request('gender') == '' ? 'checked' : '' }}>
             <span class="checkmark"></span>
-            All
+             {{__('messages.all')}}
         </label>
 
         <label class="custom-radio">
             <input type="radio" name="gender" value="male"
                 {{ request('gender') == 'male' ? 'checked' : '' }}>
             <span class="checkmark"></span>
-            Male
+             {{__('messages.male')}}
         </label>
 
         <label class="custom-radio">
             <input type="radio" name="gender" value="female"
                 {{ request('gender') == 'female' ? 'checked' : '' }}>
             <span class="checkmark"></span>
-            Female
+             {{__('messages.female')}}
         </label>
     </div>
                     
@@ -81,14 +81,14 @@
           
 
 <!-- Academic Filter -->
- <div class="filter-title"><h4>Filter By Academics</h4></div>
+ <div class="filter-title"><h4> {{__('messages.filter_by_academics')}}</h4></div>
     <div class="filterparams">
 <div class="mb-3 custom-radio-group">
     <label class="custom-radio">
         <input type="radio" name="academic" value=""
             {{ request('academic') == '' ? 'checked' : '' }}>
         <span class="checkmark"></span>
-        All
+        {{__('messages.all')}}
     </label>
 
     @foreach ($academics as $acad)
@@ -120,7 +120,7 @@
                     <label class="form-label">City</label>
                     <input type="text" name="city" class="form-control" value="{{ request('city') }}">
                 </div> --}}
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <button type="submit" class="btn btn-primary w-100">{{__('messages.filter')}}</button>
             </form>
         </div>
 
@@ -141,7 +141,7 @@
                                     <h5 class="color-red">{{ $trainer->prefix }} {{ $trainer->first_name }} {{ $trainer->middle_name }} {{ $trainer->family_name }}</h5>
                                     <h6>{{ $trainer->prefix2 }}</h6>
                                     <p class="mb-1 text-muted">
-                                        <strong>Specialization:</strong>
+                                        <strong>{{__('messages.specialization')}}:</strong>
                                         
                                         {{ $trainer->specializations->pluck('specialization')->join(', ') ?? 'N/A' }}
                                     </p>
@@ -149,7 +149,7 @@
                                         {!! Str::limit(strip_tags(langContent($trainer->about_you)), 100, '...') !!}
                                      
                                     </p>
-                                    <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-primary mt-2">View Profile</a>
+                                    <a href="{{ route('trainer.show', $trainer->id) }}" class="btn btn-sm btn-primary mt-2">{{__('messages.view_profile')}}</a>
 
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <p class="text-muted">No trainers found matching your filters.</p>
+                        <p class="text-muted">{{__('messages.no_trainers_found')}}.</p>
                     </div>
                 @endforelse
             </div>

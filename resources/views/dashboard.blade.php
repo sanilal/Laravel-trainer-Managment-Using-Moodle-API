@@ -4,22 +4,22 @@
 
 
 <div class="container dashboard-container">
-    <h2 class="mb-4" style="color: var(--secondary);">Trainer Management Dashboard</h2>
+    <h2 class="mb-4" style="color: var(--secondary);">{{__('messages.dashboard_title')}}</h2>
 
  
 
     <div class="card" style="max-width:100%">
-        <h4>Registered Trainers </h4>
+        <h4>{{__('messages.registered_trainers')}} </h4>
         <p>Total: <strong>{{ $activeTrainers->count() }}</strong></p>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Profile Progress</th>
-                    <th>View</th>
-                    <th>Edit</th>
+                    <th>{{__('messages.name')}}</th>
+                    <th>{{__('messages.email')}}</th>
+                    <th>{{__('messages.profile_progress')}}</th>
+                    <th>{{__('messages.view')}}</th>
+                    <th>{{__('messages.edit')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,10 +65,10 @@
             </div>
         </td>
         <td>
-            <a href="{{ url('/trainers/' . $trainer->id . '/show') }}" class="btn btn-info btn-sm">View</a>
+            <a href="{{ url('/trainers/' . $trainer->id . '/show') }}" class="btn btn-info btn-sm">{{__('messages.view')}}</a>
         </td>
         <td>
-            <a href="{{ url('/trainers/' . $trainer->id . '/edit') }}" class="btn btn-danger btn-sm">Edit</a>
+            <a href="{{ url('/trainers/' . $trainer->id . '/edit') }}" class="btn btn-danger btn-sm">{{__('messages.edit')}}</a>
         </td>
     </tr>
 @endforeach
@@ -77,10 +77,10 @@
     </div>
 
        <div class="card" style="max-width:100%">
-        <h4>Trainers Not Yet added (from LMS)</h4>
-        <p>Total: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p>
+        <h4>{{__('messages.unregistered_trainers')}}</h4>
+        <p>{{__('messages.total')}}: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p>
 
-        <a href="{{ url('/moodle/users') }}" class="btn btn-warning">View Unregistered Trainers</a>
+        <a href="{{ url('/moodle/users') }}" class="btn btn-warning">{{__('messages.view_unregistered')}}</a>
     </div>
 </div>
 @endsection
