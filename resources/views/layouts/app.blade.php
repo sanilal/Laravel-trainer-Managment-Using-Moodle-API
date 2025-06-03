@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,12 +39,9 @@
                     @endguest
 
                     <!-- Language Switcher -->
-                    <form action="{{ route('changeLang', 'ar') }}" method="GET" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-light">عربي</button>
-                    </form>
-                    <form action="{{ route('changeLang', 'en') }}" method="GET" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-light">English</button>
-                    </form>
+                   <a href="{{ route('changeLang', ['locale' => 'en']) }}">English</a> |
+<a href="{{ route('changeLang', ['locale' => 'ar']) }}">العربية</a>
+
                 </div>
              <!-- Main Navigation -->
              <nav class="navbar navbar-expand-lg navbar-dark">
