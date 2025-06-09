@@ -5,7 +5,7 @@
 
 @if(!$moodleUser)
 
-    <div class="alert alert-danger">Something went wrong. Moodle user not found.</div>
+    <div class="alert alert-danger">{{__('messages.something_wrong_no_moodle_user')}}.</div>
     @php
         return;
     @endphp

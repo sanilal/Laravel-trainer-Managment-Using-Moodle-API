@@ -352,7 +352,7 @@ a.logo img {
     max-width: 90%;
     margin: 0 auto;
 }
-.added-items {
+/* .added-items {
     list-style: none;
     display: flex;
     flex-flow: wrap;
@@ -362,13 +362,38 @@ a.logo img {
     width: max-content;
     padding: 8px;
     margin: 0 10px 10px 0;
-}
-.added-items li button {
+} */
+/* .added-items li button {
     border: 1px solid #000;
-    border-radius: 50%;
     width: 20px;
     height: 20px;
     font-size: 10px;
+} */
+#academicsList, .added-items, #workExperienceList {
+    list-style: none;
+    margin: 3rem auto 2rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0;
+}
+
+#academicsList li, .added-items li, #workExperienceList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff;
+    padding: 10px;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px;
+
+    max-width: 100%; /* Prevents overflow */
+    width: max-content;
+    word-break: break-word;
+
+    flex: 0 1 auto; /* Allows wrapping but not stretching */
+    gap: 8px; /* Space between items */
 }
 
 .form-control[type="date"]::-webkit-calendar-picker-indicator {
@@ -631,3 +656,5 @@ label.custom-radio {
 .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple {
     border: none !important;
 }
+
+

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
 
     <div class="form-tabs">
@@ -12,20 +12,20 @@
             <li class="nav-item">
                 @if (!empty($userId))
             <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-                Personal Information
+                {{__('messages.personal_information')}}
             </a>
             @else
-        <span class="nav-link disabled">Personal Information</span>
+        <span class="nav-link disabled">{{__('messages.personal_information')}}</span>
         @endif
             </li>
             <li class="nav-item">
     
                 @if (!empty($profileId))
         <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            Documents
+            {{__('messages.documents')}}
         </a>
         @else
-        <span class="nav-link disabled">Documents</span>
+        <span class="nav-link disabled">{{__('messages.documents')}}</span>
         @endif
                 
             </li>
@@ -34,10 +34,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    Specialization
+                    {{__('messages.specialization')}}
                 </a>
             @else
-                <span class="nav-link disabled">Specialization</span>
+                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
             @endif
     
             </li>
@@ -45,10 +45,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    Academics
+                    {{__('messages.academics')}}
                 </a>
             @else
-                <span class="nav-link disabled">Academics</span>
+                <span class="nav-link disabled">{{__('messages.academics')}}</span>
             @endif
     
     
@@ -57,10 +57,10 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link " href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    Work Experience
+                    {{__('messages.work_experience')}}
                 </a>
             @else
-                <span class="nav-link disabled">Work Experience</span>
+                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
             @endif
                
             </li>
@@ -158,21 +158,54 @@
     document.getElementById('trainingProgramForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
+        const start = new Date(e.target.start_date.value);
+    const end = new Date(e.target.end_date.value);
+
+    // If end_date is filled and before start_date, show alert and prevent submit
+    if (e.target.end_date.value && end < start) {
+        alert("End date must be after or equal to start date.");
+        return;
+    }
+
         let form = e.target;
         let formData = new FormData(form);
 
-        fetch("{{ route('trainers.training_programs.store') }}", {
+        const trainingProgramStoreURL = "{{ route('trainers.training_programs.store') }}";
+
+
+        fetch(trainingProgramStoreURL, {
     method: 'POST',
     headers: {
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+         'Accept': 'application/json'
     },
     body: formData
 })
 .then(async res => {
-    if (!res.ok) {
-        const text = await res.text(); // Try to get raw HTML
-        console.error("Server returned error:", text);
-        throw new Error('Server error');
+     const text = await res.text();
+   try {
+        const data = JSON.parse(text);
+
+        if (data.success) {
+            // Append new training program
+            let program = data.program;
+            let li = document.createElement('li');
+            li.className = "list-group-item d-flex justify-content-between align-items-center";
+            li.innerHTML = `
+                <span>
+                    <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})<br>
+                    ${program.details || ''}
+                </span>
+                <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
+            `;
+            document.getElementById('trainingProgramsList').appendChild(li);
+            form.reset();
+        } else {
+            console.error("Validation errors:", data.errors);
+            alert("Please fix validation errors.");
+        }
+    } catch (err) {
+        console.error("Server returned HTML or unexpected output:", text);
     }
     return res.json();
 })
@@ -208,10 +241,27 @@
             }
         }).then(res => res.json())
         .then(data => {
-            if (data.success) {
-                btn.closest('li').remove();
-            }
-        });
+    if (data.success) {
+        let program = data.program;
+        let li = document.createElement('li');
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `
+            <span>
+                <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})<br>
+                ${program.details || ''}
+            </span>
+            <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
+        `;
+        document.getElementById('trainingProgramsList').appendChild(li);
+        form.reset();
+    } else {
+        console.error("Validation errors:", data.errors);
+        alert("Please fix validation errors.");
+    }
+})
+.catch(error => {
+    console.error('Error parsing JSON or network issue:', error);
+});
     }
 </script>
 @endsection

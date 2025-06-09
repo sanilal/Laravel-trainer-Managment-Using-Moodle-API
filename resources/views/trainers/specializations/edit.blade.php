@@ -4,27 +4,27 @@
 <div class="container">
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
     <div class="form-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 @if (!empty($userId))
             <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-                Personal Information
+                {{__('messages.personal_information')}}
             </a>
             @else
-        <span class="nav-link disabled">Personal Information</span>
+        <span class="nav-link disabled">{{__('messages.personal_information')}}</span>
         @endif
             </li>
             <li class="nav-item">
     
                 @if (!empty($profileId))
         <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            Documents
+            {{__('messages.documents')}}
         </a>
         @else
-        <span class="nav-link disabled">Documents</span>
+        <span class="nav-link disabled">{{__('messages.documents')}}</span>
         @endif
                 
             </li>
@@ -33,10 +33,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link active" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    Specialization
+                    {{__('messages.specialization')}}
                 </a>
             @else
-                <span class="nav-link disabled">Specialization</span>
+                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
             @endif
     
             </li>
@@ -44,10 +44,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    Academics
+                    {{__('messages.academics')}}
                 </a>
             @else
-                <span class="nav-link disabled">Academics</span>
+                <span class="nav-link disabled">{{__('messages.academics')}}</span>
             @endif
     
     
@@ -56,20 +56,20 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    Work Experience
+                    {{__('messages.work_experience')}}
                 </a>
             @else
-                <span class="nav-link disabled">Work Experience</span>
+                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
             @endif
                
             </li>
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    Training Programs
+                    {{__('messages.training_programs')}}
                 </a>
             @else
-                <span class="nav-link disabled">Training Programs</span>
+                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
             @endif
                
               
@@ -77,7 +77,7 @@
         </ul>
     </div>
     <div class="section-title">
-        <h2>Training Specialization</h2>
+        <h2>{{__('messages.training_specialization')}}</h2>
     </div>
 
     <!-- Training Specialization Form -->
@@ -92,9 +92,9 @@
                 <div class="col-md-12">
                     <div class="single-field">
                     <div class="form-group">
-                        <label for="specialization" class="form-label">Specialization</label>
+                        <label for="specialization" class="form-label">{{__('messages.specialization')}}</label>
                 <select name="specialization" class="form-control">
-    <option value="">Select Specialization</option>
+    <option value="">{{__('messages.select_specialization')}}</option>
     @include('components.specialization-options', ['selected' => old('specialization', $profile->specialization ?? null)])
 </select>
                     </div>
@@ -104,13 +104,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-label">Name of the Institution</label>
+                        <label class="form-label">{{__('messages.name_of_institution')}}</label>
                         <input type="text" name="name_of_the_institution" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{{__('messages.start_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="start_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -122,7 +122,7 @@
                 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{{__('messages.end_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="end_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -137,7 +137,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3"> <div class="mb-3 documents-row">
                     <label for="upload_certificate" class="custom-file-upload">
-                        Upload Certificate
+                        {{__('messages.upload_certificate')}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                         </svg>
@@ -147,7 +147,7 @@
 
               
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-primary" id="add-specialization">Save & Add More</button>
+                    <button type="button" class="btn btn-primary" id="add-specialization">{{__('messages.save_add_more')}}</button>
                 </div>
                 <div class="col-md-3">
 
@@ -181,7 +181,7 @@
 
     <!-- Certification Section -->
     <div class="section-title">
-        <h2>Certifications</h2>
+        <h2>{{__('messages.certifications')}}</h2>
     </div>
     <div class="form-container certification-form">
     <form id="certification-form">
@@ -193,9 +193,9 @@
             <div class="col-md-12">
                <div class="single-field">
                 <div class="form-group">
-                    <label class="form-label">Certified In</label>
+                    <label class="form-label">{{__('messages.certified_in')}}</label>
                     <select name="certified_in" class="form-control">
-                        <option value="">Select Certification</option>
+                        <option value="">{{__('messages.select_certification')}}</option>
                         <option value="PMP">PMP</option>
                         <option value="AWS">AWS</option>
                         <option value="CFA">CFA</option>
@@ -207,13 +207,13 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="form-label">Name of the Institution</label>
+            <label class="form-label">{{__('messages.name_of_institution')}}</label>
             <input type="text" name="cert_name_of_the_institution" class="form-control">
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label class="form-label">Start Date</label>
+            <label class="form-label">{{__('messages.start_date')}}</label>
             
             <div class="input-group date-picker-group">
                 <input type="date" name="cert_start_date" class="form-control date-input">
@@ -225,7 +225,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label class="form-label">End Date</label>
+            <label class="form-label">{{__('messages.end_date')}}</label>
             <div class="input-group date-picker-group">
                 <input type="date" name="cert_end_date" class="form-control date-input">
                 <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -239,12 +239,12 @@
     <div class="col-md-3"></div>
     <div class="col-md-3">
         <div class="form-group">
-            <label class="form-label">Upload Certificate</label>
+            <label class="form-label">{{__('messages.upload_certificate')}}</label>
             <input type="file" name="cert_upload_certificate" class="form-control">
         </div>
     </div>
     <div class="col-md-3">
-        <button type="button" class="btn btn-primary" id="add-certification">Save & Add More</button>
+        <button type="button" class="btn btn-primary" id="add-certification">{{__('messages.save_add_more')}}</button>
     </div>
     <div class="col-md-3"></div>    
     </div>    
@@ -277,7 +277,7 @@
         @csrf
         <input type="hidden" name="profile_id" value="{{ $profileId }}">
         <input type="hidden" name="user_id" value="{{ $userId }}">
-        <button type="submit" class="btn btn-primary">Save and Proceed</button>
+        <button type="submit" class="btn btn-primary">{{__('messages.save_and_proceed')}}</button>
     </form>
 </div>
 

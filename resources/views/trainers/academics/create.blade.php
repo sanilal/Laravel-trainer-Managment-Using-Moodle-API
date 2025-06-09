@@ -106,7 +106,7 @@
                     <div class="form-group">
                         <label for="academics">{{__('messages.academic_level')}}</label>
                         <select name="academics" class="form-control" required>
-                            <option value="">{{{{__('messages.select')}}}}</option>
+                            <option value="">{{__('messages.select')}}</option>
                             <option value="diploma">{{__('messages.diploma')}}</option>
                             <option value="bachelor">{{__('messages.bachelor')}}</option>
                             <option value="masters">{{__('messages.masters')}}</option>
