@@ -17,28 +17,28 @@
     <h2>Add Work Experience</h2> --}}
     <div class="page-title">
      
-        <h2>Trainer Profile</h2>
+        <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
 
     <div class="form-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 @if (!empty($userId))
-            <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
-                Personal Information
+             <a class="nav-link " href="{{ route('trainer.edit', ['id' => $profileId]) }}">
+                {{__('messages.personal_information')}}
             </a>
             @else
-        <span class="nav-link disabled">Personal Information</span>
+        <span class="nav-link disabled">{{__('messages.personal_information')}}</span>
         @endif
             </li>
             <li class="nav-item">
     
                 @if (!empty($profileId))
         <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            Documents
+            {{__('messages.documents')}}
         </a>
         @else
-        <span class="nav-link disabled">Documents</span>
+        <span class="nav-link disabled">{{__('messages.documents')}}</span>
         @endif
                 
             </li>
@@ -47,10 +47,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    Specialization
+                    {{__('messages.specialization')}}
                 </a>
             @else
-                <span class="nav-link disabled">Specialization</span>
+                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
             @endif
     
             </li>
@@ -58,10 +58,10 @@
     
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    Academics
+                    {{__('messages.academics')}}
                 </a>
             @else
-                <span class="nav-link disabled">Academics</span>
+                <span class="nav-link disabled">{{__('messages.academics')}}</span>
             @endif
     
     
@@ -70,20 +70,20 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link active" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    Work Experience
+                    {{__('messages.work_experience')}}
                 </a>
             @else
-                <span class="nav-link disabled">Work Experience</span>
+                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
             @endif
                
             </li>
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    Training Programs
+                    {{__('messages.training_programs')}}
                 </a>
             @else
-                <span class="nav-link disabled">Training Programs</span>
+                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
             @endif
                
               
@@ -92,7 +92,7 @@
     </div>
 
     <div class="section-title">
-        <h2>Work Experience</h2>
+        <h2>{{__('messages.work_experience')}}</h2>
     </div>
     <div class="form-container academics-form">
         <form id="workExperienceForm" enctype="multipart/form-data">
@@ -104,7 +104,7 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group">
-                            <label for="name_of_the_organization">Name of the Organization</label>
+                            <label for="name_of_the_organization">{{__('messages.name_of_the_organization')}}</label>
                 <input type="text" name="name_of_the_organization" class="form-control" required>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group">
-                            <label for="designation">Designation</label>
+                            <label for="designation">{{__('messages.designation')}}</label>
                             <input type="text" name="designation" class="form-control" required>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{{__('messages.start_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="start_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -140,7 +140,7 @@
         
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{{__('messages.end_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="end_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -155,7 +155,7 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group flex-column">
-                            <label for="job_description">Describe About the Work </label>
+                            <label for="job_description">{{__('messages.describe_about_work')}} </label>
                             <textarea name="job_description" class="form-control" rows="5" required></textarea>
                     </div>
                     </div>
@@ -166,13 +166,13 @@
         <div class="col-md-3"></div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="upload_work_document">Upload Work Document</label>
+                <label for="upload_work_document">{{__('messages.upload_work_document')}}</label>
                 <input type="file" name="upload_work_document" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
             
-            <button type="submit" class="btn btn-primary">Save & Add More</button>
+            <button type="submit" class="btn btn-primary">{{__('messages.save_add_more')}}</button>
         </div>
         <div class="col-md-3"></div>
       
@@ -217,7 +217,7 @@ document.getElementById("workExperienceForm").onsubmit = function(event) {
         !formData.get("designation") || 
         !formData.get("start_date") || 
         !formData.get("job_description")) {
-        alert("Please fill in all required fields.");
+        alert("{{__('messages.please_fill_required_fields')}}");
         return;
     }
 

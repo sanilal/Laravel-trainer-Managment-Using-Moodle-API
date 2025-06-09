@@ -11,7 +11,7 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 @if (!empty($userId))
-            <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
+            <a class="nav-link " href="{{ route('trainer.edit', ['id' => $profileId]) }}">
                 {{__('messages.personal_information')}}
             </a>
             @else
@@ -67,10 +67,10 @@
             <li class="nav-item">
                 @if (!empty($profileId))
                 <a class="nav-link active" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    Training Programs
+                    {{__('messages.training_programs')}}
                 </a>
             @else
-                <span class="nav-link disabled">Training Programs</span>
+                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
             @endif
                
               
@@ -79,7 +79,7 @@
     </div>
 
     <div class="section-title">
-        <h2>Training Programs</h2>
+        <h2>{{__('messages.training_programs')}}</h2>
     </div>
 
     <div class="form-container academics-form">
@@ -94,7 +94,7 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group ">
-                            <label>Name of Training Program</label>
+                            <label>{{__('messages.name_of_training_program')}}</label>
                             <input type="text" name="program_name" class="form-control" required>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{{__('messages.start_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="start_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -117,7 +117,7 @@
         
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{{__('messages.end_date')}}</label>
                         <div class="input-group date-picker-group">
                             <input type="date" name="end_date" class="form-control date-input">
                             <button class="btn btn-outline-secondary calendar-button" type="button">
@@ -133,15 +133,16 @@
                 <div class="col-md-12">
                     <div class="single-field">
                         <div class="form-group flex-column">
-                        <label>Training Program Details</label>
+                        <label>{{__('messages.training_program_details')}}</label>
                         <textarea name="details" class="form-control" rows="5"></textarea>
                     </div>
                     </div>
                     
                 </div>
             </div>
-    
-            <button type="submit" class="btn btn-primary">Save & Add More</button>
+    <div class="d-flex text-center justify-content-center">
+        <button type="submit" class="btn btn-primary">{{__('messages.save_add_more')}}</button>
+    </div>
         </form>
     
     
@@ -153,7 +154,7 @@
         </ul>
 <div class="d-flex text-center justify-content-center">
 
-    <a href="{{ route('trainer.show', $profileId) }}" class="btn btn-sm btn-success mt-2">View Profile</a>
+    <a href="{{ route('trainer.show', $profileId) }}" class="btn btn-sm btn-success mt-2">{{__('messages.view_profile')}}</a>
 </div>
 
     </div>
@@ -182,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const end = new Date(form.end_date.value);
 
         if (form.end_date.value && end < start) {
-            alert("End date must be after or equal to start date.");
+            alert("{{__('messages.end_date_must_be_after_start_date')}}.");
             return;
         }
 
@@ -202,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 appendProgram(data.program);
                 form.reset();
             } else {
-                alert("Validation error. Please check your input.");
+                alert("{{__('messages.validation_error_check_inputs')}}.");
                 console.error(data.errors);
             }
         })
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Delete program
     window.deleteProgram = function (id, btn) {
-        if (!confirm('Are you sure you want to delete this training program?')) return;
+        if (!confirm('{{__('messages.sure_want_delete_training?')}}')) return;
 
         fetch(`/trainers/training_programs/delete/${id}`, {
             method: 'DELETE',
@@ -240,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.success) {
                 btn.closest('li').remove();
             } else {
-                alert("Could not delete. Please try again.");
+                alert("{{__('messages.could_not_delete')}}");
             }
         })
         .catch(error => {
