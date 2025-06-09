@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     // -------------------------
     // Training Programs
     // -------------------------
+     Route::get('/trainers/{profile}/training_programs', [TrainingProgramController::class, 'index'])->name('trainers.training_programs.index');
     Route::get('/trainers/training_programs/create/{profile}', [TrainingProgramController::class, 'create'])->name('trainers.training_programs.create');
     Route::post('/trainers/training_programs/store', [TrainingProgramController::class, 'store'])->name('trainers.training_programs.store');
     Route::delete('/trainers/training_programs/delete/{id}', [TrainingProgramController::class, 'destroy'])->name('trainers.training_programs.delete');

@@ -369,7 +369,7 @@ a.logo img {
     height: 20px;
     font-size: 10px;
 } */
-#academicsList, .added-items, #workExperienceList {
+#academicsList, .added-items, #workExperienceList, #trainingProgramsList {
     list-style: none;
     margin: 3rem auto 2rem auto;
     display: flex;
@@ -378,7 +378,7 @@ a.logo img {
     padding: 0;
 }
 
-#academicsList li, .added-items li, #workExperienceList li {
+#academicsList li, .added-items li, #workExperienceList li, #trainingProgramsList li {
     display: flex;
     justify-content: space-between;
     align-items: center;

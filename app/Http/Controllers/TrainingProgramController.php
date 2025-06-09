@@ -11,6 +11,12 @@ use App\Models\TrainerProfile;
 class TrainingProgramController extends Controller
 {
    
+    public function index($profileId)
+{
+    $programs = TrainingProgram::where('profile_id', $profileId)->get();
+
+    return response()->json($programs);
+}
     public function create($profileId)
     {
       //  $profile = TrainerProfile::where('id', $profileId)->firstOrFail();

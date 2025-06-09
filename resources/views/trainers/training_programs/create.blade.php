@@ -131,10 +131,13 @@
     
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group ">
+                    <div class="single-field">
+                        <div class="form-group flex-column">
                         <label>Training Program Details</label>
                         <textarea name="details" class="form-control" rows="5"></textarea>
                     </div>
+                    </div>
+                    
                 </div>
             </div>
     
@@ -142,12 +145,16 @@
         </form>
     
     
-        <a href="{{ route('trainer.show', $profileId) }}" class="btn btn-sm btn-outline-primary mt-2">Save & View</a>
+       
 
         {{-- <h5>Added Training Programs</h5> --}}
-        <ul id="trainingProgramsList" class="list-group mt-2">
+        <ul id="trainingProgramsList" >
             <!-- Training programs will be dynamically inserted here -->
         </ul>
+<div class="d-flex text-center justify-content-center">
+
+    <a href="{{ route('trainer.show', $profileId) }}" class="btn btn-sm btn-success mt-2">View Profile</a>
+</div>
 
     </div>
 
@@ -207,11 +214,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Append program to list
     function appendProgram(program) {
         const li = document.createElement('li');
-        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.className = "";
         li.innerHTML = `
             <span>
-                <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})<br>
-                ${program.details || ''}
+                <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})
             </span>
             <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
         `;
@@ -222,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.deleteProgram = function (id, btn) {
         if (!confirm('Are you sure you want to delete this training program?')) return;
 
-        fetch(`/trainers/training_programs/${id}`, {
+        fetch(`/trainers/training_programs/delete/${id}`, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
