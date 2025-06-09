@@ -153,66 +153,60 @@
 
     
 </div>
-
 <script>
-    document.getElementById('trainingProgramForm').addEventListener('submit', function(e) {
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('trainingProgramForm');
+    const trainingProgramsList = document.getElementById('trainingProgramsList');
+    const profileId = "{{ $profileId }}";
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    // Load existing programs on page load
+    fetch(`/trainers/${profileId}/training_programs`)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(program => appendProgram(program));
+        });
+
+    // Handle form submission
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const start = new Date(e.target.start_date.value);
-    const end = new Date(e.target.end_date.value);
+        const start = new Date(form.start_date.value);
+        const end = new Date(form.end_date.value);
 
-    // If end_date is filled and before start_date, show alert and prevent submit
-    if (e.target.end_date.value && end < start) {
-        alert("End date must be after or equal to start date.");
-        return;
-    }
-
-        let form = e.target;
-        let formData = new FormData(form);
-
-        const trainingProgramStoreURL = "{{ route('trainers.training_programs.store') }}";
-
-
-        fetch(trainingProgramStoreURL, {
-    method: 'POST',
-    headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-         'Accept': 'application/json'
-    },
-    body: formData
-})
-.then(async res => {
-     const text = await res.text();
-   try {
-        const data = JSON.parse(text);
-
-        if (data.success) {
-            // Append new training program
-            let program = data.program;
-            let li = document.createElement('li');
-            li.className = "list-group-item d-flex justify-content-between align-items-center";
-            li.innerHTML = `
-                <span>
-                    <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})<br>
-                    ${program.details || ''}
-                </span>
-                <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
-            `;
-            document.getElementById('trainingProgramsList').appendChild(li);
-            form.reset();
-        } else {
-            console.error("Validation errors:", data.errors);
-            alert("Please fix validation errors.");
+        if (form.end_date.value && end < start) {
+            alert("End date must be after or equal to start date.");
+            return;
         }
-    } catch (err) {
-        console.error("Server returned HTML or unexpected output:", text);
-    }
-    return res.json();
-})
-.then(data => {
-    if (data.success) {
-        let program = data.program;
-        let li = document.createElement('li');
+
+        const formData = new FormData(form);
+
+        fetch("{{ route('trainers.training_programs.store') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                appendProgram(data.program);
+                form.reset();
+            } else {
+                alert("Validation error. Please check your input.");
+                console.error(data.errors);
+            }
+        })
+        .catch(error => {
+            console.error("Error saving program:", error);
+        });
+    });
+
+    // Append program to list
+    function appendProgram(program) {
+        const li = document.createElement('li');
         li.className = "list-group-item d-flex justify-content-between align-items-center";
         li.innerHTML = `
             <span>
@@ -221,47 +215,33 @@
             </span>
             <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
         `;
-        document.getElementById('trainingProgramsList').appendChild(li);
-        form.reset();
+        trainingProgramsList.appendChild(li);
     }
-})
-.catch(error => {
-    console.error('Error parsing JSON or network issue:', error);
-});
 
-    });
-
-    function deleteProgram(id, btn) {
+    // Delete program
+    window.deleteProgram = function (id, btn) {
         if (!confirm('Are you sure you want to delete this training program?')) return;
 
         fetch(`/trainers/training_programs/${id}`, {
             method: 'DELETE',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
             }
-        }).then(res => res.json())
+        })
+        .then(res => res.json())
         .then(data => {
-    if (data.success) {
-        let program = data.program;
-        let li = document.createElement('li');
-        li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.innerHTML = `
-            <span>
-                <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})<br>
-                ${program.details || ''}
-            </span>
-            <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
-        `;
-        document.getElementById('trainingProgramsList').appendChild(li);
-        form.reset();
-    } else {
-        console.error("Validation errors:", data.errors);
-        alert("Please fix validation errors.");
-    }
-})
-.catch(error => {
-    console.error('Error parsing JSON or network issue:', error);
+            if (data.success) {
+                btn.closest('li').remove();
+            } else {
+                alert("Could not delete. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error("Error deleting program:", error);
+        });
+    };
 });
-    }
 </script>
+
 @endsection
