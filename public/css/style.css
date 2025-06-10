@@ -454,6 +454,9 @@ a.logo img {
     border-radius: 5px;
     margin: 20px 0;
 }
+.profile-info h3 {
+    text-transform: capitalize
+}
 .profile-info p {
     margin-bottom: 0;
     font-size: 1rem;

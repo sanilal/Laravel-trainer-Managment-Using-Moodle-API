@@ -341,42 +341,52 @@ $prefix = $moodleUser['prefix'] ?? '';
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="country">{{__('messages.country')}}:</label>
-                   <x-select-field name="country" :options="config('countries.list')" :selected="$country ?? ''" />
+                    @php
+                        $locale = app()->getLocale();
+                        $countries = config('countries.list')[$locale] ?? config('countries.list')['en'];
+                    @endphp
+                   <x-select-field name="country" :options="$countries" :selected="$country ?? ''" />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="residency_status">{{__('messages.residency_status')}}:</label>
-                    <x-select-field 
-                    name="residency_status" 
-                    :options="['' => 'Select...', 
-                    'UAE National' => 'UAE National', 
-                    'Golden Visa' => 'Golden Visa', 
-                    'Green Visa' => 'Green Visa', 
-                    'Employment Visa' => 'Employment Visa', 
-                    'Family Visa' => 'Family Visa', 
-                    'Student Visa' => 'Student Visa', 
-                    'Visitor Visa' => 'Visitor Visa'
-                    ]"
-                    :selected="$residencyStatus ?? ''"  />
-                </div> 
+    <label for="residency_status">{{ __('messages.residency_status') }}:</label>
+
+    <x-select-field 
+        name="residency_status" 
+        :options="[
+            '' => __('messages.select'),
+           'uae_national'    => __('messages.uae_national'),
+            'golden_visa'     => __('messages.golden_visa'),
+            'green_visa'      => __('messages.green_visa'),
+            'employment_visa' => __('messages.employment_visa'),
+            'family_visa'     => __('messages.family_visa'),
+            'student_visa'    => __('messages.student_visa'),
+            'visitor_visa'    => __('messages.visitor_visa'),
+        ]" 
+        :selected="$residencyStatus ?? ''" 
+    />
+</div>
+
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="residing_city">{{__('messages.residing_city')}}:</label>
                     <x-select-field 
                     name="residing_city" 
-                    :options="[''=>'Select...', 
-                    'Abu Dhabi' => 'Abu Dhabi', 
-                    'Dubai' => 'Dubai', 
-                    'Sharjah' => 'Sharjah', 
-                    'Fujairah' => 'Fujairah', 
-                    'Umm Al Quwain' => 'Umm Al Quwain', 
-                    'Ajman' => 'Ajman', 
-                    'Ras Al Khaima' => 'Ras Al Khaima', 
-                    'Al Ain' => 'Al Ain']"
+                    :options="[
+                        ''=>__('messages.select'), 
+                    'Abu Dhabi' => __('messages.Abu_Dhabi'),
+                    'Dubai' => __('messages.Dubai'),
+                    'Sharjah' => __('messages.Sharjah'),
+                    'Fujairah' => __('messages.Fujairah'),
+                    'Umm Al Quwain' => __('messages.Umm_Al_Quwain'),
+                    'Ajman' => __('messages.Ajman'),
+                    'Ras Al Khaima' => __('messages.Ras_Al_Khaimah'),
+                    'Al Ain' => __('messages.Al_Ain')
+                    ]" 
                     :selected="$residingCity ?? ''" />
                 </div> 
             </div>

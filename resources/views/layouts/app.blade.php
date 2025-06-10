@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Arabic-specific CSS -->
+@if (app()->getLocale() == 'ar')
+    <link rel="stylesheet" href="{{ asset('css/style-rtl.css') }}">
+@endif
 </head>
 <body>
     {{-- Header --}}
@@ -20,30 +24,88 @@
         <div class="container">
             <div class="row">
                 {{-- Logo --}}
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="{{ url('/') }}" class="logo">
-                        <img src="{{ asset('images/arkan logo.png') }}" alt="Arkan Training Researches and Management Consultancy" class="img-fluid">
-                    </a>
-                </div>
-                <div class="col-md-8 text-end nav-top">
-                    {{-- <a href="https://externalsite.com" class="text-light me-3">External Link</a> --}}
-                    @guest
-                        {{-- <a href="{{ route('login') }}" class="text-light me-3">Login</a>
-                        <a href="{{ route('register') }}" class="text-light">Register</a> --}}
-                    @else
-                        <a href="{{ route('dashboard') }}" class="text-light me-3">Dashboard</a>
-                        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
-                        </form>
+                @if(app()->getLocale() === 'ar')
+    <div class="col-md-8 text-end nav-top">
+        @guest
+            {{-- Login/Register links (commented out) --}}
+        @else
+            
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+            </form>
+        @endguest
 
-                    @endguest
+        <!-- Language Switcher -->
+       @php
+    $locale = app()->getLocale();
+    $languages = [
+        'en' => 'English',
+        'ar' => 'العربية',
+    ];
+    // Remove current locale from the list to show in dropdown
+    $otherLanguages = collect($languages)->except($locale);
+@endphp
 
-                    <!-- Language Switcher -->
-                   <a href="{{ route('changeLang', ['locale' => 'en']) }}">English</a> |
-<a href="{{ route('changeLang', ['locale' => 'ar']) }}">العربية</a>
+<span class="dropdown languageswitcher">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ $languages[$locale] }}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="langDropdown">
+        @foreach($otherLanguages as $code => $language)
+            <li><a class="dropdown-item" href="{{ route('changeLang', ['locale' => $code]) }}">{{ $language }}</a></li>
+        @endforeach
+    </ul>
+</span>
 
-                </div>
+        
+    </div>
+
+    <div class="col-md-4 d-flex align-items-center">
+        <a href="{{ url('/') }}" class="logo">
+            <img src="{{ asset('images/arkan logo.png') }}" alt="Arkan Training Researches and Management Consultancy" class="img-fluid">
+        </a>
+    </div>
+@else
+    <div class="col-md-4 d-flex align-items-center">
+        <a href="{{ url('/') }}" class="logo">
+            <img src="{{ asset('images/arkan logo.png') }}" alt="Arkan Training Researches and Management Consultancy" class="img-fluid">
+        </a>
+    </div>
+
+    <div class="col-md-8 text-end nav-top">
+        @guest
+            {{-- Login/Register links (commented out) --}}
+        @else
+            
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+            </form>
+        @endguest
+
+        <!-- Language Switcher -->
+@php
+  $locale = app()->getLocale();
+    $languages = [
+        'en' => 'English',
+        'ar' => 'العربية',
+    ];
+     $otherLanguages = collect($languages)->except($locale);
+    @endphp
+        <span class="dropdown languageswitcher">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ $languages[$locale] }}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="langDropdown">
+        @foreach($otherLanguages as $code => $language)
+            <li><a class="dropdown-item" href="{{ route('changeLang', ['locale' => $code]) }}">{{ $language }}</a></li>
+        @endforeach
+    </ul>
+</span>
+    </div>
+@endif
+
              <!-- Main Navigation -->
              <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="container">
@@ -53,18 +115,19 @@
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav ms-auto nav-main">
                             <li class="nav-item"><a href="{{ url('/') }}" class="nav-link text-light">Home</a></li>
+                            <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link text-light">Dashboard</a></li>
                             <li class="nav-item"><a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">Browse Trainers</a></li>
                             <li class="nav-item"><a href="{{ url('/moodle/users') }}" class="nav-link text-light">Unregistered Trainers</a></li>
                            
                             {{-- <li class="nav-item"><a href="{{ url('/about') }}" class="nav-link text-light">About</a></li>
                             <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link text-light">Contact</a></li> --}}
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">More</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="https://externalsite.com">External Site</a></li>
                                     <li><a class="dropdown-item" href="{{ url('/services') }}">Services</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>

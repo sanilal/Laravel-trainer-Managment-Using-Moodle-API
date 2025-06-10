@@ -33,7 +33,7 @@
                                                 <p class="name">{!! langContent($fullName) !!}</p>
                                             @endif
                                             <p class="designation">
-                                                {{ $trainer->prefix2 }}
+                                                {{ __('messages.' . $trainer->prefix2) }}
                                             </p>
                                             
                                            <div class="row">
@@ -49,7 +49,7 @@
                                                     <p>{{__('messages.family_name')}}: {!! langContent($trainer->family_name) !!}</p>
                                                     @endif
                                                     @if (!empty($trainer->prefix2))
-                                                    <p>{{__('messages.title')}}: {!! langContent($trainer->prefix2) !!}</p>
+                                                    <p>{{__('messages.title')}}:  {{ __('messages.' . $trainer->prefix2) }}</p>
                                                     @endif
                                                     
                                                 </div>
@@ -57,7 +57,7 @@
                                             <div class="col-md-4">
                                                 <div class="more_personal">
                                                     @if (!empty($trainer->gender))
-                                                    <p><span class="color-secondary">Gender: </span> {!! langContent($trainer->gender) !!}</p>
+                                                    <p><span class="color-secondary">{{__('messages.gender')}}: </span> {{__('messages.' .$trainer->gender)}}</p>
                                                     @endif
                                                     @if (!empty($trainer->date_of_birth))
                                                     <p><span class="color-secondary">{{__('messages.date_of_birth')}}: </span> {{ \Carbon\Carbon::parse($trainer->date_of_birth)->format('d/m/Y') }}
@@ -81,11 +81,18 @@
                 <div class="col-md-8">
                     <div class="residency">
                         @if (!empty($trainer->residency_status))
-    <p><span class="color-secondary">{{__('messages.residency_status')}}: </span> {!! langContent($trainer->residency_status) !!}</p>
+    <p><span class="color-secondary">{{__('messages.residency_status')}}: </span> {{__('messages.' .$trainer->residency_status)}}</p>
+   
 @endif
 
 @if (!empty($trainer->country))
-    <p><span class="color-secondary">{{__('messages.country')}}: </span> {{ config('countries.list.' . $trainer->country, $trainer->country) }}</p>
+    <p><span class="color-secondary">{{__('messages.country')}}: </span>
+        @php
+    $locale = app()->getLocale();
+    $countryList = config("countries.list.$locale") ?? config('countries.list.en');
+    $countryName = $countryList[$trainer->country] ?? $trainer->country;
+@endphp
+        {{ $countryName }}</p>
 @endif
 
 @if (!empty($trainer->residing_city))
@@ -404,9 +411,9 @@
                 {{-- Three-column layout for the rest --}}
                 @php
                     $documents = [
-                        'Your Passport' => $trainer->personalDocuments->your_passport,
-                        'Other Document 1' => $trainer->personalDocuments->other_document,
-                        'Other Document 2' => $trainer->personalDocuments->other_document2,
+                        __('messages.your_passport') => $trainer->personalDocuments->your_passport,
+                         __('messages.other_document_1') => $trainer->personalDocuments->other_document,
+                         __('messages.other_document_2') => $trainer->personalDocuments->other_document2,
                     ];
                 @endphp
 

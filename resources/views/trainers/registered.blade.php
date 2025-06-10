@@ -139,7 +139,7 @@
      class="rounded-circle me-3" alt="Profile" width="100" height="100">
                                 <div>
                                     <h5 class="color-red">{{ $trainer->prefix }} {{ $trainer->first_name }} {{ $trainer->middle_name }} {{ $trainer->family_name }}</h5>
-                                    <h6>{{ $trainer->prefix2 }}</h6>
+                                    <h6>{{ __('messages.' . $trainer->prefix2) }}</h6>
                                     <p class="mb-1 text-muted">
                                         <strong>{{__('messages.specialization')}}:</strong>
                                         
