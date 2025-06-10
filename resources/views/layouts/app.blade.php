@@ -32,7 +32,7 @@
             
             <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">{{__('messages.logout')}}</button>
             </form>
         @endguest
 
@@ -80,7 +80,7 @@
             
             <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('Are you sure you want to logout?')">{{__('messages.logout')}}</button>
             </form>
         @endguest
 
@@ -114,10 +114,10 @@
                     </button>
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav ms-auto nav-main">
-                            <li class="nav-item"><a href="{{ url('/') }}" class="nav-link text-light">Home</a></li>
-                            <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link text-light">Dashboard</a></li>
-                            <li class="nav-item"><a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">Browse Trainers</a></li>
-                            <li class="nav-item"><a href="{{ url('/moodle/users') }}" class="nav-link text-light">Unregistered Trainers</a></li>
+                            <li class="nav-item"><a href="{{ url('/') }}" class="nav-link text-light">{{__('messages.home')}}</a></li>
+                            <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link text-light">{{__('messages.dashboard')}}</a></li>
+                            <li class="nav-item"><a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">{{__('messages.browse_trainers')}}</a></li>
+                            <li class="nav-item"><a href="{{ url('/moodle/users') }}" class="nav-link text-light">{{__('messages.unregistered_trainers')}}</a></li>
                            
                             {{-- <li class="nav-item"><a href="{{ url('/about') }}" class="nav-link text-light">About</a></li>
                             <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link text-light">Contact</a></li> --}}
@@ -142,7 +142,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; {{ date('Y') }} Arkan Trainer Management System. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} {{__('messages.arkan_allrights')}}</p>
         </div>
     </footer>
 

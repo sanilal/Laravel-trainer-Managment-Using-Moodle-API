@@ -156,5 +156,11 @@ return [
     'lieutenant_colonel_ret' => 'مقدم (متقاعد)',
     'major_ret' => 'رائد (متقاعد)',
     'captain_ret' => 'كابتن (متقاعد)', 
-    'lieutenant_ret' => 'ملازم (متقاعد)'
+    'lieutenant_ret' => 'ملازم (متقاعد)',
+    'unregistered_trainers' => 'المدربين غير المسجلين',
+    'browse_trainers' => 'تصفح المدربين',
+    'dashboard' => 'لوحة القيادة',
+    'home' => 'الصفحة الرئيسية',
+    'logout' => 'تسجيل الخروج',
+    'arkan_allrights' => 'نظام أركان لإدارة المدربين. جميع الحقوق محفوظة.',
 ];

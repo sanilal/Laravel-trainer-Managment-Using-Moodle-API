@@ -45,76 +45,73 @@
      
         <h2>{{__('messages.trainer_profile')}}</h2>
     </div>
+    @php
+    $isEdit = request()->is('trainers/*/edit');
+@endphp
     <div class="form-tabs">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                @if (!empty($moodleUser['id']))
-            <a class="nav-link active" href="{{ route('trainer.create', ['moodleUserId' =>  $moodleUser['id']]) }}">
-                {{__('messages.personal_information') }}
-            </a>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            @if (!empty($moodleUser['id']))
+                <a class="nav-link active" href="{{ route('trainer.create', ['moodleUserId' => $moodleUser['id']]) }}">
+                    {{ __('messages.personal_information') }}
+                </a>
             @else
-        <span class="nav-link disabled">{{__('messages.personal_information') }}</span>
-        @endif
-            </li>
-            <li class="nav-item">
-    
-                @if (!empty($profileId))
-        <a class="nav-link " href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
-            {{__('messages.documents')}}
-        </a>
-        @else
-        <span class="nav-link disabled">{{__('messages.documents')}}</span>
-        @endif
-                
-            </li>
-            <li class="nav-item">
-               
-    
-                @if (!empty($profileId))
+                <span class="nav-link disabled">{{ __('messages.personal_information') }}</span>
+            @endif
+        </li>
+
+        <li class="nav-item">
+            @if ($isEdit)
+                <a class="nav-link" href="{{ route('trainers.documents.create', ['profile' => $profileId]) }}">
+                    {{ __('messages.documents') }}
+                </a>
+            @else
+                <span class="nav-link disabled">{{ __('messages.documents') }}</span>
+            @endif
+        </li>
+
+        <li class="nav-item">
+            @if ($isEdit)
                 <a class="nav-link" href="{{ route('trainers.specializations.create', ['profile' => $profileId, 'user' => $userId]) }}">
-                    {{__('messages.specialization')}}
+                    {{ __('messages.specialization') }}
                 </a>
             @else
-                <span class="nav-link disabled">{{__('messages.specialization')}}</span>
+                <span class="nav-link disabled">{{ __('messages.specialization') }}</span>
             @endif
-    
-            </li>
-            <li class="nav-item">
-    
-                @if (!empty($profileId))
+        </li>
+
+        <li class="nav-item">
+            @if ($isEdit)
                 <a class="nav-link" href="{{ route('trainers.academics.create', ['profile' => $profileId]) }}">
-                    {{__('messages.academics')}}
+                    {{ __('messages.academics') }}
                 </a>
             @else
-                <span class="nav-link disabled">{{__('messages.academics')}}</span>
+                <span class="nav-link disabled">{{ __('messages.academics') }}</span>
             @endif
-    
-    
-               
-            </li>
-            <li class="nav-item">
-                @if (!empty($profileId))
+        </li>
+
+        <li class="nav-item">
+            @if ($isEdit)
                 <a class="nav-link" href="{{ route('trainers.work_experience.create', ['profile' => $profileId]) }}">
-                    {{__('messages.work_experience')}}
+                    {{ __('messages.work_experience') }}
                 </a>
             @else
-                <span class="nav-link disabled">{{__('messages.work_experience')}}</span>
+                <span class="nav-link disabled">{{ __('messages.work_experience') }}</span>
             @endif
-               
-            </li>
-            <li class="nav-item">
-                @if (!empty($profileId))
+        </li>
+
+        <li class="nav-item">
+            @if ($isEdit)
                 <a class="nav-link" href="{{ route('trainers.training_programs.create', ['profile' => $profileId]) }}">
-                    {{__('messages.training_programs')}}
+                    {{ __('messages.training_programs') }}
                 </a>
             @else
-                <span class="nav-link disabled">{{__('messages.training_programs')}}</span>
+                <span class="nav-link disabled">{{ __('messages.training_programs') }}</span>
             @endif
-               
-              
-            </li>
-        </ul>
-    </div>
+        </li>
+    </ul>
+</div>
+
 
     <div class="section-title">
         <h2>{{__('messages.personal_information')}}</h2>
@@ -253,13 +250,13 @@ $prefix = $moodleUser['prefix'] ?? '';
                     <label for="prefix2">{{__('messages.prefix2')}}:</label>
                     <x-select-field 
                     name="prefix2" 
-                    :options="['' => 'Select...',
-                        'Brigadier(Ret)' => 'Brigadier(Ret)',
-                        'Colonel(Ret)' => 'Colonel(Ret)',
-                        'Lieutenant Colonel(Ret)' => 'Lieutenant Colonel(Ret)',
-                        'Major(Ret)' => 'Major(Ret)',
-                        'Captain(Ret)' => 'Captain(Ret)', 
-                        'Lieutenant(Ret)' => 'Lieutenant(Ret)'
+                    :options="['' => '{{__('messages.select')}}',
+                        'brigadier_ret' => '{{__('messages.brigadier_ret')}}',
+                        'colonel_ret' => '{{__('messages.colonel_ret')}}',
+                        'lieutenant_colonel_ret' => '{{__('messages.lieutenant_colonel_ret')}}',
+                        'major_ret' => '{{__('messages.major_ret')}}',
+                        'captain_ret' => '{{__('messages.captain_ret')}}', 
+                        'lieutenant_ret' => '{{__('messages.lieutenant_ret')}}'
                     ]"
                     :selected="$prefix2 ?? ''" 
                     />

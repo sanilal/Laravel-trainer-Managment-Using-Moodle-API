@@ -153,5 +153,11 @@ return [
     'lieutenant_colonel_ret' => 'Lieutenant Colonel(Ret)',
     'major_ret' => 'Major(Ret)',
     'captain_ret' => 'Captain(Ret)', 
-    'lieutenant_ret' => 'Lieutenant(Ret)'
+    'lieutenant_ret' => 'Lieutenant(Ret)',
+    'unregistered_trainers' => 'Unregistered Trainers',
+    'browse_trainers' => 'Browse Trainers',
+    'dashboard' => 'Dashboard',
+    'home' => 'Home',
+    'logout' => 'Logout',
+    'arkan_allrights' => 'Arkan Trainer Management System. All rights reserved.',
 ];

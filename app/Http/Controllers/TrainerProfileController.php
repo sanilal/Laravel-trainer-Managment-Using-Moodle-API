@@ -131,6 +131,8 @@ public function store(Request $request)
         return view('trainers.create', [
             'trainerProfile' => $trainerProfile,
             'moodleUser' => $trainerProfile,
+            'profileId' => $trainerProfile->id,
+             'userId' => $trainerProfile->user_id,
             'profileImage' => $trainerProfile->profile_image
         ]);
     }
