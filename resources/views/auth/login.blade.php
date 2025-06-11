@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text-center mt-5">Trainer Login</h2>
+    <h2 class="text-center mt-5">{{__('messages.trainer_login ')}}</h2>
 
     <div class="login-container mt-4">
         <form method="POST" action="{{ route('login.check') }}" class="loginform">
             @csrf
 
-                <label for="email">Trainer / Admin Email:</label>
+                <label for="email">{{__('messages.trainer_admin_email')}}</label>
                 <input 
                     type="email" 
                     name="email" 
@@ -24,11 +24,11 @@
 
                 @error('lms')
                     <div class="mt-2 text-info">
-                        User not found. <a href="{{ $message }}" target="_blank">Contact Administrator</a>
+                        {{__('messages.User_not_found_contact_administrator')}}</a>
                     </div>
                 @enderror
 
-            <button type="submit" class="btn btn-primary mt-3">Continue</button>
+            <button type="submit" class="btn btn-primary mt-3">{{__('messages.continue')}}</button>
         </form>
     </div>
 </div>

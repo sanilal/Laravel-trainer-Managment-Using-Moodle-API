@@ -3,6 +3,214 @@
 
 
 @section('content')
+<style>
+    
+    /* Laravel Pagination CSS Fix */
+
+/* Main pagination container */
+nav[role="navigation"] {
+    margin: 20px 0;
+    clear: both;
+}
+
+/* Pagination wrapper */
+.flex.items-center.justify-between {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px;
+}
+
+/* Mobile pagination (sm:hidden) */
+.flex.justify-between.flex-1.sm\:hidden {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 12px;
+}
+
+/* Desktop pagination container */
+.hidden.sm\:flex-1.sm\:flex.sm\:items-center.sm\:justify-between {
+    display: none !important;
+}
+
+@media (min-width: 640px) {
+    .hidden.sm\:flex-1.sm\:flex.sm\:items-center.sm\:justify-between {
+        display: flex !important;
+        flex: 1 !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    .flex.justify-between.flex-1.sm\:hidden {
+        display: none !important;
+    }
+}
+
+/* Pagination buttons styling */
+.relative.inline-flex.items-center {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 8px 12px;
+    margin: 0 1px;
+    text-decoration: none;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.25;
+    border-radius: 6px;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Dark mode support */
+.dark .relative.inline-flex.items-center {
+    background-color: #1f2937;
+    border-color: #4b5563;
+    color: #d1d5db;
+}
+
+/* Hover states */
+.relative.inline-flex.items-center:hover:not([aria-disabled="true"]):not([aria-current="page"] span) {
+    background-color: #f9fafb;
+    color: #6b7280;
+    border-color: #9ca3af;
+}
+
+.dark .relative.inline-flex.items-center:hover:not([aria-disabled="true"]):not([aria-current="page"] span) {
+    background-color: #374151;
+    color: #e5e7eb;
+}
+
+/* Active/Current page */
+span[aria-current="page"] span {
+    background-color: #c23a2b !important;
+    color: white !important;
+    border-color: #c23a2b !important;
+    cursor: default;
+}
+
+/* Disabled state */
+span[aria-disabled="true"] span {
+    background-color: #f9fafb !important;
+    color: #9ca3af !important;
+    border-color: #e5e7eb !important;
+    cursor: not-allowed !important;
+}
+
+.dark span[aria-disabled="true"] span {
+    background-color: #374151 !important;
+    color: #6b7280 !important;
+    border-color: #4b5563 !important;
+}
+
+/* SVG icons in arrows */
+.relative.inline-flex.items-center svg {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0;
+}
+
+/* Pagination numbers container */
+.relative.z-0.inline-flex.shadow-sm.rounded-md {
+    display: inline-flex !important;
+    align-items: center !important;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Remove individual border radius for connected buttons */
+.relative.z-0.inline-flex.shadow-sm.rounded-md .relative.inline-flex.items-center {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    border-right-width: 0;
+}
+
+/* First button (previous arrow) */
+.relative.z-0.inline-flex.shadow-sm.rounded-md .relative.inline-flex.items-center:first-child {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+
+/* Last button (next arrow) */
+.relative.z-0.inline-flex.shadow-sm.rounded-md .relative.inline-flex.items-center:last-child {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    border-right-width: 1px;
+}
+
+/* Results text styling */
+.text-sm.text-gray-700.leading-5 {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.dark .text-sm.text-gray-700.leading-5 {
+    color: #9ca3af;
+}
+
+/* Font weight for numbers */
+.font-medium {
+    font-weight: 600 !important;
+}
+
+/* Focus states */
+.relative.inline-flex.items-center:focus {
+    outline: none !important;
+    ring: 2px solid #c23a2b !important;
+    ring-offset: 2px;
+    z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 639px) {
+    .relative.inline-flex.items-center {
+        min-width: 36px;
+        min-height: 36px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    
+    .relative.inline-flex.items-center svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}
+
+/* Fix for RTL support */
+.rtl\:flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
+/* Ensure proper spacing */
+.relative.z-0.inline-flex.shadow-sm.rounded-md {
+    gap: 0 !important;
+}
+
+/* Additional margin fixes */
+.-ml-px {
+    margin-left: -1px !important;
+}
+
+/* Active state improvements */
+.active\:bg-gray-100:active {
+    background-color: #f3f4f6 !important;
+}
+
+.dark .active\:bg-gray-100:active {
+    background-color: #374151 !important;
+}
+</style>
 <div class="container">
     <div class="section-title">
         <h2 class="">{{__('messages.list_of_trainers')}}</h2>
@@ -101,6 +309,7 @@
     @endforeach
 </div>
 </div>
+
  {{-- <div class="filter-title"><h4>Filter By Country</h4></div>
     <div class="filterparams">
                 <div class="mb-3">

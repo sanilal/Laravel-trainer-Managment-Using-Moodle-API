@@ -78,7 +78,7 @@
 
        <div class="card" style="max-width:100%">
         <h4>{{__('messages.unregistered_trainers')}}</h4>
-        <p>{{__('messages.total')}}: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p>
+        {{-- <p>{{__('messages.total')}}: <strong>{{ count($notRegisteredLmsUsers) }}</strong></p> --}}
 
         <a href="{{ url('/moodle/users') }}" class="btn btn-warning">{{__('messages.view_unregistered')}}</a>
     </div>

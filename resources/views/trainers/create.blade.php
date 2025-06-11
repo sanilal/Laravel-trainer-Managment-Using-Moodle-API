@@ -249,17 +249,18 @@ $prefix = $moodleUser['prefix'] ?? '';
                     {{-- <x-select-field name="prefix2" :options="['','Brigadier(Ret)', 'Colonel(Ret)', 'Lieutenant Colonel(Ret)', 'Major(Ret)', 'Captain(Ret)', 'Lieutenant(Ret)']" /> --}}
                     <label for="prefix2">{{__('messages.prefix2')}}:</label>
                     <x-select-field 
-                    name="prefix2" 
-                    :options="['' => '{{__('messages.select')}}',
-                        'brigadier_ret' => '{{__('messages.brigadier_ret')}}',
-                        'colonel_ret' => '{{__('messages.colonel_ret')}}',
-                        'lieutenant_colonel_ret' => '{{__('messages.lieutenant_colonel_ret')}}',
-                        'major_ret' => '{{__('messages.major_ret')}}',
-                        'captain_ret' => '{{__('messages.captain_ret')}}', 
-                        'lieutenant_ret' => '{{__('messages.lieutenant_ret')}}'
-                    ]"
-                    :selected="$prefix2 ?? ''" 
-                    />
+    name="prefix2" 
+    :options="[
+        '' => __('messages.select'),
+        'brigadier_ret' => __('messages.brigadier_ret'),
+        'colonel_ret' => __('messages.colonel_ret'),
+        'lieutenant_colonel_ret' => __('messages.lieutenant_colonel_ret'),
+        'major_ret' => __('messages.major_ret'),
+        'captain_ret' => __('messages.captain_ret'),
+        'lieutenant_ret' => __('messages.lieutenant_ret'),
+    ]" 
+    :selected="$prefix2 ?? ''" 
+/>
                 </div>
             </div>
         </div>
