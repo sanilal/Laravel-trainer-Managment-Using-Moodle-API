@@ -178,7 +178,4 @@
     <option value="Autism Studies" {{ $selectedValue == 'Autism Studies' ? 'selected' : '' }}>Autism Studies</option>
     <option value="Art and Music Therapy" {{ $selectedValue == 'Art and Music Therapy' ? 'selected' : '' }}>Art and Music Therapy</option>
 </optgroup>
-<optgroup label="🧩 Mind and Behavior Studies Specializations">
-    <option value="Behavioral Neuroscience" {{ $selectedValue == 'Behavioral Neuroscience' ? 'selected' : '' }}>Behavioral Neuroscience</option>
- 
-</optgroup>
+<option value="none" {{ $selectedValue == 'none' ? 'selected' : '' }}>{{ __('messages.no_data_available') }}</option>

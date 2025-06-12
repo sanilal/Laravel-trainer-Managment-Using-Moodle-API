@@ -171,4 +171,5 @@ return [
     'confirm_password' => 'Confirm Password:',
     'register_login' => 'Register & Login',
     'print' => 'Print / Save',
+    'no_data_available' => 'No data available',
 ];

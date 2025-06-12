@@ -174,4 +174,5 @@ return [
     'confirm_password' => 'تأكيد كلمة المرور:',
     'register_login' => 'التسجيل وتسجيل الدخول',
      'print' => 'طباعة / حفظ',
+     'no_data_available' => 'لا توجد بيانات متاحة',
 ];
