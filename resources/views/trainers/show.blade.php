@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="profile-wraper" id="trainer-cv">
+    <div class="profile-wraper" id="trainer-cv" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="section-title">
             <h2>{{__('messages.personal_information')}}</h2>
         </div>
@@ -470,20 +470,6 @@
     function downloadCV() {
     const element = document.getElementById('trainer-cv');
 
-    // Clone and wrap to ensure consistent rendering
-    const clone = element.cloneNode(true);
-    const wrapper = document.createElement('div');
-
-    wrapper.style.width = '210mm'; // A4 width
-    wrapper.style.minHeight = '297mm'; // A4 height
-    wrapper.style.padding = '20mm';
-    wrapper.style.boxSizing = 'border-box';
-    wrapper.style.background = 'white';
-    wrapper.style.fontFamily = getComputedStyle(document.body).fontFamily;
-    wrapper.appendChild(clone);
-
-    document.body.appendChild(wrapper);
-
     const opt = {
         margin:       0,
         filename:     'trainer_cv.pdf',
@@ -491,9 +477,8 @@
         html2canvas:  {
             scale: 2,
             useCORS: true,
-            allowTaint: true,
             scrollY: 0,
-            windowWidth: 1200 // ensures full content width is captured
+            windowWidth: element.scrollWidth // full width
         },
         jsPDF: {
             unit: 'mm',
@@ -501,14 +486,11 @@
             orientation: 'portrait'
         },
         pagebreak: {
-            mode: ['css', 'legacy'],
-            avoid: ['.no-break', 'img']
+            mode: ['avoid-all', 'css', 'legacy']
         }
     };
 
-    html2pdf().set(opt).from(wrapper).save().then(() => {
-        document.body.removeChild(wrapper);
-    });
+    html2pdf().set(opt).from(element).save();
 }
 </script>
 @endpush
