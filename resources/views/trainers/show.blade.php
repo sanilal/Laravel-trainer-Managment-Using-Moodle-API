@@ -448,13 +448,13 @@
     {{-- Include partials for documents, academics, etc. if available --}}
 </div>
 
-<div class="text-end mb-3">
+<div class="text-center mb-3">
     <button onclick="printCV()" class="btn btn-primary me-2">{{ __('messages.print') }}</button>
-    <button onclick="downloadCV()" class="btn btn-secondary">{{ __('messages.download') }}</button>
 </div>
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     function printCV() {
@@ -466,43 +466,6 @@
         document.body.innerHTML = originalContents;
         location.reload(); // Ensure JS works again after restoring DOM
     }
-
-    function downloadCV() {
-    const element = document.getElementById('trainer-cv');
-
-    // Use html2canvas first to measure actual width
-    html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        scrollY: 0,
-        windowWidth: element.scrollWidth,
-    }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
-
-        // Convert px to mm
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-
-        const imgWidth = pageWidth;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-
-        let position = 0;
-        let remainingHeight = imgHeight;
-
-        // If content is taller than one page
-        while (remainingHeight > 0) {
-            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-            remainingHeight -= pageHeight;
-            if (remainingHeight > 0) {
-                pdf.addPage();
-                position = - (imgHeight - remainingHeight);
-            }
-        }
-
-        pdf.save('trainer_cv.pdf');
-    });
-}
 
 </script>
 @endpush
