@@ -254,7 +254,7 @@
 
          
   <!-- Added Certifications -->
-  <ul id="certification-list">
+  <ul id="certification-list"  class="added-items">
     @foreach ($certifications as $certification)
         <li id="certification-{{ $certification->id }}">
             {{ $certification->certified_in }} - {{ $certification->cert_name_of_the_institution }}
@@ -301,7 +301,7 @@
                 if (data.success) {
                     let listItem = `<li id="specialization-${data.specialization.id}">
                         ${data.specialization.specialization} - ${data.specialization.name_of_the_institution}
-                        <button class="btn-sm remove-specialization" data-id="${data.specialization.id}">X</button>
+                        <button class="btn btn-danger btn-sm remove-specialization" data-id="${data.specialization.id}">X</button>
                     </li>`;
                     document.getElementById('specialization-list').innerHTML += listItem;
                 }
@@ -332,26 +332,41 @@
         });
 
         // AJAX for Removing Specialization
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('remove-specialization')) {
-                let id = event.target.getAttribute('data-id');
+       document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('remove-specialization')) {
+        let id = event.target.getAttribute('data-id');
 
-                fetch(`/specializations/${id}`, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
-                    .then(response => response.json())
-                    .then(() => document.getElementById(`specialization-${id}`).remove());
-            }
-        });
+        if (confirm("Do you want to delete this specialization?")) {
+            fetch(`/trainers/specializations/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(() => document.getElementById(`specialization-${id}`).remove());
+        }
+    }
+});
+
 
         // AJAX for Removing Certification
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('remove-certification')) {
-                let id = event.target.getAttribute('data-id');
+    document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('remove-certification')) {
+        let id = event.target.getAttribute('data-id');
 
-                fetch(`/certifications/${id}`, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
-                    .then(response => response.json())
-                    .then(() => document.getElementById(`certification-${id}`).remove());
-            }
-        });
+        if (confirm("Do you want to delete this certification?")) {
+            fetch(`/trainers/certifications/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(() => document.getElementById(`certification-${id}`).remove());
+        }
+    }
+});
     });
 </script>
 @endsection

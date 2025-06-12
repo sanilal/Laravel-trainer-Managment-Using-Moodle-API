@@ -51,7 +51,8 @@
     <ul class="nav nav-tabs">
         <li class="nav-item">
             @if (!empty($userId))
-        <a class="nav-link " href="{{ route('trainer.create', ['moodleUserId' => $userId]) }}">
+        
+            <a class="nav-link " href="{{ route('trainer.edit', ['id' => $profileId]) }}">
             {{__('messages.personal_information')}}
         </a>
         @else

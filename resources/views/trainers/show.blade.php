@@ -172,79 +172,80 @@
             <h2>{{__('messages.specialization_certifications')}}</h2>
         </div>
         
-        <div class="profile-info" id="specializations">
-            <div class="row">
-                <div class="col-md-11">
-                    <h3>{{__('messages.specialization')}} : </h3>
-        
-                    @forelse($trainer->specializations as $specialization)
-                        <div class="course-group mb-4">
-                            <div class="course-group-info">
-                                <p class="course-group-name">{{ langContent($specialization->specialization) }}</p>
-                                <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($specialization->name_of_the_institution) }}</p>
-                                <div class="course-group-dates">
-                                    <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($specialization->start_date)->format('d/m/Y') }}</p>
-                                    <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($specialization->end_date)->format('d/m/Y') }}</p>
-                                </div>
+       @if ($trainer->specializations->count())
+    <div class="profile-info" id="specializations">
+        <div class="row">
+            <div class="col-md-11">
+                <h3>{{ __('messages.specialization') }}:</h3>
+
+                @foreach($trainer->specializations as $specialization)
+                    <div class="course-group mb-4">
+                        <div class="course-group-info">
+                            <p class="course-group-name">{{ langContent($specialization->specialization) }}</p>
+                            <p class="course-group-institute">
+                                {{ __('messages.name_of_institution') }}: {{ langContent($specialization->name_of_the_institution) }}
+                            </p>
+                            <div class="course-group-dates">
+                                <p class="course-group-start-date">
+                                    {{ __('messages.start_date') }}: {{ \Carbon\Carbon::parse($specialization->start_date)->format('d/m/Y') }}
+                                </p>
+                                <p class="course-group-end-date">
+                                    {{ __('messages.end_date') }}: {{ \Carbon\Carbon::parse($specialization->end_date)->format('d/m/Y') }}
+                                </p>
                             </div>
-                            
-
-                            <div class="course-group-image">
-    @if ($specialization->upload_certificate)
-        <a href="{{ asset('storage/' . $specialization->upload_certificate) }}" target="_blank">
-            <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
-        </a>
-    @else
-        <p>{{__('messages.no_attachment')}}</p>
-    @endif
-</div>
-
                         </div>
-                    @empty
-                        <p>{{__('messages.no_specializations')}}.</p>
-                    @endforelse
-        
-                </div>
+
+                        <div class="course-group-image">
+                            @if ($specialization->upload_certificate)
+                                <a href="{{ asset('storage/' . $specialization->upload_certificate) }}" target="_blank">
+                                    <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
+    </div>
+@endif
         
     {{-- Certifications --}}
-    <div class="profile-info" id="certifications">
-        <div class="row">
-            <div class="col-md-9">
-                <h3>{{__('messages.certifications')}} : </h3>
-                @forelse ($trainer->certifications as $certification)
+    @if ($trainer->certifications->count())
+<div class="profile-info" id="certifications">
+    <div class="row">
+        <div class="col-md-9">
+            <h3>{{ __('messages.certifications') }}:</h3>
+            @foreach ($trainer->certifications as $certification)
                 <div class="course-group">
                     <div class="course-group-info">
                         <p class="course-group-name">{{ langContent($certification->certified_in) }}</p>
-                        <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($certification->name_of_the_institution) }} </p>
+                        <p class="course-group-institute">
+                            {{ __('messages.name_of_institution') }}: {{ langContent($certification->name_of_the_institution) }}
+                        </p>
                         <div class="course-group-dates">
-                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ langContent($certification->start_date) }}</p>
-                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ langContent($certification->end_date) }}</p>
+                            <p class="course-group-start-date">
+                                {{ __('messages.start_date') }}: {{ langContent($certification->start_date) }}
+                            </p>
+                            <p class="course-group-end-date">
+                                {{ __('messages.end_date') }}: {{ langContent($certification->end_date) }}
+                            </p>
                         </div>
                     </div>
-                  
+
                     <div class="course-group-image">
                         @if ($certification->upload_certificate)
                             <a href="{{ asset('storage/' . $certification->upload_certificate) }}" target="_blank">
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
-                        @else
-                            <p>{{__('messages.no_attachment')}}</p>
                         @endif
                     </div>
-                   
                 </div>
-                @empty
-                <p>{{__('messages.no_certifications')}}.</p>
-                @endforelse
-               
-                
-
-
+            @endforeach
         </div>
     </div>
 </div>
+@endif
+
 {{-- Academics --}}
 @php
     // Define the desired order
@@ -260,97 +261,94 @@
         return $academicOrder[strtolower($academic->academics)] ?? 99;
     });
 @endphp
+@if ($sortedAcademics->count())
+    <div class="section-title">
+        <h2>{{ __('messages.academics') }}</h2>
+    </div>
 
-<div class="section-title">
-    <h2>{{__('messages.academics')}}</h2>
-</div>
-<div id="academics">
-    @forelse ($sortedAcademics as $academic)
-    <div class="profile-info">
-        <div class="row">
-            <div class="col-md-9">
-                <h3>{{ langContent($academic->academics) }}</h3>
-                <div class="course-group">
-                    <div class="course-group-info">
-                       
+    <div id="academics">
+        @foreach ($sortedAcademics as $academic)
+            <div class="profile-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h3>{{ langContent($academic->academics) }}</h3>
+                        <div class="course-group">
+                            <div class="course-group-info">
+                                <p class="course-group-name">
+                                    {{ $academic->stream ? langContent($academic->stream) : 'Stream not specified' }}
+                                </p>
+                                <p class="course-group-institute">
+                                    {{ __('messages.name_of_institution') }}: {{ langContent($academic->name_of_the_university) }}
+                                </p>
+                                <div class="course-group-dates">
+                                    <p class="course-group-start-date">
+                                        {{ __('messages.start_date') }}: {{ \Carbon\Carbon::parse($academic->start_date)->format('d/m/Y') }}
+                                    </p>
+                                    <p class="course-group-end-date">
+                                        {{ __('messages.end_date') }}: {{ \Carbon\Carbon::parse($academic->end_date)->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
 
-                        <p class="course-group-name"> {{ $academic->stream ? langContent($academic->stream) : 'Stream not specified' }}</p>
-                        <p class="course-group-institute">{{__('messages.name_of_institution')}}: {{ langContent($academic->name_of_the_university) }}</p>
-                        <div class="course-group-dates">
-                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($academic->start_date)->format('d/m/Y') }}</p>
-                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($academic->end_date)->format('d/m/Y') }}</p>
+                            <div class="course-group-image">
+                                @if ($academic->upload_certificate)
+                                    <a href="{{ asset('storage/' . $academic->upload_certificate) }}" target="_blank">
+                                        <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                
-
-                    <div class="course-group-image">
-                        @if ($academic->upload_certificate)
-                            <a href="{{ asset('storage/' . $academic->upload_certificate) }}" target="_blank">
-                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
-                            </a>
-                        @else
-                            <p>{{__('messages.no_attachment')}}</p>
-                        @endif
-                    </div>
-
-
-                    
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-    @empty
-        <p>{{__('messages.no_certifications')}}.</p>
-    @endforelse
-</div>
+@endif
+
 
 
 {{-- Work Experience  --}}
+@if ($trainer->workExperiences->isNotEmpty())
+    <div class="section-title">
+        <h2>{{ __('messages.work_experience') }}</h2>
+    </div>
 
-<div class="section-title">
-    <h2>{{__('messages.work_experience')}}</h2>
-</div>
+    <div id="work-experience">
+        @foreach($trainer->workExperiences as $index => $work)
+            <div class="profile-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h3>Job {{ $index + 1 }}:</h3>
+                        <div class="course-group">
+                            <div class="course-group-info">
+                                <p class="course-group-name">{{ langContent($work->organization_name) }}</p>
+                                <p class="course-group-institute">{{ __('messages.designation') }}: {{ langContent($work->designation) }}</p>
+                                <div class="course-group-dates">
+                                    <p class="course-group-start-date">{{ __('messages.start_date') }}: {{ \Carbon\Carbon::parse($work->start_date)->format('d/m/Y') }}</p>
+                                    <p class="course-group-end-date">{{ __('messages.end_date') }}: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
+                                </div>
+                            </div>
 
-<div id="work-experience">
-    @forelse($trainer->workExperiences as $index => $work)
-    <div class="profile-info">
-        <div class="row">
-            <div class="col-md-9">
-                <h3>Job {{ $index + 1 }}:</h3>
-                <div class="course-group">
-                    <div class="course-group-info">
-                        <p class="course-group-name">{{ langContent($work->organization_name) }}</p>
-                        <p class="course-group-institute">{{__('messages.designation')}}: {{ langContent($work->designation) }}</p>
-                        <div class="course-group-dates">
-                            <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($work->start_date)->format('d/m/Y') }}</p>
-                            <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
+                            <div class="course-group-image">
+                                @if ($work->upload_certificate)
+                                    <a href="{{ asset('storage/' . $work->upload_certificate) }}" target="_blank">
+                                        <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                   
-                    <div class="course-group-image">
-                        @if ($work->upload_certificate)
-                            <a href="{{ asset('storage/' . $work->upload_certificate) }}" target="_blank">
-                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
-                            </a>
-                        @else
-                            <p>{{__('messages.no_attachment')}}</p>
-                        @endif
-                    </div>
-                    
-
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-    @empty
-        <p>{{__('messages.no_work_experience')}}.</p>
-    @endforelse
-</div>
+@endif
+
 
 
 
 {{-- Training Programs  --}}
-
+@if ($trainer->trainingPrograms->isNotEmpty())
 <div class="section-title">
     <h2>{{__('messages.training_programs')}}</h2>
 </div>
@@ -374,7 +372,7 @@
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else
-                            <p>{{__('messages.no_attachment')}}</p>
+                            {{-- <p>{{__('messages.no_attachment')}}</p> --}}
                         @endif
                     </div>
                     </div>
@@ -382,38 +380,47 @@
             </div>
         </div>
     @empty
-        <p>{{__('messages.no_training_programs')}}.</p>
+        {{-- <p>{{__('messages.no_training_programs')}}.</p> --}}
     @endforelse
 </div>
+@endif
 
 {{-- Documents --}}
-<div class="section-title">
-    <h2>{{__('messages.documents')}}</h2>
-</div>
 
-<div id="documents">
-    @if ($trainer->personalDocuments)
+@php
+    $docs = $trainer->personalDocuments;
+    $hasDocuments = $docs && ($docs->your_id || $docs->your_passport || $docs->other_document || $docs->other_document2);
+@endphp
+
+@if ($hasDocuments)
+    <div class="section-title">
+        <h2>{{ __('messages.documents') }}</h2>
+    </div>
+
+    <div id="documents">
         <div class="profile-info">
             <div class="row">
                 {{-- Full-width row for Your ID --}}
-                @if ($trainer->personalDocuments->your_id)
+                @if ($docs->your_id)
                     <div class="col-md-12 mb-3">
                         <div class="document-box">
-                            <p><strong>{{__('messages.national_id')}}:</strong></p>
-                            <a href="{{ asset('uploads/documents/' . $trainer->personalDocuments->your_id) }}" target="_blank" class="nationalid"><img src="{{ asset('images/id-card.png') }}" alt="national Id" class="img-fluid"></a>
+                            <p><strong>{{ __('messages.national_id') }}:</strong></p>
+                            <a href="{{ asset('uploads/documents/' . $docs->your_id) }}" target="_blank" class="nationalid">
+                                <img src="{{ asset('images/id-card.png') }}" alt="national Id" class="img-fluid">
+                            </a>
                         </div>
                     </div>
                 @endif
             </div>
         </div>
+
         <div class="profile-info">
             <div class="row">
-                {{-- Three-column layout for the rest --}}
                 @php
                     $documents = [
-                        __('messages.your_passport') => $trainer->personalDocuments->your_passport,
-                         __('messages.other_document_1') => $trainer->personalDocuments->other_document,
-                         __('messages.other_document_2') => $trainer->personalDocuments->other_document2,
+                        __('messages.your_passport') => $docs->your_passport,
+                        __('messages.other_document_1') => $docs->other_document,
+                        __('messages.other_document_2') => $docs->other_document2,
                     ];
                 @endphp
 
@@ -422,17 +429,16 @@
                         <div class="col-md-4 mb-3">
                             <div class="document-box">
                                 <p><strong>{{ $label }}:</strong></p>
-                                <a href="{{ asset('uploads/documents/' . $file) }}" target="_blank">{{__('messages.view_document')}}</a>
+                                <a href="{{ asset('uploads/documents/' . $file) }}" target="_blank">{{ __('messages.view_document') }}</a>
                             </div>
                         </div>
                     @endif
                 @endforeach
             </div>
         </div>
-    @else
-        <p>{{__('messages.no_documents')}}.</p>
-    @endif
-</div>
+    </div>
+@endif
+
 
 
 
