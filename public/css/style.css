@@ -250,6 +250,9 @@ a.logo img {
     max-width: 90%;
     margin: 0 auto;
 }
+.added-items form {
+    width: max-content;
+}
 .form-group label {
     width: 210px;
     max-width: 100%;
