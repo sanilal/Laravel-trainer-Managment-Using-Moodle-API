@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="profile-wraper">
+    <div class="profile-wraper" id="trainer-cv">
         <div class="section-title">
             <h2>{{__('messages.personal_information')}}</h2>
         </div>
@@ -154,7 +154,7 @@
 
         </div>
         {{-- About Me --}}
-        @if (!empty($trainer->email))
+        @if (trim(strip_tags(langContent($trainer->about_you))) !== '')
         <div class="profile-info" id="about-me">
 <div class="row">
     <div class="col-md-12">
@@ -168,16 +168,18 @@
 </div>
         </div>
         @endif
-        <div class="section-title">
-            <h2>{{__('messages.specialization_certifications')}}</h2>
-        </div>
-        
-       @if ($trainer->specializations->count())
+       @if ($trainer->specializations->count() || $trainer->certifications->count())
+    <div class="section-title">
+        <h2>{{ __('messages.specialization_certifications') }}</h2>
+    </div>
+@endif
+
+{{-- Specializations --}}
+@if ($trainer->specializations->count())
     <div class="profile-info" id="specializations">
         <div class="row">
             <div class="col-md-11">
                 <h3>{{ __('messages.specialization') }}:</h3>
-
                 @foreach($trainer->specializations as $specialization)
                     <div class="course-group mb-4">
                         <div class="course-group-info">
@@ -208,43 +210,44 @@
         </div>
     </div>
 @endif
-        
-    {{-- Certifications --}}
-    @if ($trainer->certifications->count())
-<div class="profile-info" id="certifications">
-    <div class="row">
-        <div class="col-md-9">
-            <h3>{{ __('messages.certifications') }}:</h3>
-            @foreach ($trainer->certifications as $certification)
-                <div class="course-group">
-                    <div class="course-group-info">
-                        <p class="course-group-name">{{ langContent($certification->certified_in) }}</p>
-                        <p class="course-group-institute">
-                            {{ __('messages.name_of_institution') }}: {{ langContent($certification->name_of_the_institution) }}
-                        </p>
-                        <div class="course-group-dates">
-                            <p class="course-group-start-date">
-                                {{ __('messages.start_date') }}: {{ langContent($certification->start_date) }}
+
+{{-- Certifications --}}
+@if ($trainer->certifications->count())
+    <div class="profile-info" id="certifications">
+        <div class="row">
+            <div class="col-md-9">
+                <h3>{{ __('messages.certifications') }}:</h3>
+                @foreach ($trainer->certifications as $certification)
+                    <div class="course-group">
+                        <div class="course-group-info">
+                            <p class="course-group-name">{{ langContent($certification->certified_in) }}</p>
+                            <p class="course-group-institute">
+                                {{ __('messages.name_of_institution') }}: {{ langContent($certification->name_of_the_institution) }}
                             </p>
-                            <p class="course-group-end-date">
-                                {{ __('messages.end_date') }}: {{ langContent($certification->end_date) }}
-                            </p>
+                            <div class="course-group-dates">
+                                <p class="course-group-start-date">
+                                    {{ __('messages.start_date') }}: {{ langContent($certification->start_date) }}
+                                </p>
+                                <p class="course-group-end-date">
+                                    {{ __('messages.end_date') }}: {{ langContent($certification->end_date) }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="course-group-image">
+                            @if ($certification->upload_certificate)
+                                <a href="{{ asset('storage/' . $certification->upload_certificate) }}" target="_blank">
+                                    <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
+                                </a>
+                            @endif
                         </div>
                     </div>
-
-                    <div class="course-group-image">
-                        @if ($certification->upload_certificate)
-                            <a href="{{ asset('storage/' . $certification->upload_certificate) }}" target="_blank">
-                                <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
-                            </a>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
 @endif
+
 
 {{-- Academics --}}
 @php
@@ -441,12 +444,72 @@
 
 
 
-
-
-
-
-
     {{-- Optional: Additional Sections --}}
     {{-- Include partials for documents, academics, etc. if available --}}
 </div>
+
+<div class="text-end mb-3">
+    <button onclick="printCV()" class="btn btn-primary me-2">{{ __('messages.print') }}</button>
+    <button onclick="downloadCV()" class="btn btn-secondary">{{ __('messages.download') }}</button>
+</div>
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function printCV() {
+        const printContents = document.getElementById('trainer-cv').innerHTML;
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload(); // Ensure JS works again after restoring DOM
+    }
+
+    function downloadCV() {
+    const element = document.getElementById('trainer-cv');
+
+    // Clone and wrap to ensure consistent rendering
+    const clone = element.cloneNode(true);
+    const wrapper = document.createElement('div');
+
+    wrapper.style.width = '210mm'; // A4 width
+    wrapper.style.minHeight = '297mm'; // A4 height
+    wrapper.style.padding = '20mm';
+    wrapper.style.boxSizing = 'border-box';
+    wrapper.style.background = 'white';
+    wrapper.style.fontFamily = getComputedStyle(document.body).fontFamily;
+    wrapper.appendChild(clone);
+
+    document.body.appendChild(wrapper);
+
+    const opt = {
+        margin:       0,
+        filename:     'trainer_cv.pdf',
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            scrollY: 0,
+            windowWidth: 1200 // ensures full content width is captured
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        },
+        pagebreak: {
+            mode: ['css', 'legacy'],
+            avoid: ['.no-break', 'img']
+        }
+    };
+
+    html2pdf().set(opt).from(wrapper).save().then(() => {
+        document.body.removeChild(wrapper);
+    });
+}
+</script>
+@endpush
+
