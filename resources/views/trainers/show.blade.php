@@ -470,28 +470,40 @@
     function downloadCV() {
     const element = document.getElementById('trainer-cv');
 
-    const opt = {
-        margin:       0,
-        filename:     'trainer_cv.pdf',
-        image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  {
-            scale: 2,
-            useCORS: true,
-            scrollY: 0,
-            windowWidth: element.scrollWidth // full width
-        },
-        jsPDF: {
-            unit: 'mm',
-            format: 'a4',
-            orientation: 'portrait'
-        },
-        pagebreak: {
-            mode: ['avoid-all', 'css', 'legacy']
-        }
-    };
+    // Use html2canvas first to measure actual width
+    html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+        windowWidth: element.scrollWidth,
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-    html2pdf().set(opt).from(element).save();
+        // Convert px to mm
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        const imgWidth = pageWidth;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        let position = 0;
+        let remainingHeight = imgHeight;
+
+        // If content is taller than one page
+        while (remainingHeight > 0) {
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            remainingHeight -= pageHeight;
+            if (remainingHeight > 0) {
+                pdf.addPage();
+                position = - (imgHeight - remainingHeight);
+            }
+        }
+
+        pdf.save('trainer_cv.pdf');
+    });
 }
+
 </script>
 @endpush
 
