@@ -168,14 +168,14 @@
      <!-- Added Specializations -->
 <div class="mt-4">
     {{-- <h5>Added Specializations</h5> --}}
-    <ul id="specialization-list" class="added-items">
-        @foreach ($specializations as $specialization)
-            <li id="specialization-{{ $specialization->id }}">
-                {{ $specialization->specialization }} - {{ $specialization->name_of_the_institution }}
-                <button class="btn btn-danger btn-sm remove-specialization" data-id="{{ $specialization->id }}">X</button>
-            </li>
-        @endforeach
-    </ul>
+ <ul id="specialization-list" class="added-items">
+    @foreach ($specializations as $specialization)
+        <li id="specialization-{{ $specialization->id }}">
+            <strong>{{ __('messages.' . $specialization->specialization) }}</strong> – {{ $specialization->name_of_the_institution }}
+            <button class="btn btn-danger btn-sm remove-specialization" data-id="{{ $specialization->id }}">×</button>
+        </li>
+    @endforeach
+</ul>
 </div>
 </div>
 
@@ -201,7 +201,7 @@
                         <option value="PMP">PMP</option>
                         <option value="AWS">AWS</option>
                         <option value="CFA">CFA</option>
-                         <option value="none" {{ $selectedValue == 'none' ? 'selected' : '' }}>No data available</option>
+                         <option value="none">No data available</option>
                     </select>
                 </div>
                </div>

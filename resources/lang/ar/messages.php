@@ -175,4 +175,147 @@ return [
     'register_login' => 'التسجيل وتسجيل الدخول',
      'print' => 'طباعة / حفظ',
      'no_data_available' => 'لا توجد بيانات متاحة',
+     'engineering_specializations' => '🏗️ التخصصات الهندسية',
+     'architecture' => 'الهندسة المعمارية',
+     'civil_engineering' => 'الهندسة المدنية',
+     'electrical_engineering' => 'الهندسة الكهربائية',
+    'mechanical_engineering' => 'الهندسة الميكانيكية',
+    'industrial_engineering' => 'الهندسة الصناعية',
+    'computer_engineering' => 'هندسة الحاسوب',
+    'computer_science' => 'علوم الحاسوب',
+    'information_technology' => 'تكنولوجيا المعلومات',
+    'cybersecurity' => 'الأمن السيبراني',
+    'artificial_intelligence' => 'الذكاء الاصطناعي',
+    'chemical_engineering' => 'الهندسة الكيميائية',
+    'software_engineering' => 'هندسة البرمجيات',
+    'literary_humanities_pecializations' => '📚 التخصصات الأدبية والإنسانية',
+    'arabic_language' => 'اللغة العربية',
+    'english_language' => 'اللغة الإنجليزية',
+    'history' => 'التاريخ',
+    'geography' => 'الجغرافيا',
+    'media' => 'الوسائط',
+    'public_relations' => 'العلاقات العامة',
+    'journalism_and_publishing' => 'الصحافة والنشر',
+    'psychology' => 'علم النفس',
+    'social_work' => 'العمل الاجتماعي',
+    'sociology' => 'علم الاجتماع',
+    'education' => 'التعليم',
+    'administrative_financial_specializations' => '💼 التخصصات الإدارية والمالية',
+    'business_administration' => 'إدارة الأعمال',
+    'accounting' => 'المحاسبة',
+    'marketing' => 'التسويق',
+    'economics' => 'الاقتصاد',
+    'finance' => 'المالية',
+    'management_information_systems' => 'نظم المعلومات الإدارية',
+    'human_resources' => 'الموارد البشرية',
+    'public_administration' => 'الإدارة العامة',
+    'art_and_design_specializations' => '🎨 تخصصات الفن والتصميم',
+    'graphic_design' => 'تصميم الجرافيك',
+    'interior_design' => 'التصميم الداخلي',
+    'fine_arts' => 'الفنون الجميلة',
+    'photography' => 'التصوير الفوتوغرافي',
+    'fashion_design' => 'تصميم الأزياء',
+    'film_production' => 'إنتاج الأفلام',
+    'business_and_marketing_specializations' => '📈 تخصصات الأعمال والتسويق',
+    'international_trade' => 'التجارة الدولية',
+    'digital_marketing' => 'التسويق الرقمي',
+    'project_management' => 'إدارة المشاريع',
+    'supply_chain' => 'سلسلة التوريد (اللوجستيات)',
+    'e_commerce' => 'التجارة الإلكترونية',
+    'business_data_analysis' => 'تحليل بيانات الأعمال',
+    'business_development' => 'تطوير الأعمال',
+    'environmental_and_agricultural_specializations' => '🌍 تخصصات البيئة والزراعة',
+    'agriculture' => 'الزراعة',
+    'environmental_science' => 'علوم البيئة',
+    'natural_resource_management' => 'إدارة الموارد الطبيعية',
+    'ocean_sciences' => 'علوم المحيطات',
+    'renewable_energy' => 'الطاقة المتجددة',
+    'agricultural_engineering' => 'الهندسة الزراعية',
+    'aerospace' => 'الفضاء الجوي',
+    'legal_and_political_specializations' => '⚖️ التخصصات القانونية والسياسية',
+    'civil_law' => 'القانون المدني',
+    'criminal_law' => 'القانون الجنائي',
+    'international_law' => 'القانون الدولي',
+    'human_rights' => 'حقوق الإنسان',
+    'public_policy' => 'السياسات العامة',
+    'political_science' => 'العلوم السياسية',
+    'international_relations' => 'العلاقات الدولية',
+    'crisis_and_disaster_management' => 'إدارة الأزمات والكوارث',
+    'brain_and_behavioral_specializations' => '🧠 تخصصات الدماغ والسلوك',
+    'neuroscience' => 'علم الأعصاب',
+    'neuropsychology' => 'علم النفس العصبي',
+    'behavioral_science' => 'علم السلوك',
+    'autism_studies' => 'دراسات التوحد',
+    'addiction_studies' => 'دراسات الإدمان',
+    'psychotherapy' => 'العلاج النفسي',
+     'social_and_intellectual_specializations' => '🏛️ التخصصات الاجتماعية والفكرية',
+    'philosophy' => 'الفلسفة',
+    'comparative_literature' => 'الأدب المقارن',
+    'cultural_studies' => 'الدراسات الثقافية',
+    'anthropology' => 'الأنثروبولوجيا',
+    'middle_eastern_studies' => 'دراسات الشرق الأوسط',
+    'religious_studies' => 'الدراسات الدينية',
+    'performing_arts' => 'الفنون الأدائية',
+    'mechatronics_and_robotics_specializations' => '⚙️ تخصصات الميكاترونيك والروبوتات',
+    'mechatronics_engineering' => 'هندسة الميكاترونيك',
+    'robotics' => 'الروبوتات',
+    'automation_and_control' => 'الأتمتة والتحكم',
+    '3d_printing' => 'الطباعة ثلاثية الأبعاد',
+    'embedded_systems' => 'الأنظمة المدمجة',
+    'programming_and_modern_tech_specializations' => '💻 تخصصات البرمجة والتقنية الحديثة',
+    'game_development' => 'تطوير الألعاب',
+    'data_analysis' => 'تحليل البيانات',
+    'programming_languages' => 'البرمجة (Java، Python، C++)',
+    'app_development' => 'تطوير التطبيقات',
+    'web_development' => 'تطوير الويب',
+    'networking' => 'الشبكات',
+    'embedded_software_development' => 'تطوير البرمجيات المدمجة',
+    'languages_and_translation_specializations' => '🌐 تخصصات اللغات والترجمة',
+    'linguistics' => 'اللسانيات',
+    'simultaneous_interpretation' => 'الترجمة الفورية',
+    'literary_translation' => 'الترجمة الأدبية',
+    'technical_translation' => 'الترجمة التقنية',
+    'legal_translation' => 'الترجمة القانونية',
+    'eastern_languages' => 'اللغات الشرقية (مثل الصينية، اليابانية، الكورية)',
+    'modern_technical_and_engineering_specializations' => '💡 تخصصات التقنية والهندسة الحديثة',
+    'software_engineering' => 'هندسة البرمجيات',
+    'artificial_intelligence' => 'الذكاء الاصطناعي',
+    'data_science_analytics' => 'علم البيانات والتحليلات',
+    'mobile_app_development' => 'تطوير تطبيقات الجوال',
+    'vr_ar' => 'الواقع الافتراضي والمعزز (VR/AR)',
+    'smart_systems' => 'الأنظمة الذكية',
+    'tech_systems_management' => 'إدارة الأنظمة التقنية',
+    'embedded_systems' => 'الأنظمة المدمجة',
+    'arts_and_media_specializations' => '🎭 تخصصات الفنون والإعلام',
+    'film_tv_production' => 'إنتاج الأفلام والتلفزيون',
+    'digital_media' => 'الوسائط الرقمية',
+    'screenwriting' => 'كتابة السيناريو',
+    'sound_music_design' => 'تصميم الصوت والموسيقى',
+    'advertising_pr' => 'الإعلانات والعلاقات العامة',
+    'radio_tv_production' => 'إنتاج الراديو والتلفزيون',
+    'digital_game_design' => 'تصميم الألعاب الرقمية',
+    'animation' => 'الرسوم المتحركة',
+    'expressive_arts_dance' => 'الفنون التعبيرية والرقص',
+    'space_and_aviation_specializations' => '🚀 تخصصات الفضاء والطيران',
+    'space_engineering' => 'هندسة الفضاء',
+    'aeronautical_engineering' => 'هندسة الطيران',
+    'space_science' => 'علوم الفضاء',
+    'astrophysics' => 'الفيزياء الفلكية',
+    'space_research_exploration' => 'أبحاث واستكشاف الفضاء',
+    'management_economics_specializations' => '💼 تخصصات الإدارة والاقتصاد',
+    'international_project_management' => 'إدارة المشاريع الدولية',
+    'international_economics' => 'الاقتصاد الدولي',
+    'risk_management' => 'إدارة المخاطر',
+    'political_economy' => 'الاقتصاد السياسي',
+    'strategic_marketing' => 'التسويق الاستراتيجي',
+    'financial_management' => 'الإدارة المالية',
+    'financial_managerial_accounting' => 'المحاسبة المالية والإدارية',
+    'mind_behavior_specializations' => '🧩 تخصصات العقل والسلوك',
+    'behavioral_neuroscience' => 'علم الأعصاب السلوكي',
+    'psychiatry' => 'الطب النفسي',
+    'social_psychology' => 'علم النفس الاجتماعي',
+    'psychoanalysis' => 'التحليل النفسي',
+    'addiction_treatment' => 'الإدمان والعلاج',
+    'autism_studies' => 'دراسات التوحد',
+    'art_music_therapy' => 'العلاج بالفن والموسيقى',
 ];
