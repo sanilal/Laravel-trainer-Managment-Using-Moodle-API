@@ -318,4 +318,5 @@ return [
     'addiction_treatment' => 'الإدمان والعلاج',
     'autism_studies' => 'دراسات التوحد',
     'art_music_therapy' => 'العلاج بالفن والموسيقى',
+    'existing_documents' => 'المستندات الحالية',
 ];

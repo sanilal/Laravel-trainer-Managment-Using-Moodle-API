@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/trainers/documents', [PersonalDocumentController::class, 'store'])->name('trainers.documents.store');
     Route::get('/trainers/{profile}/documents/edit', [PersonalDocumentController::class, 'edit'])->name('trainers.documents.edit');
     Route::put('/trainers/{profile}/documents', [PersonalDocumentController::class, 'update'])->name('trainers.documents.update');
+    Route::delete('/trainers/{profile}/documents/delete/{field}', [PersonalDocumentController::class, 'destroy'])->name('trainers.documents.destroy');
 
     // -------------------------
     // Specializations

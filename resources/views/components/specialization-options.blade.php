@@ -182,4 +182,4 @@
     <option value="art_music_therapy" {{ $selectedValue == 'art_music_therapy' ? 'selected' : '' }}>{{ __('messages.art_music_therapy') }}</option>
 </optgroup>
 
-<option value="none" {{ $selectedValue == 'none' ? 'selected' : '' }}>{{ __('messages.no_data_available') }}</option>
+{{-- <option value="none" {{ $selectedValue == 'none' ? 'selected' : '' }}>{{ __('messages.no_data_available') }}</option> --}}

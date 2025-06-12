@@ -183,7 +183,7 @@
                 @foreach($trainer->specializations as $specialization)
                     <div class="course-group mb-4">
                         <div class="course-group-info">
-                            <p class="course-group-name">{{ langContent($specialization->specialization) }}</p>
+                            <p class="course-group-name">{{__('messages.' .$specialization->specialization)}}</p>
                             <p class="course-group-institute">
                                 {{ __('messages.name_of_institution') }}: {{ langContent($specialization->name_of_the_institution) }}
                             </p>

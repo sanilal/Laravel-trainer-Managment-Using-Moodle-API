@@ -201,7 +201,7 @@
                         <option value="PMP">PMP</option>
                         <option value="AWS">AWS</option>
                         <option value="CFA">CFA</option>
-                         <option value="none">No data available</option>
+                         {{-- <option value="none">No data available</option> --}}
                     </select>
                 </div>
                </div>

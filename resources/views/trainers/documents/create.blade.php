@@ -137,7 +137,7 @@
                         <path d="M472 312c-22.1 0-40 17.9-40 40v72H80v-72c0-22.1-17.9-40-40-40s-40 17.9-40 40v112c0 13.3 10.7 24 24 24h464c13.3 0 24-10.7 24-24V352c0-22.1-17.9-40-40-40zM241 280V96h-56c-13.3 0-24-10.7-24-24s10.7-24 24-24h160c13.3 0 24 10.7 24 24s-10.7 24-24 24h-56v184l73-73c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-112 112c-9.4 9.4-24.6 9.4-33.9 0l-112-112c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l73 73z"/>
                     </svg>
                 </label>
-                <input type="file" name="your_id" id="your_id" class="form-control" required>
+                <input type="file" name="your_id" id="your_id" class="form-control" >
             </div>
             
     
@@ -180,17 +180,58 @@
         </div>
 
     </form>
-    <ul id="selected-file-list">
+        <ul id="selected-file-list">
         <li id="your_id_filename" class="file-name mt-1 text-sm text-muted"></li>
         <li id="your_passport_filename" class="file-name mt-1 text-sm text-muted"></li>
         <li id="other_document_filename" class="file-name mt-1 text-sm text-muted"></li>
         <li id="other_document2_filename" class="file-name mt-1 text-sm text-muted"></li>
     </ul>
+@if($existingDocuments)
+<h4>{{__('messages.existing_documents')}}</h4>
+<ul id="existing-documents-list" class="added-items">
+  @foreach (['your_id','your_passport','other_document','other_document2'] as $field)
+    @if($existingDocuments->$field)
+      <li id="doc-{{ $field }}">
+        {{ __( "messages.$field" ) }} – 
+        <a href="{{ asset('storage/'.$existingDocuments->$field) }}" target="_blank">View</a>
+    <form class="delete-doc-form" action="{{ route('trainers.documents.destroy', ['profile' => $profileId, 'field' => $field]) }}" method="POST" style="display:inline;">
+  @csrf
+  @method('DELETE')
+  <button type="submit" class="btn btn-danger btn-sm">X</button>
+</form>
+
+
+      </li>
+    @endif
+  @endforeach
+</ul>
+@endif
 </div>
 </div>
 @endsection
-
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+   document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.delete-doc-form').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will permanently delete the document.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, keep it'
+      }).then(result => {
+        if (result.isConfirmed) {
+          form.submit(); // submit form with DELETE method
+        }
+      });
+    });
+  });
+});
+
     document.addEventListener("DOMContentLoaded", function () {
         const fileInputs = document.querySelectorAll('input[type="file"]');
 
@@ -207,3 +248,4 @@
         });
     });
 </script>
+@endpush

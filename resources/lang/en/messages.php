@@ -315,4 +315,5 @@ return [
     'addiction_treatment' => 'Addiction and Treatment',
     'autism_studies' => 'Autism Studies',
     'art_music_therapy' => 'Art and Music Therapy',
+    'existing_documents' => 'Existing Documents',
 ];
