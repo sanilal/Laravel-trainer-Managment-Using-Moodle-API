@@ -316,4 +316,7 @@ return [
     'autism_studies' => 'Autism Studies',
     'art_music_therapy' => 'Art and Music Therapy',
     'existing_documents' => 'Existing Documents',
+    'error_404_message' => 'Sorry, the page you are looking for could not be found.',
+    'back_to_home' => 'Back to Home',
+
 ];

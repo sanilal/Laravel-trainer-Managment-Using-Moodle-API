@@ -251,7 +251,7 @@ span[aria-disabled="true"] span {
                                     <input type="radio" name="specialization" value="{{ $spec->specialization }}"
                                         {{ request('specialization') == $spec->specialization ? 'checked' : '' }}>
                                     <span class="checkmark"></span>
-                                    {{ $spec->specialization }}
+                                    {{ __('messages.' .$spec->specialization) }}
                                 </label>
                             @endforeach
                         </div>
@@ -352,7 +352,10 @@ span[aria-disabled="true"] span {
                                     <p class="mb-1 text-muted">
                                         <strong>{{__('messages.specialization')}}:</strong>
                                         
-                                        {{ $trainer->specializations->pluck('specialization')->join(', ') ?? 'N/A' }}
+                                       {{ $trainer->specializations->isNotEmpty() 
+    ? $trainer->specializations->pluck('specialization')->map(fn($s) => __('messages.' . $s))->join(', ') 
+    : __('messages.no_data_available') }}
+
                                     </p>
                                     <p class="mb-0 text-muted">
                                         {!! Str::limit(strip_tags(langContent($trainer->about_you)), 100, '...') !!}
