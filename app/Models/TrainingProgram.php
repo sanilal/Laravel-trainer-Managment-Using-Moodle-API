@@ -14,8 +14,8 @@ class TrainingProgram extends Model
         'profile_id',
         'user_id',
         'program_name',
-        'start_date',
-        'end_date',
+        'training_date',
+        'document',
         'details',
     ];
 }

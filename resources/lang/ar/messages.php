@@ -321,4 +321,6 @@ return [
     'existing_documents' => 'المستندات الحالية',
     'error_404_message' => 'عذرا، لم يتم العثور على الصفحة التي تبحث عنها.',
     'back_to_home' => 'العودة إلى الصفحة الرئيسية',
+    'upload_training_document' => 'تحميل وثيقة التدريب',
+    'training_date' => 'تاريخ التدريب',
 ];

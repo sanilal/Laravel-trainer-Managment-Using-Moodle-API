@@ -318,5 +318,8 @@ return [
     'existing_documents' => 'Existing Documents',
     'error_404_message' => 'Sorry, the page you are looking for could not be found.',
     'back_to_home' => 'Back to Home',
+    'upload_training_document' => 'Upload Training Document',
+    'training_date' => 'Training Date',
+
 
 ];

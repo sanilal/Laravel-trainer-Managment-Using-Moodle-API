@@ -84,7 +84,7 @@
 
     <div class="form-container academics-form">
 
-        <form id="trainingProgramForm">
+        <form id="trainingProgramForm" enctype="multipart/form-data">
             @csrf
             
             <input type="hidden" name="profile_id" value="{{ $profileId }}">
@@ -102,32 +102,30 @@
             </div>
     
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label">{{__('messages.start_date')}}</label>
-                        <div class="input-group date-picker-group">
-                            <input type="date" name="start_date" class="form-control date-input">
-                            <button class="btn btn-outline-secondary calendar-button" type="button">
-                                <i class="fa fa-calendar-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="form-label">{{__('messages.end_date')}}</label>
-                        <div class="input-group date-picker-group">
-                            <input type="date" name="end_date" class="form-control date-input">
-                            <button class="btn btn-outline-secondary calendar-button" type="button">
-                                <i class="fa fa-calendar-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3"></div>
+    <div class="col-md-6 offset-md-3">
+        <div class="form-group">
+            <label class="form-label">{{__('messages.training_date')}}</label>
+            <div class="input-group date-picker-group">
+                <input type="date" name="training_date" class="form-control date-input">
+                <button class="btn btn-outline-secondary calendar-button" type="button">
+                    <i class="fa fa-calendar-alt"></i>
+                </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="single-field">
+            <div class="form-group">
+                <label>{{__('messages.upload_training_document')}}</label>
+                <input type="file" name="document" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
+            </div>
+        </div>
+    </div>
+</div>
+
     
             <div class="row">
                 <div class="col-md-12">
@@ -176,51 +174,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     // Handle form submission
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+   form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-        const start = new Date(form.start_date.value);
-        const end = new Date(form.end_date.value);
+    const formData = new FormData(form);
 
-        if (form.end_date.value && end < start) {
-            alert("{{__('messages.end_date_must_be_after_start_date')}}.");
-            return;
+    fetch("{{ route('trainers.training_programs.store') }}", {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            appendProgram(data.program);
+            form.reset();
+        } else {
+            alert("{{ __('messages.validation_error_check_inputs') }}");
+            console.error(data.errors);
         }
-
-        const formData = new FormData(form);
-
-        fetch("{{ route('trainers.training_programs.store') }}", {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                appendProgram(data.program);
-                form.reset();
-            } else {
-                alert("{{__('messages.validation_error_check_inputs')}}.");
-                console.error(data.errors);
-            }
-        })
-        .catch(error => {
-            console.error("Error saving program:", error);
-        });
+    })
+    .catch(error => {
+        console.error("Error saving program:", error);
     });
+});
+
 
     // Append program to list
     function appendProgram(program) {
         const li = document.createElement('li');
         li.className = "";
+         let dateText = program.training_date ? new Date(program.training_date).toLocaleDateString() : '';
         li.innerHTML = `
             <span>
-                <strong>${program.program_name}</strong> (${program.start_date} to ${program.end_date || 'Ongoing'})
-            </span>
-            <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
+            <strong>${program.program_name}</strong> – {{__('messages.training_date')}}: ${dateText}
+            ${program.document ? `<a href="/storage/${program.document}" target="_blank">📎</a>` : ''}
+        </span>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProgram(${program.id}, this)">×</button>
+
         `;
         trainingProgramsList.appendChild(li);
     }
