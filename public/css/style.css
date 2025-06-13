@@ -8,6 +8,17 @@
     --brick-red: #c23a2b;
     --light-gray: #949292;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Noto Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 .noto-sans {
     font-family: "Noto Sans", sans-serif;
@@ -15,9 +26,6 @@
     font-weight: <weight>;
     font-style: normal;
     font-variation-settings: "wdth" 100;
-}
-body {
-    font-family: "Noto Sans", sans-serif;
 }
 
 .d-flex {
@@ -175,6 +183,10 @@ a.logo img {
     border-radius: 0 0 15px 15px !important;
     margin-top: -50px;
     background-color: #fff !important;
+}
+
+main {
+    flex: 1;
 }
 .btn-primary {
     background: var(--brick-red);

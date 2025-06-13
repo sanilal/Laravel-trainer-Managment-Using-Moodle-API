@@ -36,6 +36,11 @@ Route::post('/login/check', [CustomAuthController::class, 'verifyEmail'])->name(
 Route::post('/login/create-password', [CustomAuthController::class, 'storePassword'])->name('login.create_password');
 Route::post('/login/attempt', [CustomAuthController::class, 'login'])->name('login.attempt');
 
+Route::get('/login/create-password', function (Request $request) {
+    $email = $request->email;
+    return view('auth.create_password', compact('email'));
+})->name('login.create_password.form');
+
 Route::get('/login/password', function (Request $request) {
     $email = $request->query('email'); // GET parameter
     return view('auth.login_password', compact('email'));

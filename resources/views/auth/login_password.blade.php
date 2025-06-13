@@ -6,12 +6,15 @@
     <div class="login-container mt-4">
     <form method="POST" action="{{ route('login.attempt') }}" class="loginform">
         @csrf
-        <input type="hidden" name="email" value="{{ $email }}">
+       <input type="hidden" name="email" value="{{ old('email', $email) }}">
         <label>{{__('messages.password')}}</label>
         <input type="password" name="password" required>
         @error('password') <p style="color:red;">{{ $message }}</p> @enderror
         <button type="submit" class="btn btn-primary mt-3">{{__('messages.login')}}</button>
     </form>
+    @error('password')
+    <p style="color:red;">{{ $message }}</p>
+@enderror
 </div>
 </div>
 @endsection

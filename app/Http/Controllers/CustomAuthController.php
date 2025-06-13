@@ -36,7 +36,9 @@ class CustomAuthController extends Controller
         $user = User::where('email', $email)->first();
         if (!$user) {
             // Ask to create password
-            return view('auth.create_password', compact('email'));
+           // return view('auth.create_password', compact('email'));
+           return redirect()->route('login.create_password.form', ['email' => $email]);
+
         }
 
         // Show login with password

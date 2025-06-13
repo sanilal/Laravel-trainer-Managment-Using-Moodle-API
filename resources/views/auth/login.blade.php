@@ -23,8 +23,8 @@
                 @enderror
 
                 @error('lms')
-                    <div class="mt-2 text-info">
-                        {{__('messages.User_not_found_contact_administrator')}}</a>
+                    <div class="mt-2 alert alert-warning" role="alert">
+                        {{__('messages.User_not_found_contact_administrator')}}
                     </div>
                 @enderror
 

@@ -135,9 +135,9 @@
         </div>
     </header>
     <!-- Main Content -->
-    <div class="container mt-4">
+    <main class="container mt-4">
         @yield('content')
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
