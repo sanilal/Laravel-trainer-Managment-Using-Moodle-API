@@ -321,6 +321,12 @@ return [
     'upload_training_document' => 'Upload Training Document',
     'training_date' => 'Training Date',
     'search_by_name_email' => 'Search by name or email',
+    'forgot_password' => 'Forgot Password',
+    'reset_password' => 'Reset Password',
+    'send_password_reset_link' => 'Send Password Reset Link',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm Password',
+    'remember_me' => 'Stay signed in',
 
 
 ];

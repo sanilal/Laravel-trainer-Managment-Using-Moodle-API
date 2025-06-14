@@ -74,29 +74,30 @@ class CustomAuthController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+   public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+    $remember = $request->has('remember'); // will be true if checkbox is checked
 
-        $profile = TrainerProfile::where('email', $credentials['email'])->first();
-        if (!$profile) {
-            return redirect()->route('login.form')->withErrors([
-                'lms' => 'User not found. Contact admin or check Moodle users list.'
-            ]);
-        }
+    // Check if the trainer exists
+    $profile = TrainerProfile::where('email', $credentials['email'])->first();
+    if (!$profile) {
+        return redirect()->route('login.form')->withErrors([
+            'lms' => 'User not found. Contact admin or check Moodle users list.'
+        ]);
+    }
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard');
-        }
+    // Attempt login with "remember me"
+    if (Auth::attempt($credentials, $remember)) {
+        return redirect()->intended('/dashboard');
+    }
 
-           return redirect()
+    // Failed login, redirect back to password form
+    return redirect()
         ->route('login.password.form', ['email' => $credentials['email']])
         ->withErrors(['password' => 'Incorrect password. Please try again.']);
+}
 
-        // return back()->withErrors([
-        //     'password' => 'Invalid password'
-        // ]);
-    }
 
     public function logout(Request $request)
 {

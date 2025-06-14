@@ -324,4 +324,10 @@ return [
     'upload_training_document' => 'تحميل وثيقة التدريب',
     'training_date' => 'تاريخ التدريب',
     'search_by_name_email' => 'البحث حسب الاسم أو البريد الإلكتروني',
+    'forgot_password' => 'نسيت كلمة المرور؟',
+    'reset_password' => 'إعادة تعيين كلمة المرور',
+    'send_password_reset_link' => 'إرسال رابط إعادة تعيين كلمة المرور',
+    'new_password' => 'كلمة مرور جديدة',
+    'confirm_password' => 'تأكيد كلمة المرور',
+    'remember_me' => 'تذكرني',
 ];
