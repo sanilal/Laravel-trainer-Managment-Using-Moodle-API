@@ -10,7 +10,9 @@
 
     <div class="card" style="max-width:100%">
         <h4>{{__('messages.registered_trainers')}} </h4>
-        <p>Total: <strong>{{ $activeTrainers->count() }}</strong></p>
+        <p>
+    Showing {{ $activeTrainers->firstItem() }} to {{ $activeTrainers->lastItem() }} of {{ $activeTrainers->total() }} results
+</p>
 <form method="GET" class="mb-3">
     <div class="input-group">
         <input type="text"
@@ -21,8 +23,14 @@
         <button class="btn btn-primary" type="submit">
             {{ __('messages.search') }}
         </button>
+        @if(request('q'))
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                {{ __('messages.clear') }}
+            </a>
+        @endif
     </div>
 </form>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -37,12 +45,12 @@
                 @foreach ($activeTrainers as $trainer)
     @php
         $full_name = collect([
-            $trainer->prefix,
-            $trainer->prefix2,
-            $trainer->first_name,
-            $trainer->middle_name,
-            $trainer->family_name
-        ])->filter()->implode(' ');
+        $trainer->prefix,
+        __('messages.' . $trainer->prefix2),
+        $trainer->first_name,
+        $trainer->middle_name,
+        $trainer->family_name
+    ])->filter()->implode(' ');
 
         $completed = 0;
         $totalSections = 5;
