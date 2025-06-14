@@ -330,6 +330,10 @@
                                     <p class="course-group-start-date">{{ __('messages.start_date') }}: {{ \Carbon\Carbon::parse($work->start_date)->format('d/m/Y') }}</p>
                                     <p class="course-group-end-date">{{ __('messages.end_date') }}: {{ \Carbon\Carbon::parse($work->end_date)->format('d/m/Y') }}</p>
                                 </div>
+                                <div class="training-info">
+                                <p>{!! langContent($work->job_description) !!}</p>
+                                
+                            </div>
                             </div>
 
                             <div class="course-group-image">
@@ -365,13 +369,18 @@
                         <div class="course-group-info">
                             <p class="course-group-name">{{ langContent($program->program_name) }}</p>
                             <div class="course-group-dates">
-                                <p class="course-group-start-date">{{__('messages.start_date')}}: {{ \Carbon\Carbon::parse($program->start_date)->format('d/m/Y') }}</p>
-                                <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($program->end_date)->format('d/m/Y') }}</p>
+                                <p class="course-group-start-date">{{__('messages.training_date')}}: {{ \Carbon\Carbon::parse($program->training_date)->format('d/m/Y') }}</p>
+                                
+                                {{-- <p class="course-group-end-date">{{__('messages.end_date')}}: {{ \Carbon\Carbon::parse($program->end_date)->format('d/m/Y') }}</p> --}}
+                            </div>
+                            <div class="training-info">
+                                <p>{!! langContent($program->details) !!}</p>
+                                
                             </div>
                         </div>
                          <div class="course-group-image">
-                        @if ($program->upload_certificate)
-                            <a href="{{ asset('storage/' . $program->upload_certificate) }}" target="_blank">
+                        @if ($program->document)
+                            <a href="{{ asset('storage/' . $program->document) }}" target="_blank">
                                 <img src="{{ asset('images/certificate.png') }}" alt="Certificate" class="img-fluid">
                             </a>
                         @else

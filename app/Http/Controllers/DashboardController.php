@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
+use Illuminate\Support\Facades\DB;
 //  use App\Services\MoodleApiService;
 
 class DashboardController extends Controller
@@ -17,8 +18,10 @@ class DashboardController extends Controller
     //     $this->moodle = $moodle;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
+
+         $search = $request->query('q');  
         // Get all Moodle users (using default A-Z range or 'a%' fallback)
         // $moodleResponse = $this->moodle->getUsersByEmailPrefix(''); // fetch all, adjust logic if needed
 
@@ -39,9 +42,18 @@ class DashboardController extends Controller
             'academics',
             'workExperiences',
             'trainingPrograms'
-        ])->get();
+        ])->when($search, function ($q) use ($search) {
+            $q->where('email', 'like', "%{$search}%")
+              ->orWhere('first_name', 'like', "%{$search}%")
+              ->orWhere('middle_name', 'like', "%{$search}%")
+              ->orWhere('family_name', 'like', "%{$search}%")
+              ->orWhere('prefix', 'like', "%{$search}%")
+              ->orWhere('prefix2', 'like', "%{$search}%");
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10)            // << page size
+        ->withQueryString();      // keeps ?q in links
 
-        // return view('dashboard', compact('notRegisteredLmsUsers', 'activeTrainers'));
-        return view('dashboard', compact('activeTrainers'));
+    return view('dashboard', compact('activeTrainers', 'search'));
     }
 }

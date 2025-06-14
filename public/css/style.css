@@ -674,5 +674,14 @@ label.custom-radio {
 .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple {
     border: none !important;
 }
+/* .pagination-controls {
+    overflow: hidden;
+    height: auto !important;
+    padding-bottom: 1rem;
+}
+
+.pagination {
+    margin: 0;
+} */
 
 

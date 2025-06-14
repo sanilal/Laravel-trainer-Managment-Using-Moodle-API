@@ -11,7 +11,18 @@
     <div class="card" style="max-width:100%">
         <h4>{{__('messages.registered_trainers')}} </h4>
         <p>Total: <strong>{{ $activeTrainers->count() }}</strong></p>
-
+<form method="GET" class="mb-3">
+    <div class="input-group">
+        <input type="text"
+               name="q"
+               class="form-control"
+               placeholder="{{ __('messages.search_by_name_email') }}"
+               value="{{ request('q') }}">
+        <button class="btn btn-primary" type="submit">
+            {{ __('messages.search') }}
+        </button>
+    </div>
+</form>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -74,6 +85,9 @@
 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center pagination-controls">
+    {{ $activeTrainers->links() }}
+</div>
     </div>
 
        <div class="card" style="max-width:100%">

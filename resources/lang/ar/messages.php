@@ -323,4 +323,5 @@ return [
     'back_to_home' => 'العودة إلى الصفحة الرئيسية',
     'upload_training_document' => 'تحميل وثيقة التدريب',
     'training_date' => 'تاريخ التدريب',
+    'search_by_name_email' => 'البحث حسب الاسم أو البريد الإلكتروني',
 ];

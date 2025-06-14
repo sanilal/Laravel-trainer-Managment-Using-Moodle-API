@@ -320,6 +320,7 @@ return [
     'back_to_home' => 'Back to Home',
     'upload_training_document' => 'Upload Training Document',
     'training_date' => 'Training Date',
+    'search_by_name_email' => 'Search by name or email',
 
 
 ];
