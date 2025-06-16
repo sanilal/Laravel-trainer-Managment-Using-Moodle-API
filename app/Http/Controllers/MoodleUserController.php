@@ -7,6 +7,10 @@ use App\Services\MoodleApiService;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
+
 
 class MoodleUserController extends Controller
 {
@@ -22,14 +26,22 @@ class MoodleUserController extends Controller
     public function fetchUsers(Request $request)
     {
         $emailSearch = $request->input('email_search');
+         $prefix = strtolower($request->input('prefix')); 
         
-        if ($emailSearch) {
-            $users = $this->moodleApi->getUsersByEmailPrefix($emailSearch);
-        } else {
-            // default to first letter A-Z filter, fallback to 'a'
-            $prefix = $request->input('prefix', 'a');
-            $users = $this->moodleApi->getUsersByEmailPrefix($prefix);
-        }
+      if ($emailSearch) {
+    $users = $this->moodleApi->getUsersByEmailPrefix($emailSearch);
+} elseif ($prefix && $prefix !== 'all') {
+    $users = $this->moodleApi->getUsersByEmailPrefix($prefix);
+} else {
+   try {
+    $users = Cache::remember('moodle_all_users', 600, function () {
+    return $this->moodleApi->getAllUsers();
+});
+} catch (\Exception $e) {
+    Log::error('Moodle API error: ' . $e->getMessage());
+    $users = ['users' => []]; // return empty
+}
+}
     
         if (is_null($users) || !isset($users['users']) || !is_array($users['users'])) {
             $empty = collect([]);
@@ -53,6 +65,8 @@ class MoodleUserController extends Controller
                    !$user['suspended'] &&
                    $user['confirmed'];
         });
+
+      // $filteredUsers = $users['users']; 
     
         $userCollection = collect($filteredUsers);
     

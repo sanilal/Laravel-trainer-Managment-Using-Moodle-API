@@ -13,6 +13,8 @@ use App\Http\Controllers\TrainerWorkExperienceController;
 use App\Http\Controllers\TrainingProgramController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Http\Request; 
 
 // -------------------------

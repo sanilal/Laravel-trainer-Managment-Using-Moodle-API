@@ -119,18 +119,44 @@ class MoodleApiService
 
     
 
-    /**
-     * ✅ NEW: Get users by email prefix (A-Z filtering)
-     */
-    public function getUsersByEmailPrefix($prefix = 'a%')
-    {
-        $value = $prefix ? $prefix . '%' : 'a%'; 
-    
-        return $this->request('core_user_get_users', [
-            'criteria[0][key]' => 'email',
-            'criteria[0][value]' => $value
+  public function getAllUsers()
+{
+    $allUsers = [];
+    $prefixes = array_merge(range('a', 'z'), range('0', '9')); // a-z + 0-9
+
+    foreach ($prefixes as $prefix) {
+        $response = $this->request('core_user_get_users', [
+            'criteria[0][key]'   => 'email',
+            'criteria[0][value]' => $prefix . '%',
         ]);
+
+        $users = $response['users'] ?? [];
+
+        // Optional: Log response size for each prefix
+        \Log::info('Fetched users for prefix ' . $prefix, ['count' => count($users)]);
+
+        $allUsers = array_merge($allUsers, $users);
     }
+
+    // Deduplicate users by ID
+    $uniqueUsers = collect($allUsers)->unique('id')->values()->all();
+
+    \Log::info('getAllUsers total loaded', ['count' => count($uniqueUsers)]);
+
+    return ['users' => $uniqueUsers];
+}
+
+
+
+public function getUsersByEmailPrefix($prefix = 'a')
+{
+    $value = $prefix . '%';
+    return $this->request('core_user_get_users', [
+        'criteria[0][key]' => 'email',
+        'criteria[0][value]' => $value
+    ]);
+}
+
     
     
 }

@@ -19,9 +19,9 @@
         {{-- <a href="{{ request()->url() }}" class="btn btn-sm mb-1 {{ request('prefix') ? 'btn-outline-danger' : 'btn-dark' }}">
             All
         </a> --}}
-        <a href="{{ request()->url() }}?prefix=all" class="btn btn-sm mb-1 {{ request('prefix') === 'all' ? 'btn-outline-danger' : 'btn-dark' }}">
+        {{-- <a href="{{ request()->url() }}?prefix=all" class="btn btn-sm mb-1 {{ request('prefix') === 'all' ? 'btn-outline-danger' : 'btn-dark' }}">
             {{ __('messages.all') }}
-        </a>
+        </a> --}}
         
     </div>
     <form method="GET" action="{{ route('moodle.users.fetch') }}" class="mb-4">
