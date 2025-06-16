@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+ 
 //  use App\Services\MoodleApiService;
 
 class DashboardController extends Controller
@@ -19,23 +21,14 @@ class DashboardController extends Controller
     // }
 
     public function index(Request $request)
-    {
+{
+    $user = auth()->user(); 
 
-         $search = $request->query('q');  
-        // Get all Moodle users (using default A-Z range or 'a%' fallback)
-        // $moodleResponse = $this->moodle->getUsersByEmailPrefix(''); // fetch all, adjust logic if needed
+    if ($user->is_admin) {
+        $search = $request->query('q');
 
-        // $moodleUsers = $moodleResponse['users'] ?? [];
-
-        // Fetch all emails from trainer_profiles
         $registeredEmails = TrainerProfile::pluck('email')->toArray();
 
-        // Filter LMS users who are not yet registered
-        // $notRegisteredLmsUsers = array_filter($moodleUsers, function ($user) use ($registeredEmails) {
-        //     return !in_array($user['email'], $registeredEmails);
-        // });
-
-        // Fetch active trainers with related tabs
         $activeTrainers = TrainerProfile::with([
             'personalDocuments',
             'specializations',
@@ -51,9 +44,35 @@ class DashboardController extends Controller
               ->orWhere('prefix2', 'like', "%{$search}%");
         })
         ->orderBy('id', 'desc')
-        ->paginate(10)            // << page size
-        ->withQueryString();      // keeps ?q in links
+        ->paginate(10)
+        ->withQueryString();
 
-    return view('dashboard', compact('activeTrainers', 'search'));
+        return view('dashboard.admin', compact('activeTrainers', 'search'));
+
+    } else {
+                $trainer = $user->trainerProfile;
+
+    if (!$trainer) {
+    // go to /trainers/create (no model binding = no 404)
+    return redirect()->route('trainer.create');
+}
+
+    // Example progress bar logic (you can customize this)
+    $filled = collect([
+        $trainer->first_name,
+        $trainer->family_name,
+        $trainer->email,
+        $trainer->phone,
+        $trainer->city,
+        // add more fields as needed
+    ])->filter()->count();
+
+    $totalFields = 6; // adjust based on your profile structure
+    $progress = ($filled / $totalFields) * 100;
+
+    return view('dashboard.user', compact('trainer', 'progress'));
     }
+
+    // 👤 For non-admins: redirect to personal profile edit (or load limited view)
+}
 }

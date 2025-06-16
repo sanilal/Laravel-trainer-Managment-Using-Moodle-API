@@ -115,21 +115,36 @@
                     </button>
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav ms-auto nav-main">
-                            <li class="nav-item"><a href="{{ url('/') }}" class="nav-link text-light">{{__('messages.home')}}</a></li>
-                            <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link text-light">{{__('messages.dashboard')}}</a></li>
-                            <li class="nav-item"><a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">{{__('messages.browse_trainers')}}</a></li>
-                            <li class="nav-item"><a href="{{ url('/moodle/users') }}" class="nav-link text-light">{{__('messages.unregistered_trainers')}}</a></li>
-                           
-                            {{-- <li class="nav-item"><a href="{{ url('/about') }}" class="nav-link text-light">About</a></li>
-                            <li class="nav-item"><a href="{{ url('/contact') }}" class="nav-link text-light">Contact</a></li> --}}
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">More</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="https://externalsite.com">External Site</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('/services') }}">Services</a></li>
-                                </ul>
-                            </li> --}}
-                        </ul>
+    @auth
+        {{-- Common Links for All Authenticated Users --}}
+        <li class="nav-item">
+            <a href="{{ url('/') }}" class="nav-link text-light">
+                {{ __('messages.home') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('dashboard') }}" class="nav-link text-light">
+                {{ __('messages.dashboard') }}
+            </a>
+        </li>
+
+        {{-- Admin Specific Links --}}
+
+        @if(auth()->user()->is_admin == 1)
+            <li class="nav-item">
+                <a href="{{ url('/trainers/registered-trainers') }}" class="nav-link text-light">
+                    {{ __('messages.browse_trainers') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/moodle/users') }}" class="nav-link text-light">
+                    {{ __('messages.unregistered_trainers') }}
+                </a>
+            </li>
+        @endif
+    @endauth
+</ul>
+
                     </div>
                 </div>
             </nav>

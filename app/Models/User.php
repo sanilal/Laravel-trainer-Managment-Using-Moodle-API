@@ -51,6 +51,6 @@ class User extends Authenticatable
      */
     public function trainerProfile()
     {
-        return $this->hasOne(TrainerProfile::class, 'moodle_user_id', 'id');
+        return $this->hasOne(TrainerProfile::class, 'user_id', 'id');
     }
 }
