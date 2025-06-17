@@ -56,11 +56,11 @@ class DashboardController extends Controller
 
         // If no profile yet → send to “Create profile” page
         if (!$trainer) {
-            return redirect()->route('trainers.create');
+            return redirect()->route('trainer.create');
         }
 
         // Profile exists → send to “Edit my profile”
-        return redirect()->route('trainers.edit', $trainer->id);
+        return redirect()->route('trainer.edit', $trainer->id);
 
 }
 }

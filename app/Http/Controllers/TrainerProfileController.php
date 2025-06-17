@@ -138,6 +138,7 @@ public function store(Request $request)
  public function edit(int $id)
     {
         $profile = TrainerProfile::findOrFail($id);
+         $this->authorize('update', $profile);
         return view('trainers.create', [
             'trainerProfile' => $profile,
             'moodleUser' => $profile,
