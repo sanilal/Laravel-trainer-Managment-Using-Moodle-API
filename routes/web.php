@@ -82,7 +82,8 @@ Route::middleware('auth')->group(function () {
     // Trainer Profile
     // -------------------------
     Route::get('/trainers', [TrainerProfileController::class, 'index'])->name('trainers.index');
-    Route::get('/trainers/create/{moodleUserId}', [TrainerProfileController::class, 'create'])->name('trainer.create');
+    Route::get('/trainers/create/{moodleUserId?}', [TrainerProfileController::class, 'create'])->name('trainer.create');
+
     Route::post('/trainer/store', [TrainerProfileController::class, 'store'])->name('trainer.store');
     Route::get('/trainers/{profile}/show', [TrainerProfileController::class, 'show'])->name('trainer.show');
     Route::get('trainers/registered-trainers', [TrainerProfileController::class, 'registeredTrainers'])->name('trainers.registered.trainers');

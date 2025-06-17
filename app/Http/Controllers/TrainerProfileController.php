@@ -2,82 +2,89 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\TrainerProfile;
+use App\Models\PersonalDocument;
+use App\Models\Specialization;
+use App\Models\Academic;
 use App\Services\MoodleApiService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Models\PersonalDocument; // Assuming you have a PersonalDocument model
-use App\Models\Specialization;
-use App\Models\Academic; // Assuming you have an Academic model
 
 class TrainerProfileController extends Controller
 {
   
+      /** @var MoodleApiService */
     protected $moodleApi;
 
-    // Inject MoodleApiService
+     // ───────────────────────────────
+    // Constructor ‑ DI Moodle service
+    // ───────────────────────────────
     public function __construct(MoodleApiService $moodleApi)
     {
         $this->moodleApi = $moodleApi;
     }
 
+    // ───────────────────────────────
+    // Simple list of all trainers
+    // ───────────────────────────────
     public function index()
     {
         $trainers = TrainerProfile::all();
         return view('trainers.index', compact('trainers'));
     }
-    public function create($id, MoodleApiService $moodleApi)
-{
-    // First, check if the user exists in trainer_profiles table
-    $trainerProfile = TrainerProfile::where('user_id', $id)->first();
+    // ───────────────────────────────
+    // Create form
+    //  → /trainers/create           (normal user)
+    //  → /trainers/create/{id}      (admin pulls from Moodle ID)
+    // ───────────────────────────────
+    public function create(?int $moodleUserId = null)
+    {
+        $authUser = auth()->user();
 
-    if ($trainerProfile) {
-
-        if (empty($trainerProfile->profile_image)) {
-            $userData = $moodleApi->getUserById($id);
-            if (!empty($userData['profileimageurl'])) {
-                try {
-                    $imageContents = file_get_contents($userData['profileimageurl']);
-                    $imageName = 'profile_images/' . Str::random(40) . '.jpg';
-
-                    Storage::disk('public')->put($imageName, $imageContents);
-
-                    $trainerProfile->profile_image = $imageName;
-                    $trainerProfile->save();
-
-                    \Log::info('Moodle image saved locally for user_id ' . $id);
-                } catch (\Exception $e) {
-                    \Log::error('Failed to fetch Moodle image: ' . $e->getMessage());
-                }
+        /* ╭──────────── Admin flow ────────────╮ */
+        if ($moodleUserId) {
+            if (!$authUser->is_admin) {
+                abort(403, 'Only admins can import from Moodle.');
             }
-        }
-        // Use data from trainer_profiles
-        $moodleUser = $trainerProfile; // You can rename this variable if needed
-        \Log::info('Loaded trainer data from local trainer_profiles table.', ['trainerProfile' => $trainerProfile]);
-    } else {
-        // Fallback to Moodle API
-        $userData = $moodleApi->getUserById($id);
-        \Log::info('Moodle API Raw Response:', ['data' => $userData]);
 
-        if (!empty($userData) && isset($userData['id'])) {
-            $moodleUser = $userData;
-            \Log::info('Extracted Moodle User from API:', ['moodleUser' => $moodleUser]);
-        } else {
-            $moodleUser = null;
-            \Log::error('No Moodle user found or invalid response.');
+            // 1.  Check local cache
+            $trainerProfile = TrainerProfile::where('user_id', $moodleUserId)->first();
+
+            // 2.  Fallback to Moodle API
+            if (!$trainerProfile) {
+                $moodleData = $this->moodleApi->getUserById($moodleUserId);
+
+                if (empty($moodleData) || !isset($moodleData['id'])) {
+                    Log::warning("No Moodle user found for ID {$moodleUserId}");
+                    return back()->withErrors(['msg' => 'No Moodle user found.']);
+                }
+
+                $moodleUser = $moodleData;
+            } else {
+                $moodleUser = $trainerProfile;           // already cached
+            }
+
+            // 3.  Cache avatar locally (once)
+            if ($trainerProfile && empty($trainerProfile->profile_image)) {
+                $this->saveMoodleImage($trainerProfile, $moodleUser['profileimageurl'] ?? null);
+            }
+
+            return view('trainers.create', [
+                'moodleUser'   => $moodleUser,
+                'profileImage' => $trainerProfile->profile_image ?? ($moodleUser['profileimageurl'] ?? null),
+            ]);
         }
+
+        /* ╭────────── Normal‑user flow ─────────╮ */
+        $existing = TrainerProfile::where('user_id', $authUser->id)->first();
+        if ($existing) {                                 // already has profile → edit
+            return redirect()->route('trainer.edit', $existing->id);
+        }
+
+        return view('trainers.create');                  // blank form
     }
-
-   // return view('trainers.create', compact('moodleUser'));
-   return view('trainers.create', [
-    'moodleUser' => $moodleUser,
-    // 'profileImage' => isset($trainerProfile) && $trainerProfile ? $trainerProfile->profile_image : (isset($userData['profileimageurl']) ? $userData['profileimageurl'] : null),
-    'profileImage' => isset($trainerProfile) ? $trainerProfile->profile_image : ($userData['profileimageurl'] ?? null),
-]);
-
-}
   
 
     
@@ -112,9 +119,11 @@ public function store(Request $request)
         'about_you' => 'nullable|string',
     ]);
 
-    $trainerProfile = new TrainerProfile();
-    // Set the trainer profile data from the request
-     $this->saveProfileData($trainerProfile, $request);
+     $profile = new TrainerProfile();
+        $this->saveProfileData($profile, $request);
+    // $trainerProfile = new TrainerProfile();
+    // // Set the trainer profile data from the request
+    //  $this->saveProfileData($trainerProfile, $request);
 
      // deleted lines
 
@@ -122,22 +131,23 @@ public function store(Request $request)
 
    
 
-    return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id]);
+    return redirect()->route('trainers.documents.create', ['profile' => $profile->id]);
+    
 }
 
- public function edit($id)
+ public function edit(int $id)
     {
-        $trainerProfile = TrainerProfile::findOrFail($id);
+        $profile = TrainerProfile::findOrFail($id);
         return view('trainers.create', [
-            'trainerProfile' => $trainerProfile,
-            'moodleUser' => $trainerProfile,
-            'profileId' => $trainerProfile->id,
-             'userId' => $trainerProfile->user_id,
-            'profileImage' => $trainerProfile->profile_image
+            'trainerProfile' => $profile,
+            'moodleUser' => $profile,
+            'profileId' => $profile->id,
+             'userId' => $profile->user_id,
+            'profileImage' => $profile->profile_image
         ]);
     }
 
-public function update(Request $request, $id)
+public function update(Request $request, int $id)
 {
     $trainerProfile = TrainerProfile::findOrFail($id);
 
@@ -176,61 +186,60 @@ public function update(Request $request, $id)
 
 
     // Check if personal documents already exist
-    $documentExists = \App\Models\PersonalDocument::where('profile_id', $trainerProfile->id)->exists();
+    $hasDocs  = PersonalDocument::where('profile_id', $trainerProfile->id)->exists();
 
     // Redirect accordingly
-    if ($documentExists) {
-        return redirect()->route('trainers.documents.edit', ['profile' => $trainerProfile->id])
-            ->with('success', 'Trainer profile updated. Proceed to update your documents.');
-    } else {
-        return redirect()->route('trainers.documents.create', ['profile' => $trainerProfile->id])
-            ->with('success', 'Trainer profile updated. Proceed to upload your documents.');
-    }
+    return redirect()
+            ->route(
+                $hasDocs ? 'trainers.documents.edit' : 'trainers.documents.create',
+                ['profile' => $trainerProfile->id]
+            )
+            ->with('success', 'Trainer profile updated. Proceed to manage your documents.');
 }
 
 
      //  Shared method to reduce code duplication
-   protected function saveProfileData(TrainerProfile $profile, Request $request)
+   protected function saveProfileData(TrainerProfile $trainerProfile, Request $request):void
 {
     // Only set user_id if creating a new profile (i.e., if it's not already set)
-    if (!$profile->exists || !$profile->user_id) {
-        $profile->user_id = $request->input('user_id');
+    if (!$trainerProfile->exists || !$trainerProfile->user_id) {
+        $trainerProfile->user_id = $request->input('user_id');
     }
 
-    $profile->user_name = $request->input('user_name');
-    $profile->prefix = $request->input('prefix');
-    $profile->prefix2 = $request->input('prefix2');
-    $profile->gender = $request->input('gender');
-    $profile->first_name = $request->input('first_name');
-    $profile->middle_name = $request->input('middle_name');
-    $profile->family_name = $request->input('family_name');
-    $profile->date_of_birth = $request->input('date_of_birth');
-    $profile->country = $request->input('country');
-    $profile->residency_status = $request->input('residency_status');
-    $profile->residing_city = $request->input('residing_city');
-    $profile->email = $request->input('email');
-    $profile->mobile_number = $request->input('mobile_number');
+     $trainerProfile->fill($request->except('profile_image'));
 
-    if ($request->hasFile('profile_image')) {
-        $path = $request->file('profile_image')->store('profile_images', 'public');
-        $profile->profile_image = $path;
-    }
+     if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image')
+                            ->store('profile_images', 'public');
+            $trainerProfile->profile_image = $file;
+        }
 
-    $profile->website = $request->input('website');
-    $profile->facebook = $request->input('facebook');
-    $profile->instagram = $request->input('instagram');
-    $profile->youtube = $request->input('youtube');
-    $profile->twitter = $request->input('twitter');
-    $profile->linkedin = $request->input('linkedin');
-    $profile->other_socialmedia = $request->input('other_socialmedia');
-    $profile->languages = $request->input('languages');
-    $profile->about_you = $request->input('about_you');
+    
 
-    $profile->save();
+    $trainerProfile->save();
 }
 
+    // Save Moodle avatar once
+    protected function saveMoodleImage(TrainerProfile $profile, ?string $url): void
+    {
+        if (!$url) {
+            return;
+        }
 
+        try {
+            $img = file_get_contents($url);
+            $name = 'profile_images/' . Str::random(40) . '.jpg';
+            Storage::disk('public')->put($name, $img);
+            $profile->update(['profile_image' => $name]);
+            Log::info("Saved Moodle avatar for user_id {$profile->user_id}");
+        } catch (\Throwable $e) {
+            Log::error('Cannot cache Moodle image: ' . $e->getMessage());
+        }
+    }
 
+    // ───────────────────────────────
+    // Registered trainers list + filters
+    // ───────────────────────────────
     public function registeredTrainers(Request $request)
 {
     $query = TrainerProfile::query()->with(['specializations', 'academics']);
@@ -246,7 +255,7 @@ public function update(Request $request, $id)
     }
 
     if ($request->filled('email')) {
-        $query->where('email', 'like', '%' . $request->email . '%');
+       $query->where('email', 'like', "%{$request->email}%");
     }
 
     if ($request->filled('gender')) {
@@ -262,32 +271,44 @@ public function update(Request $request, $id)
     // }
 
     // Filter by specialization title
-    if ($request->filled('specialization')) {
-        $query->whereHas('specializations', function ($q) use ($request) {
-            $q->where('specialization', $request->specialization);
-        });
-    }
+     if ($request->filled('specialization')) {
+            $query->whereHas('specializations', function ($q) use ($request) {
+                $q->where('specialization', $request->specialization);
+            });
+        }
 
     // Filter by academic degree (or another valid column)
     if ($request->filled('academic')) {
-        $query->whereHas('academics', function ($q) use ($request) {
-            $q->where('academics', $request->academic);
-        });
-    }
+            $query->whereHas('academics', function ($q) use ($request) {
+                $q->where('academics', $request->academic);
+            });
+        }
 
     $trainers = $query->paginate(12);
 
     // Get all distinct specialization titles and academic degrees for filter options
-    $specializations = Specialization::select('specialization')->distinct()->get();
-    $academics = Academic::select('academics')->distinct()->get();
+     $specializations = Specialization::select('specialization')->distinct()->get();
+    $academics       = Academic::select('academics')->distinct()->get();
 
-    return view('trainers.registered', compact('trainers', 'specializations', 'academics', 'countries'));
+     return view(
+            'trainers.registered',
+            compact('trainers', 'specializations', 'academics', 'countries')
+        );
 }
+
+// ───────────────────────────────
+    // Show single profile
+    // ───────────────────────────────
 
  public function show($profileId)
     {
-        $trainer = TrainerProfile::with([
-            'specializations', 'certifications', 'academics', 'workExperiences', 'trainingPrograms', 'personalDocuments'
+       $trainer = TrainerProfile::with([
+            'specializations',
+            'certifications',
+            'academics',
+            'workExperiences',
+            'trainingPrograms',
+            'personalDocuments',
         ])->findOrFail($profileId);
 
         return view('trainers.show', compact('trainer'));
