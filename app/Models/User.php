@@ -49,8 +49,8 @@ class User extends Authenticatable
     /**
      * Define a one-to-one relationship with TrainerProfile.
      */
-    public function trainerProfile()
-    {
-        return $this->hasOne(TrainerProfile::class, 'user_id', 'id');
-    }
+   public function trainerProfile()
+{
+    return $this->hasOne(TrainerProfile::class, 'email', 'email');
+}
 }

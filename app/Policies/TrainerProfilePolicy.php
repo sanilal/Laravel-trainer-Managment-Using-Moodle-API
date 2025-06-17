@@ -37,7 +37,7 @@ class TrainerProfilePolicy
      */
    public function update(User $user, TrainerProfile $profile): bool
 {
-    return $user->is_admin || $user->id === $profile->user_id;
+    return $user->is_admin || $user->email === $profile->email;
 }
     /**
      * Determine whether the user can delete the model.

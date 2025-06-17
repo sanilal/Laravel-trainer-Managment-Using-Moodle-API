@@ -52,15 +52,17 @@ class DashboardController extends Controller
             return view('dashboard.admin', compact('activeTrainers', 'search'));
         }
  /* ───────── Trainer: go to own profile ───────── */
-        $trainer = $user->trainerProfile;
+        $trainer = TrainerProfile::where('email', $user->email)->first();
 
         // If no profile yet → send to “Create profile” page
         if (!$trainer) {
-            return redirect()->route('trainer.create');
-        }
+        // ❗Show friendly error instead of redirecting to a forbidden route
+        abort(403, 'Your profile has not been imported yet. Please contact admin.');
+    }
 
         // Profile exists → send to “Edit my profile”
         return redirect()->route('trainer.edit', $trainer->id);
+
 
 }
 }

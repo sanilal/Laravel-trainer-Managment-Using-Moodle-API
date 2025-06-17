@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;   
 use App\Models\TrainerProfile;
 use App\Models\PersonalDocument;
 use App\Models\Specialization;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
 
 class TrainerProfileController extends Controller
 {
+    use AuthorizesRequests;
   
       /** @var MoodleApiService */
     protected $moodleApi;
@@ -40,51 +42,54 @@ class TrainerProfileController extends Controller
     //  → /trainers/create/{id}      (admin pulls from Moodle ID)
     // ───────────────────────────────
     public function create(?int $moodleUserId = null)
-    {
-        $authUser = auth()->user();
+{
+    $authUser = auth()->user();
 
-        /* ╭──────────── Admin flow ────────────╮ */
-        if ($moodleUserId) {
-            if (!$authUser->is_admin) {
-                abort(403, 'Only admins can import from Moodle.');
-            }
-
-            // 1.  Check local cache
-            $trainerProfile = TrainerProfile::where('user_id', $moodleUserId)->first();
-
-            // 2.  Fallback to Moodle API
-            if (!$trainerProfile) {
-                $moodleData = $this->moodleApi->getUserById($moodleUserId);
-
-                if (empty($moodleData) || !isset($moodleData['id'])) {
-                    Log::warning("No Moodle user found for ID {$moodleUserId}");
-                    return back()->withErrors(['msg' => 'No Moodle user found.']);
-                }
-
-                $moodleUser = $moodleData;
-            } else {
-                $moodleUser = $trainerProfile;           // already cached
-            }
-
-            // 3.  Cache avatar locally (once)
-            if ($trainerProfile && empty($trainerProfile->profile_image)) {
-                $this->saveMoodleImage($trainerProfile, $moodleUser['profileimageurl'] ?? null);
-            }
-
-            return view('trainers.create', [
-                'moodleUser'   => $moodleUser,
-                'profileImage' => $trainerProfile->profile_image ?? ($moodleUser['profileimageurl'] ?? null),
-            ]);
-        }
-
-        /* ╭────────── Normal‑user flow ─────────╮ */
-        $existing = TrainerProfile::where('user_id', $authUser->id)->first();
-        if ($existing) {                                 // already has profile → edit
-            return redirect()->route('trainer.edit', $existing->id);
-        }
-
-        return view('trainers.create');                  // blank form
+    // ⛔ Prevent access without Moodle ID
+    if (!$moodleUserId) {
+        abort(403, 'Trainer profile creation is only allowed via Moodle import.');
     }
+
+    // ✅ Allow only admin to import
+    if (!$authUser->is_admin) {
+        abort(403, 'Only admins can import from Moodle.');
+    }
+
+    // Check local DB for cached profile
+    $trainerProfile = TrainerProfile::where('user_id', $moodleUserId)->first();
+
+    $profileImage = null;
+
+    if (!$trainerProfile) {
+        // Fetch from Moodle
+        $moodleUser = $this->moodleApi->getUserById($moodleUserId);
+
+        if (empty($moodleUser) || !isset($moodleUser['id'])) {
+            Log::warning("No Moodle user found for ID {$moodleUserId}");
+            return back()->withErrors(['msg' => 'No Moodle user found.']);
+        }
+
+        $profileImage = $moodleUser['profileimageurl'] ?? null;
+    } else {
+        // User already exists in our DB
+        $moodleUser = [
+            'id'        => $trainerProfile->user_id,
+            'firstname' => $trainerProfile->first_name,
+            'lastname'  => $trainerProfile->family_name,
+            'email'     => $trainerProfile->email,
+        ];
+        $profileImage = $trainerProfile->profile_image;
+
+        if (empty($trainerProfile->profile_image)) {
+            $this->saveMoodleImage($trainerProfile, null);
+        }
+    }
+
+    return view('trainers.create', [
+        'moodleUser'   => $moodleUser,
+        'profileImage' => $profileImage,
+    ]);
+}
   
 
     
