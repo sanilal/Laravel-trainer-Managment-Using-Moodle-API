@@ -327,6 +327,12 @@ return [
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
     'remember_me' => 'Stay signed in',
-
+    '403_Forbidden' => '403 - Forbidden',
+    'Sorry_you_dont_have_permission_to_access' => 'Sorry, you don’t have permission to access this page. Please contact the administrator if you believe this is a mistake.',
+    'go_back' => '← Go back',
+    'job_label' => 'Job :number',
+    'We_cant_find_user_with_that_email' => 'We can\'t find a user with that email address.',
+    'trainer_deleted_successfully' => 'Trainer deleted successfully.',
+    'delete' => 'Delete',
 
 ];

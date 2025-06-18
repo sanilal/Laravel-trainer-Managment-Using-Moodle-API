@@ -4,7 +4,7 @@
 <div class="container">
     <h2 class="text-center mt-5">{{ __('messages.enter_password') }}</h2>
     <div class="login-container mt-4">
-        <form method="POST" action="{{ route('login.attempt') }}">
+        <form method="POST" action="{{ route('login.attempt') }}" class="loginform">
             @csrf
             <input type="hidden" name="email" value="{{ old('email', $email) }}">
 

@@ -330,4 +330,12 @@ return [
     'new_password' => 'كلمة مرور جديدة',
     'confirm_password' => 'تأكيد كلمة المرور',
     'remember_me' => 'تذكرني',
+    '403_Forbidden' => '403 - ممنوع',
+    'Sorry_you_dont_have_permission_to_access' => 'عذرًا، ليس لديك إذن للوصول إلى هذه الصفحة. يُرجى التواصل مع المشرف إذا كنت تعتقد أن هذا خطأ.',
+    'go_back' => '← العودة',
+    'job_label' => 'الوظيفة :number',
+    'We_cant_find_user_with_that_email' => 'لم نتمكن من العثور على مستخدم بهذا عنوان البريد الإلكتروني.',
+    'trainer_deleted_successfully' => 'تم حذف المدرب بنجاح.',
+    'delete' => 'حذف',
+
 ];

@@ -9,8 +9,8 @@
             {{ session('status') }}
         </div>
     @endif
-
-    <form method="POST" action="{{ route('password.email') }}" class="mt-4">
+<div class="login-container mt-4">
+ <form method="POST" action="{{ route('password.email') }}" class="mt-4">
         @csrf
 
         <div class="mb-3">
@@ -25,5 +25,7 @@
             {{ __('messages.send_password_reset_link') }}
         </button>
     </form>
+</div>
+   
 </div>
 @endsection

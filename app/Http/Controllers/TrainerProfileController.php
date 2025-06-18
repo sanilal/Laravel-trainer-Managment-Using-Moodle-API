@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;   
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\TrainerProfile;
 use App\Models\PersonalDocument;
 use App\Models\Specialization;
 use App\Models\Academic;
+use App\Models\User;
 use App\Services\MoodleApiService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class TrainerProfileController extends Controller
 {
@@ -319,4 +321,27 @@ public function update(Request $request, int $id)
 
         return view('trainers.show', compact('trainer'));
     }
+
+public function destroy(int $profileId)
+{
+    $profile = TrainerProfile::findOrFail($profileId);
+
+    DB::transaction(function () use ($profile) {
+        // Try to find matching user by email — optional
+        $user = User::where('email', $profile->email)->first();
+
+        if ($user) {
+            $user->delete();
+        }
+
+        // Always delete the profile
+        $profile->delete();
+    });
+
+    return redirect()
+        ->route('dashboard')
+        ->with('success', __('messages.trainer_deleted_successfully'));
+}
+
+
 }

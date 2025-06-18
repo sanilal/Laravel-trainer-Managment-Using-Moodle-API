@@ -274,7 +274,7 @@
             <div class="profile-info">
                 <div class="row">
                     <div class="col-md-9">
-                        <h3>{{ langContent($academic->academics) }}</h3>
+                        <h3>{{ __('messages.' .$academic->academics) }}</h3>
                         <div class="course-group">
                             <div class="course-group-info">
                                 <p class="course-group-name">
@@ -321,7 +321,7 @@
             <div class="profile-info">
                 <div class="row">
                     <div class="col-md-9">
-                        <h3>Job {{ $index + 1 }}:</h3>
+                       <h3>{{ __('messages.job_label', ['number' => $index + 1]) }}</h3>
                         <div class="course-group">
                             <div class="course-group-info">
                                 <p class="course-group-name">{{ langContent($work->organization_name) }}</p>

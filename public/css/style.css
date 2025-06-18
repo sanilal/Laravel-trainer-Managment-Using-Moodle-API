@@ -567,6 +567,17 @@ ul.social-media li a:hover {
     border-radius: 8px;
     border: 1px solid #000;
 }
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 10px;
+}
+.loginform input[type="checkbox"] {
+    width:18px;
+    height: 18px;
+    padding: 3px 8px;
+}
 .dashboard-container {
     background-color: var(--light-creamy-beige);
     padding: 30px;

@@ -39,6 +39,7 @@
                     <th>{{__('messages.profile_progress')}}</th>
                     <th>{{__('messages.view')}}</th>
                     <th>{{__('messages.edit')}}</th>
+                    <th>{{__('messages.delete')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +90,15 @@
         <td>
             <a href="{{ url('/trainers/' . $trainer->id . '/edit') }}" class="btn btn-danger btn-sm">{{__('messages.edit')}}</a>
         </td>
+        <td>
+    <form action="{{ route('trainer.destroy', $trainer->id) }}" method="POST" class="d-inline delete-form">
+        @csrf
+        @method('DELETE')
+        <button type="button" class="btn btn-danger btn-sm show-confirm">
+            {{ __('messages.delete') }}
+        </button>
+    </form>
+</td>
     </tr>
 @endforeach
             </tbody>

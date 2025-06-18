@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
     Route::get('trainers/registered-trainers', [TrainerProfileController::class, 'registeredTrainers'])->name('trainers.registered.trainers');
     Route::get('/trainers/{id}/edit', [TrainerProfileController::class, 'edit'])->name('trainer.edit');
     Route::put('/trainers/{id}', [TrainerProfileController::class, 'update'])->name('trainer.update');
+    Route::delete('/trainers/{id}', [TrainerProfileController::class, 'destroy'])->name('trainer.destroy');
+
 
     // -------------------------
     // Personal Documents
@@ -108,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/trainers/specializations/complete', [SpecializationController::class, 'complete'])->name('trainers.specializations.complete');
     Route::get('/trainers/specializations/{id}/edit', [SpecializationController::class, 'edit'])->name('trainers.specializations.edit');
     Route::put('/trainers/specializations/{id}', [SpecializationController::class, 'update'])->name('trainers.specializations.update');
+    
 
     // -------------------------
     // Certifications

@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     <h2 class="text-center mt-5">{{ __('messages.reset_password') }}</h2>
-
-    <form method="POST" action="{{ route('password.update') }}" class="mt-4">
+<div class="login-container mt-4">
+<form method="POST" action="{{ route('password.update') }}" class="mt-4">
         @csrf
 
         <input type="hidden" name="token" value="{{ $token }}">
@@ -34,5 +34,7 @@
             {{ __('messages.reset_password') }}
         </button>
     </form>
+</div>
+    
 </div>
 @endsection
