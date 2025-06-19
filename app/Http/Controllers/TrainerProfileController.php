@@ -47,12 +47,12 @@ class TrainerProfileController extends Controller
 {
     $authUser = auth()->user();
 
-    // ⛔ Prevent access without Moodle ID
+    //  Prevent access without Moodle ID
     if (!$moodleUserId) {
         abort(403, 'Trainer profile creation is only allowed via Moodle import.');
     }
 
-    // ✅ Allow only admin to import
+    //  Allow only admin to import
     if (!$authUser->is_admin) {
         abort(403, 'Only admins can import from Moodle.');
     }
@@ -207,22 +207,28 @@ public function update(Request $request, int $id)
 
 
      //  Shared method to reduce code duplication
-   protected function saveProfileData(TrainerProfile $trainerProfile, Request $request):void
+   protected function saveProfileData(TrainerProfile $trainerProfile, Request $request): void
 {
-    // Only set user_id if creating a new profile (i.e., if it's not already set)
-    if (!$trainerProfile->exists || !$trainerProfile->user_id) {
+    // Determine if this is a new record
+    $isNew = !$trainerProfile->exists;
+
+    // Set user_id only if it's a new profile
+    if ($isNew) {
         $trainerProfile->user_id = $request->input('user_id');
     }
 
-     $trainerProfile->fill($request->except('profile_image'));
+    // On update, exclude user_id from fill to prevent FK constraint issues
+    $excludeFields = ['profile_image'];
+    if (!$isNew) {
+        $excludeFields[] = 'user_id';
+    }
 
-     if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image')
-                            ->store('profile_images', 'public');
-            $trainerProfile->profile_image = $file;
-        }
+    $trainerProfile->fill($request->except(...$excludeFields));
 
-    
+    if ($request->hasFile('profile_image')) {
+        $file = $request->file('profile_image')->store('profile_images', 'public');
+        $trainerProfile->profile_image = $file;
+    }
 
     $trainerProfile->save();
 }

@@ -43,7 +43,7 @@ class AcademicController extends Controller
             'name_of_the_university' => 'required|string|min:3',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'upload_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'upload_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
     
         if ($validator->fails()) {
@@ -113,7 +113,7 @@ public function update(Request $request, $id)
         'name_of_the_university' => 'required|string',
         'start_date' => 'required|date',
         'end_date' => 'required|date',
-        'upload_certificate' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:2048',
+        'upload_certificate' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
     ]);
 
     if ($request->hasFile('upload_certificate')) {
